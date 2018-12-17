@@ -1,0 +1,1 @@
+This is a library for plotting and analyzing TRISTAN-MP simulation data. The plan is to include offline tools for complete customization of data analysis in specific cases, as well as a GUI for rapid visualization of the most important quantities such as fields and density. 
