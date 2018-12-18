@@ -1,0 +1,5 @@
+
+
+
+ULEFT_ARROW = '\u2190'
+URIGHT_ARROW = '\u2192'
