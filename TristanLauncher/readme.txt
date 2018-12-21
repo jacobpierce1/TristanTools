@@ -1,0 +1,1 @@
+This is a library for generating and launching sets of Tristan input scripts. Right now, this generates input files for the specific script I am using. One can add modules to generate other input scripts and use the rest of the code as implemented. Also, the code makes slurm batch scripts, but one could easily replace with another cluster batch script.  
