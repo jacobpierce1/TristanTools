@@ -27,3 +27,4 @@ Feel free to use the software freely without citation.
 ABOUT
 
 Originally developed by Jacob Pierce at UChicago under Prof. Damiano Caprioli in Jan 2019. Inspired by previously existing software Iseult for 2D tristan analysis. Current email is jacobpierce@uchicago.edu, feel free to contact for details.
+ 
