@@ -23,4 +23,9 @@ x.load_params()
 x.load_indices( [0] ) 
 
 
-print( x ) 
+print( x )
+
+plotter = analysis.TristanDataPlotter( x ) 
+
+print( plotter ) 
+

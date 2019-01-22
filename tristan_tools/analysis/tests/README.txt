@@ -1,0 +1,1 @@
+Run each of these tests and take a look at the source code to get a feel for what is going on. You should be able to run each test independently, otherwise you will not be able to use the complete functionality of the TristanDataContainer and TristanDataPlotter classes.

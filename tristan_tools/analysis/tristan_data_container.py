@@ -12,7 +12,7 @@ import sys
 import h5py
 import collections 
 
-from .helper_classes import RecursiveSeries, AttrDict
+from .helper_classes import AttrDictSeries, AttrDict
 
 
 
@@ -110,7 +110,7 @@ tristan_params_prefix = 'param'
                 
 
                 
-class TristanDataContainer( RecursiveSeries ) :
+class TristanDataContainer( AttrDictSeries ) :
 
     def __init__( self, data_path ) :
 
