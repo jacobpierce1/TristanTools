@@ -23,14 +23,13 @@ class TristanDataPlotter( object ) :
         self.tristan_data = tristan_data_container
         self.save_path = save_path
 
-        if not save_path :
+        if save_path :
             print( 'INFO: creating directory: ' + save_path )
             os.makedirs( save_path, exist_ok = 1 )
 
-        self.dim = check_dimension( tristan_data_container )
-        if self.dim == 2 :
+        if self.tristan_data.dim == 2 :
             self.plotter = Plotter2D( tristan_data_container )
-        elif self.dim == 3 :
+        elif self.tristan_data.dim == 3 :
             self.plotter = Plotter3D( tristan_data_container )
             
             
@@ -92,5 +91,6 @@ class Plotter3D( object ) :
     def __init__( self, tristan_data_container ) :
         self.tristan_data_container = tristan_data_container 
 
-    def plot_slice( self ) : 
+    # input: 3d array,
+    def plot_slice( self, array_3d ) : 
         pass

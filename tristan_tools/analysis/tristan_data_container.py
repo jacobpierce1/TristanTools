@@ -12,8 +12,10 @@ import sys
 import h5py
 import collections 
 
-from .helper_classes import AttrDictSeries, AttrDict
+from pprint import pprint 
 
+# from .helper_classes import AttrDictSeries, AttrDict
+from .helper_classes import RecursiveAttrDict, AttrDict
 
 
 # these are the file name prefixes in the tristan output. change these if you modify the
@@ -23,94 +25,10 @@ tristan_particles_prefix = 'prtl.tot'
 tristan_fields_prefix = 'flds.tot'
 tristan_spectra_prefix = 'spect'
 tristan_params_prefix = 'param' 
-
-
-
-                     
-# # load data into data container, set attributes, and build keys
-# # prefix is one of tristan_particles_prefix, tristan_fields_prefix, etc. 
-# def load_data( prefix, tristan_file ) :
-#     ret = DataContainer() 
-#     try:
-#         with h5py.File( fname ) as f:
-#             for key in f.keys():
-#                 print( key ) 
-#                 print( f[ key ][:] ) 
-
-#                 # ret.keys.append( 
-#                     # ret.setattr( 
-
-#                 # ad[k] = f[k][:]
-#     except:
-#         print( 'ERROR: file not found: %s' % fname ) 
-#         sys.exit(1)
-
-
-
-# # create a namedtuple from existing data. used to generate classes
-# # for storage of fields, particles, etc. 
-# def create_namedtuple( name, tristan_file ) : 
-#     return collections.namedtuple( 
-        
-
-
-
-        
-# # this stores data from Tristan output files that changes at each timestamp 
-# # an array of these is stored in a TristanData. does not store properties that
-# # are independent of time.
-# class TristanDataSlice( object ) :
-
-#     def __init__( self ) : 
-#         pass
-
-#     def clear( self ) :
-#         pass 
-
-#     def load_all( self, output_path, idx ) :
-#         self.load_fields()
-#         self.load_particles()
-#         self.load_spectra()
-
-        
-#     def load_fields( self, output_path, idx ) : 
-#         fname = '%s/%s.%s' % ( output_path, tristan_fields_prefix, idx_to_str( idx ) )
-        
-
-
-    
-#     def load_particles( self, output_path, idx ) : 
-#         fname = '%s/%s.%s' % ( output_path, tristan_particles_prefix, idx_to_str( idx ) )
-#         try:
-#             with h5py.File( fname ) as f:
-#                 for key in f.keys():
-#                     print( key ) 
-#                     print( f[ key ][:] ) 
-#                     # ad[k] = f[k][:]
-#         except:
-#             print( 'ERROR: file not found: %s' % fname ) 
-#             sys.exit(1)
-
-
-                
-#     def load_spectra( self, output_path, idx ) : 
-#         fname = '%s/%s.%s' % ( output_path, tristan_spectra_prefix, idx_to_str( idx ) )
-#         try:
-#             with h5py.File( fname ) as f:
-#                 for key in f.keys():
-#                     print( key ) 
-#                     print( f[ key ][:] ) 
-#                     # ad[k] = f[k][:]
-#         except:
-#             print( 'ERROR: file not found: %s' % fname ) 
-#             sys.exit(1)
-
-
-
                 
 
                 
-class TristanDataContainer( AttrDictSeries ) :
+class TristanDataContainer( object ) :
 
     def __init__( self, data_path ) :
 
@@ -126,14 +44,21 @@ class TristanDataContainer( AttrDictSeries ) :
 
         # max index that the container will look to. note that you could manually set this
         # to cut off looking at higher-time data. 
-        self.num_times = get_num_times( data_path )
+        num_times = get_num_times( data_path )
 
-        if self.num_times == 0 :
+        if num_times == 0 :
             print( 'WARNING: output directory %s is empty' % self.data_path ) 
 
         # stores time-dependent data in an array which will contain a bunch of TristanDataSlice's 
-        self.data = [ AttrDict() for i in range( self.num_times ) ]
-        self.params = AttrDict() 
+        # self.data = [ AttrDict() for i in range( self.num_times ) ]
+        self.data = RecursiveAttrDict( size = num_times ) 
+        self.params = AttrDict()
+
+        self.load_keys() 
+        self.load_params()
+
+        self.set_dim() 
+        
         
     # read all available data at once into the object
     # before calling this function, make sure you have the resources to
@@ -154,7 +79,7 @@ class TristanDataContainer( AttrDictSeries ) :
         if indices is None :
             indices = range( self.num_times ) 
         for idx in indices :
-            self.load_time_at_idx( idx ) 
+            self.load_data_at_idx( tristan_params_prefix, idx, keys = [ 'time' ] ) 
 
         
     def load_fields( self, indices = None ) : 
@@ -178,40 +103,70 @@ class TristanDataContainer( AttrDictSeries ) :
             self.load_data_at_idx( tristan_spectra_prefix, idx ) 
 
         
-    def load_time_at_idx( self, idx ) :
-        fname = '%s/%s.%s' % ( self.data_path, tristan_params_prefix, idx_to_str( idx ) )
-        try:
-            with h5py.File( fname ) as f:
-                self.data[ idx ][ 'time' ] = f[ 'time' ][:] 
-        except:
-            print( 'ERROR: file not found: %s' % fname ) 
-            sys.exit(1)
-        
-    
-    def load_data_at_idx( self, prefix, idx ) :
+    # def load_time_at_idx( self, idx, init = 0 ) :
+    #     fname = '%s/%s.%s' % ( self.data_path, tristan_params_prefix, idx_to_str( idx ) )
+    #     try:
+    #         with h5py.File( fname ) as f:
+    #             self.data[ 'time' ][ idx ] = f[ 'time' ][:] 
+    #     except:
+    #         print( 'ERROR: file not found: %s' % fname ) 
+    #         sys.exit(1)
 
-        print(idx)
+    
+    
+    # load all available keys for time-dependent data (not params)
+    # checks the file of index 0 (string = 000) for all the keys 
+    def load_keys( self ) :
+        self.data.set_key( 'time' ) 
+
+        idx = 0
+        for prefix in [ tristan_spectra_prefix, tristan_particles_prefix, tristan_fields_prefix ] :
+        
+            fname = '%s/%s.%s' % ( self.data_path, prefix, idx_to_str( idx ) )
+            try:
+                with h5py.File( fname ) as f:
+                    for key in f.keys() :
+                        self.data.set_key( key )
+
+            except OSError : 
+                print( 'ERROR: file not found: %s' % fname ) 
+                sys.exit(1)
+
+    
+
+    # init = 1 will create an empty array in self.data to store future data
+    # keys = [ ... ] will loop through the specified keys instead of loading all
+    def load_data_at_idx( self, prefix, idx, keys = None ) :
+
+        # print( prefix ) 
+        # print(idx)
                 
         fname = '%s/%s.%s' % ( self.data_path, prefix, idx_to_str( idx ) )
         try:
             with h5py.File( fname ) as f:
-                for key in f.keys():
-                    self.data[idx][ key ] = f[ key ][:] 
-        except:
+
+                # default: loop through all keys
+                if keys is None :
+                    keys = f.keys() 
+                
+                for key in keys:
+                    self.data[ key ][ idx ] = f[ key ][:] 
+
+        except OSError :
             print( 'ERROR: file not found: %s' % fname ) 
             sys.exit(1)
 
                             
     def load_params( self ) :
         fname = '%s/%s.%s' % ( self.data_path, tristan_params_prefix, '000' )
-        print( fname ) 
+        # print( fname ) 
         try:
             with h5py.File( fname ) as f:
                 for key in f.keys():
                     tmp = f[ key ][:]
                     try :
                         tmp = np.asscalar( tmp ) 
-                        print( key )
+                        # print( key )
                     except :
                         pass
                     self.params[ key ] = tmp 
@@ -227,8 +182,31 @@ class TristanDataContainer( AttrDictSeries ) :
     def clear( self ) :
         pass
 
-                 
+    # check memory usage stats 
+    def memory_usage( self ) :
+        pass
 
+    def print_keys( self ) :
+        print( '***** PARAMS KEYS ***** ' )
+        for key in self.params.keys() :
+            print( key )
+            
+        print( '\n\n***** DATA KEYS ***** ' )
+        for key in self.data.keys() :
+            print( key ) 
+        
+    def __len__( self  ) :
+        return len( self.data )
+
+    def __repr__( self ) :
+        return repr( self.data )
+
+    def __str__( self ) :
+        return str( self.data )
+
+    # todo 
+    def set_dim( self ) :
+        self.dim = 3 
         
             
 # helper functions

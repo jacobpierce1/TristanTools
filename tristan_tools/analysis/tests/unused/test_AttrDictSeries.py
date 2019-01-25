@@ -23,12 +23,12 @@ print( type( recursive_series[5] ) )
 print( isinstance( recursive_series[5], dict ) ) 
 print( recursive_series[5].keys() ) 
 
-print( '\n Access attributes a and b like a dict:' )
+print( '\nConstructing new recursive series from attributes a and b:' )
 print( recursive_series['a'] ) 
 print( recursive_series['b'] ) 
 
 
-print( '\nAlternatively, access the attributes as if it is an attribute of the class:' )
+print( '\nAlternatively, access the attributes as if it is an instance of the class:' )
 print( recursive_series.a ) 
 print( recursive_series.b ) 
 
