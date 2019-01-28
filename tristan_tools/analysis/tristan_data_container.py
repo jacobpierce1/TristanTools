@@ -30,18 +30,28 @@ tristan_params_prefix = 'param'
                 
 class TristanDataContainer( object ) :
 
-    def __init__( self, data_path ) :
+    def __init__( self, data_path = None ) :
 
-        # stores all parameters. the parameter names are also set to be the names of attributes
-        # for convenience.
-        self.params = {} 
+        self.data_path = data_path 
+        
+        # stores time-dependent data: 
+        self.data = RecursiveAttrDict() 
+
+        # stores time-independent data: 
+        self.params = AttrDict()
+
+        if data_path :
+            self.set_data_path( data_path ) 
+
+        
+    # set the data path and load parameters  
+    def set_data_path( self, data_path ) : 
+        self.clear() 
 
         if not os.path.exists( data_path ) :
             print( 'ERROR: data path %s not found' % data_path ) 
             sys.exit(0)
         
-        self.data_path = data_path 
-
         # max index that the container will look to. note that you could manually set this
         # to cut off looking at higher-time data. 
         num_times = get_num_times( data_path )
@@ -49,15 +59,12 @@ class TristanDataContainer( object ) :
         if num_times == 0 :
             print( 'WARNING: output directory %s is empty' % self.data_path ) 
 
-        # stores time-dependent data in an array which will contain a bunch of TristanDataSlice's 
-        # self.data = [ AttrDict() for i in range( self.num_times ) ]
-        self.data = RecursiveAttrDict( size = num_times ) 
-        self.params = AttrDict()
+        self.data.set_size( num_times ) 
+            
+        self.data_path = data_path
 
-        self.load_keys() 
         self.load_params()
-
-        self.set_dim() 
+        self.load_keys() 
         
         
     # read all available data at once into the object
@@ -102,39 +109,29 @@ class TristanDataContainer( object ) :
         for idx in indices : 
             self.load_data_at_idx( tristan_spectra_prefix, idx ) 
 
-        
-    # def load_time_at_idx( self, idx, init = 0 ) :
-    #     fname = '%s/%s.%s' % ( self.data_path, tristan_params_prefix, idx_to_str( idx ) )
-    #     try:
-    #         with h5py.File( fname ) as f:
-    #             self.data[ 'time' ][ idx ] = f[ 'time' ][:] 
-    #     except:
-    #         print( 'ERROR: file not found: %s' % fname ) 
-    #         sys.exit(1)
-
-    
+            
     
     # load all available keys for time-dependent data (not params)
     # checks the file of index 0 (string = 000) for all the keys 
     def load_keys( self ) :
-        self.data.set_key( 'time' ) 
+        self.data.time = None  
 
         idx = 0
-        for prefix in [ tristan_spectra_prefix, tristan_particles_prefix, tristan_fields_prefix ] :
+        for prefix in [ tristan_spectra_prefix, tristan_particles_prefix,
+                        tristan_fields_prefix ] :
         
             fname = '%s/%s.%s' % ( self.data_path, prefix, idx_to_str( idx ) )
             try:
                 with h5py.File( fname ) as f:
                     for key in f.keys() :
-                        self.data.set_key( key )
+                        self.data[ key ] = None
 
             except OSError : 
                 print( 'ERROR: file not found: %s' % fname ) 
                 sys.exit(1)
-
+                
     
 
-    # init = 1 will create an empty array in self.data to store future data
     # keys = [ ... ] will loop through the specified keys instead of loading all
     def load_data_at_idx( self, prefix, idx, keys = None ) :
 
@@ -156,6 +153,21 @@ class TristanDataContainer( object ) :
             print( 'ERROR: file not found: %s' % fname ) 
             sys.exit(1)
 
+
+    def unload_data_at_idx( self, idx, keys = None ) :
+        if keys is None :
+            keys = self.data.keys()
+
+        time_slice = self.data[idx] 
+            
+        for key in keys() :
+            time_slice[ key ] = None
+
+            
+    def unload_data_at_indices( self, indices, keys = None  ):
+        for idx in indices :
+            self.unload_data_at_idx( idx, keys ) 
+
                             
     def load_params( self ) :
         fname = '%s/%s.%s' % ( self.data_path, tristan_params_prefix, '000' )
@@ -176,16 +188,23 @@ class TristanDataContainer( object ) :
             print( 'ERROR: file not found: %s' % fname ) 
             sys.exit(1)
 
+            
     def reload( self ) :
         pass 
 
+        
     def clear( self ) :
-        pass
+        self.params.clear()
+        self.data.clear()
+        self.data_path = None
+        
 
+        
     # check memory usage stats 
     def memory_usage( self ) :
         pass
 
+        
     def print_keys( self ) :
         print( '***** PARAMS KEYS ***** ' )
         for key in self.params.keys() :
@@ -194,19 +213,44 @@ class TristanDataContainer( object ) :
         print( '\n\n***** DATA KEYS ***** ' )
         for key in self.data.keys() :
             print( key ) 
+
+    
+    # print the shape of every key in params and data. 
+    def print_shapes( self, idx ) :
         
+        print( '***** PARAMS KEYS ***** ' )
+        for key in self.params.keys() :
+            try :
+                shape = self.params[key].shape
+                print( str( key ) + ': ' + str( shape )  )
+            except : 
+                print( str( key ) + ': scalar' )
+                
+        print( '\n\n***** DATA KEYS ***** ' )
+        for key in self.data.keys() :
+            try :
+                shape = self.data[key][idx].shape
+                print( str( key ) + ': ' + str( shape ) )
+            except : 
+                print( str( key ) + ': scalar' )
+
+            
     def __len__( self  ) :
         return len( self.data )
 
+        
     def __repr__( self ) :
         return repr( self.data )
 
+        
     def __str__( self ) :
         return str( self.data )
 
+        
     # todo 
     def set_dim( self ) :
         self.dim = 3 
+
         
             
 # helper functions

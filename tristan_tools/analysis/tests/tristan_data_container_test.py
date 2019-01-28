@@ -18,15 +18,22 @@ output_path = output_path_2d
 x = analysis.TristanDataContainer( output_path ) 
 
 x.print_keys() 
+print( '\n\n\n' ) 
+
+
 
 # print( x.params ) 
 
-x.load_params()
+# x.load_params()
 
 x.load_indices( [0] ) 
 
 
-print( x.data.bx )
+x.print_shapes( 0 )
+
+print( x.data.bx[0] )
+
+print( x.data[0]['bx'] ) 
 
 
 # print( x )

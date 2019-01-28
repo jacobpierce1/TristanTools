@@ -26,8 +26,10 @@ idx = 30
 
 tristan_data.load_indices( [idx] ) 
 
+print( tristan_data.data.bx[30].shape ) 
 
-import numpy
+sys.exit(0)
+
 
 
 # x, y, z = np.ogrid[-5:5:64j, -5:5:64j, -5:5:64j]

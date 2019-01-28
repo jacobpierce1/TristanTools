@@ -1,5 +1,6 @@
 # this provides the system for controlling active plots, etc. no data loading
 # in here. 
+import gui_config 
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -22,9 +23,13 @@ class PlotterWidget( object ) :
     def __init__( self, shape = None ) :
 
         if shape is None :
-            shape = (2,3) 
+            shape = (gui_config.NUM_PLOT_ROWS, gui_config.NUM_PLOT_COLS ) 
         
         self.f, self.axarr = plt.subplots( * shape ) 
 
         self.canvas = FigureCanvas( self.f )
     
+
+    # clear all plots. possibly change dimensions of the plot array.
+    def reset( self ) : 
+       pass  

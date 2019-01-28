@@ -4,7 +4,7 @@ import mayavi
 from .tristan_data_container import TristanDataContainer
 from .helper_functions import check_spatial_dim 
 
-        
+
     
 
 # handle all the common functionality to 2d and 3d, such as saving
@@ -12,7 +12,7 @@ from .helper_functions import check_spatial_dim
 # etc. the heavy lifting of plots is done in the plotter instance variable
 
 class TristanDataPlotter( object ) :
-
+    
     # inputs:
     # tristan_data_container: a TristanDataContainer object that will
     # be accessed for plotting the data. you are responsible for loading
@@ -45,7 +45,10 @@ class TristanDataPlotter( object ) :
     def plot_field( self, field_name ) :
         pass
     
+    def quiver_plot_3d( self, key1, key2, key3, mayavi_ax = None ) :
+        pass # mayavi_ax = mlab.
 
+        
     # def set_tristan_data( self, tristan_data_container ) :
     #     self.tristan_data = tristan_data_container 
 

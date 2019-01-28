@@ -33,28 +33,21 @@ class RecursiveAttrDict( dict ) :
     def __getattr__( self, item ) :
         if item in self.data.keys() :
             return self[ item ]
-        else :
+        elif item in self.__dict__ :
             return self.item
+        else :
+            raise AttributeError( 'ERROR: the following is not an attribute: %s' % item ) 
 
             
     def __getitem__( self, item ) :
-        if isinstance( item, str ) :
-            # if item in self.data.keys() :
-            #     if isinstance( self.data[item], dict ) : 
-            #         return AttrDictSeries( [ x[item] for x in self.data ] )
-            #     else :
-            #         return [ x[item] for x in self.data ]
 
-            # if item in self.data.keys() :
-            #     return self.data[ item ] 
-            
-            # else :
-            #     return self.item
+        # if string, then return the dict evaluated at the key 
+        if isinstance( item, str ) :
             return self.data[ item ]  
             
-        # otherwise assume it's an and apply the index
+        # otherwise assume it's an int and apply the index
         else :
-            return { key : val[ item ] for key, val in self.data.items() }
+            return AttrDict( { key : val[ item ] for key, val in self.data.items() } )
 
             
     # check if all the arrays have the same length and all the keys are strings
@@ -73,9 +66,9 @@ class RecursiveAttrDict( dict ) :
 
     # set a key equal to data. the key used can also be a new key not
     # already in self.data
-    def set_key( self, key, data = None ) :
-        if data is None :
-            data = [ None for i in range( self.size ) ] 
+    def __setitem__( self, key, data ) :
+        if not hasattr( data, '__len__' ) :
+            data = [ data for i in range( self.size ) ] 
         self.data[ key ] = data
 
         
@@ -107,8 +100,14 @@ class RecursiveAttrDict( dict ) :
     def __len__( self ) :
         return len( self.data ) 
 
+    def clear( self ) :
+        # for key in self.data.keys() :
+        #     del self.data[ key ]
+        self.data.clear() 
+        self.size = 0 
 
-
+    def set_size( self, size ) :
+        self.size = size     
 
 
         
@@ -124,7 +123,9 @@ class AttrDict( dict ):
         super(AttrDict, self).__init__(*args, **kwargs)
         self.__dict__ = self
 
-
+    # def clear( self ) :
+    #     for key in self.keys() :
+    #         del self[ key ] 
 
 
 
