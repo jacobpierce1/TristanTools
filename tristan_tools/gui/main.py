@@ -2,6 +2,7 @@ import gui_config
 import control_panel 
 import plotter_widget
 
+import tristan_tools.analysis as analysis 
 
 import sys 
 import scipy.stats as st
@@ -22,13 +23,14 @@ from PyQt5.QtGui import QIntValidator, QDoubleValidator, QFont, QPixmap, QIcon
 # from PyQt5 import QtGui
 from PyQt5 import QtCore
 
+# from pyface.qt import QtGui, QtCore
 
 
-from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT as NavigationToolbar
-from matplotlib.figure import Figure
+# from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
+# from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT as NavigationToolbar
+# from matplotlib.figure import Figure
 
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 import signal
 signal.signal(signal.SIGINT, signal.SIG_DFL)
@@ -67,13 +69,38 @@ class App( QWidget ) :
         self.setLayout( layout ) 
         
         self.plotter_widget = plotter_widget.PlotterWidget()
-        layout.addWidget( self.plotter_widget.canvas )
+        layout.addLayout( self.plotter_widget.layout ) 
+        # layout.addWidget( self.plotter_widget.canvas )
         
         self.control_panel = control_panel.ControlPanel()
         layout.addLayout( self.control_panel.layout ) 
 
         self.init_menubar() 
-        
+
+        self.init_tristan_data()
+
+
+    def init_tristan_data( self ) :
+        cwd = os.getcwd()
+    
+        # check if cwd is the output directory 
+        if os.path.basename( cwd ) == 'output' :
+            data_path = cwd
+
+        # check if there's a directory called 'output' in cwd
+        else :
+            tmp = os.path.join( cwd, 'output' )
+            if os.path.exists( tmp ) :
+                output_path = tmp
+            else :
+                output_path = None 
+
+        if output_path :
+            print( 'INFO: found data at path: %s' % output_path )
+        else : 
+            print( 'WARNING: did not find tristan output data path' ) 
+
+        self.tristan_data = analysis.TristanDataContainer( output_path ) 
 
         
     def init_menubar( self ) :
@@ -110,7 +137,26 @@ class App( QWidget ) :
         pass
         
       
+# if __name__ == "__main__":
+#     # Don't create a new QApplication, it would unhook the Events
+#     # set by Traits on the existing QApplication. Simply use the
+#     # '.instance()' method to retrieve the existing one.
+#     app = QtGui.QApplication.instance()
+#     container = QtGui.QWidget()
+#     container.setWindowTitle("Embedding Mayavi in a PyQt4 Application")
+#     # define a "complex" layout to test the behaviour
+        
 
+#     window = QtGui.QMainWindow()
+#     window.setCentralWidget(container)
+#     window.show()
+
+#     # Start the main event loop.
+#     app.exec_()
+
+
+
+    
 # enter program 
 if __name__ == '__main__':  
     main()
