@@ -21,11 +21,14 @@ from .helper_classes import RecursiveAttrDict, AttrDict
 # these are the file name prefixes in the tristan output. change these if you modify the
 # names in tristan output. if you add a new category of tristan output then it should
 # be trivial to mimic the current setup in TristanDataSlice and TristanDataContainer.
-tristan_particles_prefix = 'prtl.tot'
-tristan_fields_prefix = 'flds.tot'
-tristan_spectra_prefix = 'spect'
-tristan_params_prefix = 'param' 
-                
+
+particles_prefix = 'prtl.tot'
+fields_prefix = 'flds.tot'
+spectra_prefix = 'spect'
+params_prefix = 'param' 
+
+all_prefixes = [ particles_prefix, fields_prefix, spectra_prefix, params_prefix ] 
+
 
                 
 class TristanDataContainer( object ) :
@@ -67,11 +70,11 @@ class TristanDataContainer( object ) :
         self.load_keys() 
         
         
-    # read all available data at once into the object
-    # before calling this function, make sure you have the resources to
-    # handle the amount of memory you are requesting.
-    def load_all( self  ) :
-        self.load_indices( None ) 
+    # # read all available data at once into the object
+    # # before calling this function, make sure you have the resources to
+    # # handle the amount of memory you are requesting.
+    # def load_all( self  ) :
+    #     self.load_indices( None ) 
 
         
     # read all data from a particular index into the data structure 
@@ -82,95 +85,115 @@ class TristanDataContainer( object ) :
         self.load_time( indices ) 
 
         
-    def load_time( self, indices = None ) : 
-        if indices is None :
-            indices = range( self.num_times ) 
-        for idx in indices :
-            self.load_data_at_idx( tristan_params_prefix, idx, keys = [ 'time' ] ) 
+    def load_times( self, indices = None, _reload = 0 ) : 
+        self.load_indices( indices, params_prefix, [ 'time' ], _reload )
+        
+        
+    def load_fields( self, indices = None, keys = None, _reload = 0 ) : 
+        self.load_indices( indices, fields_prefix, keys, _reload ) 
 
         
-    def load_fields( self, indices = None ) : 
-        if indices is None :
-            indices = range( self.num_times ) 
-        for idx in indices :
-            self.load_data_at_idx( tristan_fields_prefix, idx ) 
+    def load_particles( self, indices = None, keys = None, _reload = 0 ) :
+        self.load_indices( indices, fields_prefix, keys, _reload ) 
+        
 
-            
-    def load_particles( self, indices = None ) :
-        if indices is None :
-            indices = range( self.num_times ) 
-        for idx in indices :
-            self.load_data_at_idx( tristan_particles_prefix, idx ) 
-
-            
-    def load_spectra( self, indices = None ) :
-        if indices is None :
-            indices = range( self.num_times ) 
-        for idx in indices : 
-            self.load_data_at_idx( tristan_spectra_prefix, idx ) 
-
+    def load_spectra( self, indices = None, keys = None, _reload = 0 ) :
+        self.load_indices( indices, spectra_prefix, keys, _reload ) 
+        
             
     
     # load all available keys for time-dependent data (not params)
     # checks the file of index 0 (string = 000) for all the keys 
     def load_keys( self ) :
+
+        # track the keys that belong to each of the time dependent data files
+        self._keys_at_prefix = { spectra_prefix : [],
+                                 particles_prefix : [],
+                                 fields_prefix : [],
+                                 params_prefix : [] } 
+
+        # set all time indices to None 
         self.data.time = None  
 
         idx = 0
-        for prefix in [ tristan_spectra_prefix, tristan_particles_prefix,
-                        tristan_fields_prefix ] :
+        for prefix in all_prefixes :
         
             fname = '%s/%s.%s' % ( self.data_path, prefix, idx_to_str( idx ) )
             try:
                 with h5py.File( fname ) as f:
                     for key in f.keys() :
-                        self.data[ key ] = None
 
+                        # set all indices to None
+                        if prefix != params_prefix : 
+                            self.data[ key ] = None
+                        self._keys_at_prefix[ prefix ].append( key ) 
+                        
             except OSError : 
                 print( 'ERROR: file not found: %s' % fname ) 
                 sys.exit(1)
                 
     
-
-    # keys = [ ... ] will loop through the specified keys instead of loading all
-    def load_data_at_idx( self, prefix, idx, keys = None ) :
-
-        # print( prefix ) 
-        # print(idx)
                 
-        fname = '%s/%s.%s' % ( self.data_path, prefix, idx_to_str( idx ) )
-        try:
-            with h5py.File( fname ) as f:
+    # note that reload is already a built in python funciton
+    # _reload functionality not currently implemented. not sure of best way 
+    def load_indices( self, indices = None, prefixes = None, keys = None, _reload = 0 ) :
 
-                # default: loop through all keys
-                if keys is None :
-                    keys = f.keys() 
+        if indices is None :
+            indices = np.arange( len( self.data ) ) 
+        
+        # check scalar 
+        if not hasattr( indices, '__len__' ) :
+            indices = [ indices ] 
+
+        if prefixes is None :
+            prefixes = all_prefixes
+
+        if not hasattr( prefixes, '__len__' ) :
+            indices = [ prefixes ] 
+            
+        # default: loop through all keys
+        if keys is None :
+            keys = self.data.keys() 
+
+        for prefix in prefixes : 
+            _keys = set( keys ).intersection( self._keys_at_prefix[ prefix ] ) 
+
+            for idx in indices : 
                 
-                for key in keys:
-                    self.data[ key ][ idx ] = f[ key ][:] 
+                fname = '%s/%s.%s' % ( self.data_path, prefix, idx_to_str( idx ) )
+                try:
+                    with h5py.File( fname, 'r' ) as f:
+                        for key in _keys : 
+                            self.data[ key ][ idx ] = f[ key ][:] 
+                                
+                except OSError :
+                    print( 'ERROR: file not found: %s' % fname ) 
+                    sys.exit(1)
 
-        except OSError :
-            print( 'ERROR: file not found: %s' % fname ) 
-            sys.exit(1)
+        # if 'time' in keys : 
+        #     self.load_time( indices ) 
 
+            
+    # unload 
+    def unload_indices( self, indices = None, keys = None ) :
 
-    def unload_data_at_idx( self, idx, keys = None ) :
+        if indices is None : 
+            indices = np.arange( len( self.data ) ) 
+            
+        if not hasattr( indices, '__len__' ) :
+            indices = [ indices ] 
+        
         if keys is None :
             keys = self.data.keys()
 
-        time_slice = self.data[idx] 
-            
-        for key in keys() :
-            time_slice[ key ] = None
+        for idx in indices : 
+            for key in keys() :
+                self.data[ idx ][ key ] = None
 
-            
-    def unload_data_at_indices( self, indices, keys = None  ):
-        for idx in indices :
-            self.unload_data_at_idx( idx, keys ) 
 
-                            
+    # load time-independent data 
     def load_params( self ) :
-        fname = '%s/%s.%s' % ( self.data_path, tristan_params_prefix, '000' )
+        fname = '%s/%s.%s' % ( self.data_path, params_prefix, '000' )
         # print( fname ) 
         try:
             with h5py.File( fname ) as f:
@@ -187,10 +210,6 @@ class TristanDataContainer( object ) :
         except OSError :
             print( 'ERROR: file not found: %s' % fname ) 
             sys.exit(1)
-
-            
-    def reload( self ) :
-        pass 
 
         
     def clear( self ) :

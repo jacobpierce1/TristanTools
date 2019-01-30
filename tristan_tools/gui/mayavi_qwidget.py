@@ -19,9 +19,14 @@ from pyface.qt import QtGui, QtCore
 
 from traits.api import HasTraits, Instance, on_trait_change
 from traitsui.api import View, Item
-from mayavi.core.ui.api import MayaviScene, MlabSceneModel, \
-        SceneEditor
 
+from mayavi.core.ui.api import MayaviScene, MlabSceneModel, \
+    SceneEditor
+
+from PyQt5.QtWidgets import *
+from PyQt5 import QtCore
+
+from plot_control_widget import PlotControlWidget 
 
 ################################################################################
 #The actual visualization
@@ -58,8 +63,11 @@ class MayaviQWidget(QtGui.QWidget):
         # The edit_traits call will generate the widget to embed.
         self.ui = self.visualization.edit_traits(parent=self,
                                                  kind='subpanel').control
-        layout.addWidget(self.ui)
         self.ui.setParent(self)
+        layout.addWidget(self.ui)
+        
+        self.plot_controller = PlotControlWidget()
+        layout.addWidget( self.plot_controller ) 
 
         
     def mouseReleaseEvent(self, QMouseEvent):

@@ -78,7 +78,8 @@ class RecursiveAttrDict( dict ) :
         if keys is None :
             keys = [] 
 
-        data = dict( keys )
+        data = {} 
+        
         for key in keys :
             data[ key ] = [ None for i in range(size) ] 
 

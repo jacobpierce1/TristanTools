@@ -38,21 +38,6 @@ signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 
 
-def main():
-    # app = QApplication(sys.argv)
-    # app.setStyleSheet( 'QGroupBox { font-weight: bold; }' ) 
-    # ex = gui()
-    # ex.show()
-    # sys.exit( app.exec_() )
-
-    app = QApplication(sys.argv)
-    app.setStyleSheet( 'QGroupBox { font-weight: bold; }' ) 
-    ex = App()
-    ex.show()
-    sys.exit( app.exec_() )
-    
-
-
     
 class App( QWidget ) :
 
@@ -136,30 +121,16 @@ class App( QWidget ) :
     def load_state( self ) :
         pass
         
-      
-# if __name__ == "__main__":
-#     # Don't create a new QApplication, it would unhook the Events
-#     # set by Traits on the existing QApplication. Simply use the
-#     # '.instance()' method to retrieve the existing one.
-#     app = QtGui.QApplication.instance()
-#     container = QtGui.QWidget()
-#     container.setWindowTitle("Embedding Mayavi in a PyQt4 Application")
-#     # define a "complex" layout to test the behaviour
-        
-
-#     window = QtGui.QMainWindow()
-#     window.setCentralWidget(container)
-#     window.show()
-
-#     # Start the main event loop.
-#     app.exec_()
-
-
-
+    
     
 # enter program 
 if __name__ == '__main__':  
-    main()
+    app = QApplication(sys.argv)
+    app.setStyleSheet( 'QGroupBox { font-weight: bold; }' ) 
+    ex = App()
+    ex.show()
+    sys.exit( app.exec_() )
+    
 
 
 
