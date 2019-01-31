@@ -4,5 +4,11 @@ WINDOW_WIDTH = 1200
 WINDOW_HEIGHT = 800 
 
 # number of rows and cols in the array of plots
-NUM_PLOT_ROWS = 2
+NUM_PLOT_ROWS = 1
 NUM_PLOT_COLS = 3 
+
+
+# change this if you subclass the analyzer and want to use
+# a different one for your analysis 
+import tristan_tools.analysis as analysis
+analyzer = analysis.TristanDataAnalyzer 

@@ -1,7 +1,10 @@
 # implements the class TristanDataAnalyzer. this class subclasses
 # TristanDataContainer and hence gives access to all the same functionality
-# as the data container itself. it also includes functions for computing and storing derived
+# as the data container itself. it also includes functions for computing and
+# storing derived
 # quantities, such as field magnitudes, etc. 
+# included is much functionality necessary for real
+
 
 import numpy as np
 
@@ -36,6 +39,20 @@ class TristanDataAnalyzer( TristanDataContainer ) :
                                   'JJ' : self.compute_JJ,
                                   'ExB' : self.compute_ExB }
 
+        
+        # return the requiremnents for each computation:
+        # first the quantities required, then the indices. this is crucial
+        # for real-time computation and data-loading: this way only the
+        # necessary data can be loaded if you aren't able to load all the
+        # available data at once. each key has a function where the input
+        # is the index to be computed, and then the required keys and indices.
+        # as expected, just update this dict if you subclass and add more
+        # computable quantities.
+        self.computation_requirements_dict = {
+            'BB' : lambda x : ( [x], [ 'bx', 'by', 'bz' ] ),
+            'EE' : lambda x : ( [x], [ 'ex', 'ey', 'ez' ] )
+        }
+        
         
         # put empty values in the computations RecursiveAttrDict 
         self.computations = RecursiveAttrDict.empty( self.computation_dict.keys(),

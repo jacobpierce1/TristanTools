@@ -46,6 +46,9 @@ class TristanDataContainer( object ) :
         if data_path :
             self.set_data_path( data_path ) 
 
+        # track all the indices that have data loaded 
+        self.indices_with_data = set() 
+            
         
     # set the data path and load parameters  
     def set_data_path( self, data_path ) : 
@@ -77,12 +80,12 @@ class TristanDataContainer( object ) :
     #     self.load_indices( None ) 
 
         
-    # read all data from a particular index into the data structure 
-    def load_indices( self, indices ) :
-        self.load_fields( indices )
-        self.load_particles( indices )
-        self.load_spectra( indices )
-        self.load_time( indices ) 
+    # # read all data from a particular index into the data structure 
+    # def load_indices( self, indices ) :
+    #     self.load_fields( indices )
+    #     self.load_particles( indices )
+    #     self.load_spectra( indices )
+    #     self.load_time( indices ) 
 
         
     def load_times( self, indices = None, _reload = 0 ) : 
@@ -135,7 +138,6 @@ class TristanDataContainer( object ) :
     
                 
     # note that reload is already a built in python funciton
-    # _reload functionality not currently implemented. not sure of best way 
     def load_indices( self, indices = None, prefixes = None, keys = None, _reload = 0 ) :
 
         if indices is None :
@@ -159,17 +161,21 @@ class TristanDataContainer( object ) :
             _keys = set( keys ).intersection( self._keys_at_prefix[ prefix ] ) 
 
             for idx in indices : 
+
+                self.indices_with_data.add( idx )
                 
                 fname = '%s/%s.%s' % ( self.data_path, prefix, idx_to_str( idx ) )
                 try:
                     with h5py.File( fname, 'r' ) as f:
-                        for key in _keys : 
-                            self.data[ key ][ idx ] = f[ key ][:] 
+                        for key in _keys :
+                            if _reload or ( self.data[key][idx] is None ) : 
+                                # print( 'set data: %s %d' % (key, idx ) ) 
+                                self.data[ key ][ idx ] = f[ key ][:] 
                                 
                 except OSError :
                     print( 'ERROR: file not found: %s' % fname ) 
                     sys.exit(1)
-
+                    
         # if 'time' in keys : 
         #     self.load_time( indices ) 
 

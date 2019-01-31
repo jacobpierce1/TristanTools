@@ -22,28 +22,48 @@ from matplotlib.figure import Figure
 
 
 
-class PlotterWidget( object ) :
+class PlotterWidget( QWidget ) :
 
-    def __init__( self, shape = None ) :
+    def __init__( self, tristan_data_analyzer, state_handler, shape = None ) :
+        super().__init__()
 
-        if shape is None :
-            shape = (gui_config.NUM_PLOT_ROWS, gui_config.NUM_PLOT_COLS ) 
+        # store inputs 
+        self.analyzer = tristan_data_analyzer 
+        self.state_handler = state_handler 
 
-        self.layout = QGridLayout()
+        self.reset()
+
+
+    def reset( self ) :
+            
+        # store all the qwidgets
+        shape = self.state_handler.shape
+        self.mayavi_plots = np.zeros( shape, dtype = object ) 
         
-        # put some stuff around mayavi
-        label_list = []
+        layout = QGridLayout()
+        
+        # add array of mayavi plots 
+
+        shape = self.state_handler.shape
         for i in range( shape[0] ):
             for j in range( shape[1] ):
-                x = MayaviQWidget()
-                self.layout.addWidget(x, i, j)
-
+                x = MayaviQWidget( self.analyzer,
+                                   self.state_handler.plot_types[i,j],
+                                   self.state_handler.keys[i,j] )
+                self.mayavi_plots[i][j] = x 
+                layout.addWidget(x, i, j)
                 
-        # self.f, self.axarr = plt.subplots( * shape ) 
+        self.setLayout( layout )         
 
-        # self.canvas = FigureCanvas( self.f )
-    
-
+        
     # clear all plots. possibly change dimensions of the plot array.
-    def reset( self ) : 
+    def clear( self ) : 
        pass  
+
+
+    # update all plots 
+    def update( self, timestep ) :
+        shape = self.state_handler.shape 
+        for i in range( shape[0] ) :
+            for j in range( shape[1] ) :
+                self.mayavi_plots[i,j].update( timestep ) 

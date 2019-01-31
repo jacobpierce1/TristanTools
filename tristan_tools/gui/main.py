@@ -1,6 +1,8 @@
 import gui_config 
-import control_panel 
-import plotter_widget
+from main_control_panel import MainControlPanel 
+from plotter_widget import PlotterWidget
+from state_handler import StateHandler, LoadPolicy 
+
 
 import tristan_tools.analysis as analysis 
 
@@ -47,25 +49,35 @@ class App( QWidget ) :
     def __init__(self ):
         super().__init__()
 
-        self.setWindowTitle( 'TristanPlotter' )
+        self.state_handler = StateHandler()
+
+        # attempt to initialize an analyzer from the current directory.
+        # if not possible, it will maintain the value None 
+        self.analyzer = None 
+        self.init_analyzer()
+        
+        self.init_menubar() 
+
+        
+        
+        self.setWindowTitle( 'TristanGUI' )
         self.resize( gui_config.WINDOW_WIDTH, gui_config.WINDOW_HEIGHT )
         
         layout = QVBoxLayout()
         self.setLayout( layout ) 
         
-        self.plotter_widget = plotter_widget.PlotterWidget()
-        layout.addLayout( self.plotter_widget.layout ) 
+        self.plotter_widget = PlotterWidget( self.analyzer, self.state_handler )
+        layout.addWidget( self.plotter_widget ) 
         # layout.addWidget( self.plotter_widget.canvas )
         
-        self.control_panel = control_panel.ControlPanel()
-        layout.addLayout( self.control_panel.layout ) 
+        self.control_panel = MainControlPanel( self.plotter_widget )
+        layout.addWidget( self.control_panel ) 
 
-        self.init_menubar() 
+        # plot data at timestep 0
+        self.plotter_widget.update( 0 ) 
+        
 
-        self.init_tristan_data()
-
-
-    def init_tristan_data( self ) :
+    def init_analyzer( self ) :
         cwd = os.getcwd()
     
         # check if cwd is the output directory 
@@ -76,17 +88,23 @@ class App( QWidget ) :
         else :
             tmp = os.path.join( cwd, 'output' )
             if os.path.exists( tmp ) :
-                output_path = tmp
+                data_path = tmp
             else :
-                output_path = None 
+                data_path = None 
 
-        if output_path :
-            print( 'INFO: found data at path: %s' % output_path )
+        if data_path :
+            print( 'INFO: found data at path: %s' % data_path )
         else : 
             print( 'WARNING: did not find tristan output data path' ) 
 
-        self.tristan_data = analysis.TristanDataContainer( output_path ) 
+        # set the type of analyzer to be used in the gui_config.py
+        self.analyzer = gui_config.analyzer( data_path ) 
 
+        if self.state_handler.data_load_policy == LoadPolicy.LOAD_ALL :
+            self.analyzer.load_indices() 
+
+        print( 'in main. indices are loaded: ' + str( self.analyzer.indices_with_data )  )
+            
         
     def init_menubar( self ) :
         menu_bar = QMenuBar(self)
@@ -108,8 +126,8 @@ class App( QWidget ) :
     def load_directory( self ) :
         dir_path = str( QFileDialog.getExistingDirectory(
             self, "Select Output Directory") )
-        # self.tristan_data.clear()
-        self.tristan_data.set_data_path( dir_path ) 
+        # self.analyzer.clear()
+        self.analyzer.set_data_path( dir_path ) 
 
 
     def set_plot_dimensions( self ) :
