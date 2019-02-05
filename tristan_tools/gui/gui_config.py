@@ -1,11 +1,11 @@
 
 # dimensions of the gui main window in pixels 
-WINDOW_WIDTH = 1200
-WINDOW_HEIGHT = 800 
+WINDOW_WIDTH = 800
+WINDOW_HEIGHT = 600 
 
 # number of rows and cols in the array of plots
 NUM_PLOT_ROWS = 1
-NUM_PLOT_COLS = 3 
+NUM_PLOT_COLS = 2
 
 
 # change this if you subclass the analyzer and want to use

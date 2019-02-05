@@ -127,7 +127,8 @@ class TimeSliderWidget( QWidget ) :
     # do something if the timestep is ever changed
     def handle_new_timestep( self, timestep ) :
         if timestep != self.timestep :
-            self.updater() 
+            if self.updater : 
+                self.updater() 
 
         self.timestep = timestep
 
