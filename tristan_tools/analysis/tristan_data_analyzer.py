@@ -154,3 +154,29 @@ class TristanDataAnalyzer( TristanDataContainer ) :
 # see compute_BB e.g. for example 
 def vector_norm_squared( components ) : 
     return np.sum( [ x**2 for x in components ], axis = 0 )
+
+
+
+
+
+
+
+def calc_psi(f):
+    """ Calculated the magnetic scaler potential for a 2D simulation
+    Args:
+        d (dict): Dictionary containing the fields of the simulation
+            d must contain bx, by, xx and yy
+    Retruns:
+        psi (numpy.array(len(d['xx'], len(d['yy']))) ): Magnetic scaler
+            potential
+    """
+
+    bx = np.squeeze(f['bx'])
+    by = np.squeeze(f['by'])
+    dx = dy = 1./f['c_omp']
+
+    psi = 0.0*bx
+    psi[1:,0] = np.cumsum(bx[1:,0])*dy
+    psi[:,1:] = (psi[:,0] - np.cumsum(by[:,1:], axis=1).T*dx).T
+
+    return psi.T

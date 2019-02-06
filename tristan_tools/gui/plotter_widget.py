@@ -13,11 +13,13 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QIntValidator, QDoubleValidator, QFont, QPixmap, QImage
 # from PyQt5 import QtGui
 from PyQt5 import QtCore
+from PyQt5 import Qt
 
 
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
+
 
 
 

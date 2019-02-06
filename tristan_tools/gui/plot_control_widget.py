@@ -1,6 +1,7 @@
 # implements PlotControlWidget. this is the buttons and slider below each plot
 
-from time_slider_widget import TimeSliderWidget 
+from time_slider_widget import TimeSliderWidget
+from plot_options_widgets import * 
 
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
@@ -11,45 +12,57 @@ PLOT_TYPES = [ 'scalar slice', 'quiver3d', 'quiver slice', '2D image' ]
 MOVIE_TYPES = [ 'GIF', 'mp4', 'mov' ] 
 
 
+_plot_options_widgets = { 'volume_slice' : VolumeSliceOptionsWidget } 
+
+
+
 class PlotControlWidget( QWidget ) :
 
-    def __init__( self, tristan_data_analyzer ) :
+    def __init__( self, tristan_data_plotter ) :
         super().__init__() 
 
-        self.analyzer = tristan_data_analyzer
-        
-        self.options_button = QPushButton( 'Options' )
-        self.actions_button = QPushButton( 'Actions' )
+        self.tristan_data_plotter = tristan_data_plotter
 
-        self.options_button.clicked.connect( self.launch_options_window ) 
-        self.actions_button.clicked.connect( self.launch_actions_window ) 
+        reset_button = QPushButton( 'Reset' ) 
+        options_button = QPushButton( 'Options' )
+        actions_button = QPushButton( 'Actions' )
+
+        reset_button.clicked.connect( self.reset ) 
+        options_button.clicked.connect( self.launch_options_window ) 
+        actions_button.clicked.connect( self.launch_actions_window ) 
         
         # layout.addLayout( tmplayout )
 
         layout = QHBoxLayout()
+
+        layout.addWidget( reset_button ) 
+        layout.addWidget( options_button ) 
+        layout.addWidget( actions_button ) 
         
-        layout.addWidget( self.options_button ) 
-        layout.addWidget( self.actions_button ) 
-        
-        self.time_slider_widget = TimeSliderWidget( len( self.analyzer ),
+        self.time_slider_widget = TimeSliderWidget( len( self.tristan_data_plotter.analyzer ),
                                                     use_slider = 0 )
         layout.addWidget( self.time_slider_widget ) 
 
         self.setLayout( layout ) 
 
 
+        
+    def reset( self ) :
+        self.tristan_data_plotter.plotter.reset() 
+        
+
+        
     def launch_options_window( self ) :
-        options_dialog = PlotOptionsDialog()
+        options_dialog = PlotOptionsDialog( self.tristan_data_plotter )
 
         options_dialog.exec_()
 
         self.plot_type = options_dialog.plot_type
-        self.plot_quantity = options_dialog.plot_quantity
+        # self.plot_quantity = options_dialog.plot_quantity
         
         print( 'plot type: ' + str( self.plot_type ) )
 
             
-
 
 
     def launch_actions_window( self ) :
@@ -58,16 +71,16 @@ class PlotControlWidget( QWidget ) :
 
 
 
-
+        
         
 class PlotOptionsDialog( QDialog ) :
 
-    def __init__( self, parent = None ) :
-        super().__init__( parent ) 
+    def __init__( self, tristan_data_plotter ) :
+        super().__init__() 
 
-        self.plot_type = None
-        self.plot_quantity = None
-        self.plot_options = None
+        self.plot_type = tristan_data_plotter.plot_type
+        # self.plot_quantity = None
+        # self.plot_options = None
         
         self.setWindowTitle( 'Plot Options' ) 
         
@@ -83,15 +96,18 @@ class PlotOptionsDialog( QDialog ) :
         ok_button.clicked.connect( self.close )
         
         layout = QVBoxLayout() 
+        self.setLayout( layout )
         
         toplayout = QHBoxLayout() 
         toplayout.addWidget( self.plot_type_combobox ) 
         toplayout.addWidget( self.plot_quantity_combobox ) 
         toplayout.addWidget( ok_button ) 
         
-        layout.addLayout( toplayout ) 
+        layout.addLayout( toplayout )
+
+        plot_options_widget = _plot_options_widgets[ self.plot_type ]( tristan_data_plotter.plotter ) 
+        layout.addWidget( plot_options_widget ) 
         
-        self.setLayout( layout ) 
 
 
 
@@ -145,4 +161,27 @@ class PlotActionsDialog( QDialog ) :
         self.setLayout( layout ) 
         
 
-    
+
+
+
+
+# # class for tracking the current plot options and interacting with a plotter to change them. 
+# class PlotOptionsController( object ) :
+
+#     def __init__( self, plotter ) :
+#         self.plotter = plotter 
+
+
+
+
+
+# class VolumeSliceOptionsController( PlotOptionsController ) :
+
+#     def __init__( self, plotter ) :
+#         supr().__init__( plotter ) 
+
+        
+
+
+
+        

@@ -64,8 +64,9 @@ class TimeSliderWidget( QWidget ) :
         
     def slider_moved( self ) :
         timestep = self.slider.value() 
-        self.timestep_entry.setText( str( timestep ) ) 
+        self.set_timestep_entry( timestep ) 
 
+        
     def slider_released( self ) :
         self.slider_moved()
         self.handle_new_timestep( self.slider.value() )
@@ -90,6 +91,7 @@ class TimeSliderWidget( QWidget ) :
 
         
     def left_button_clicked( self ) :
+        print( 'left button clicked' ) 
         timestep = max( 0, self.timestep - self.stride ) 
         self.handle_new_timestep( timestep )
         self.update() 
@@ -103,6 +105,14 @@ class TimeSliderWidget( QWidget ) :
 
     # update both the slider and the timestep_entry 
     def update( self, timestep = None ) :
+
+        print( 'update' ) 
+        
+        if timestep is None :
+            timestep = self.timestep 
+
+        print( 'timestep: ' + str( timestep ) )
+            
         self.set_slider( timestep ) 
         self.set_timestep_entry( timestep ) 
 
@@ -112,6 +122,9 @@ class TimeSliderWidget( QWidget ) :
         if timestep is None :
             timestep = self.timestep 
 
+        print( 'set_slider ' ) 
+        print( 'timestep: ' + str( timestep ) )
+        
         if self.use_slider :
             self.slider.setValue( timestep )            
 
@@ -120,15 +133,26 @@ class TimeSliderWidget( QWidget ) :
 
         if timestep is None :
             timestep = self.timestep 
-                
+
+        print( 'set_timestep_entry ' ) 
+        print( 'timestep: ' + str( timestep ) )
+        
         self.timestep_entry.setText( str( timestep ) )
             
             
     # do something if the timestep is ever changed
     def handle_new_timestep( self, timestep ) :
+
+        print( 'handling new timestep' )
+        print( 'timestep = ' + str( timestep ) )
+        print( 'self.timestep = ' + str( self.timestep ) )
+        
         if timestep != self.timestep :
+
+            # the updater accesses this variable, so it needs to be set first 
+            self.timestep = timestep
+
             if self.updater : 
                 self.updater() 
 
-        self.timestep = timestep
 

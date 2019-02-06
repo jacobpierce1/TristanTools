@@ -55,6 +55,7 @@ class MyDialog(HasTraits):
                 resizable=True,
                 )
 
+    
 class DisableToolbarHandler(Handler):
     def position(self, info):
         for name in ["scene1", "scene2"]:

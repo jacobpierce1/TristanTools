@@ -1,3 +1,16 @@
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import QIntValidator, QDoubleValidator, QFont, QPixmap
+# from PyQt5 import QtGui
+from PyQt5 import QtCore
+
+
+# First, and before importing any Enthought packages, set the ETS_TOOLKIT
+# environment variable to qt4, to tell Traits that we will use Qt.
+import os
+os.environ['ETS_TOOLKIT'] = 'qt4'
+os.environ['QT_API'] = 'pyqt5'
+
+
 import gui_config 
 from main_control_panel import MainControlPanel 
 from plotter_widget import PlotterWidget
@@ -15,9 +28,7 @@ import os
 import numpy as np
 import scipy
 import time
-from functools import partial
 
-# import gui_helpers
 
 # from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QPushButton, QAction
 from PyQt5.QtWidgets import *
@@ -77,6 +88,7 @@ class App( QWidget ) :
         self.plotter_widget.update( 0 ) 
         
 
+        
     def init_analyzer( self ) :
         cwd = os.getcwd()
     
@@ -104,7 +116,8 @@ class App( QWidget ) :
             self.analyzer.load_indices() 
 
         print( 'in main. indices are loaded: ' + str( self.analyzer.indices_with_data )  )
-            
+
+        
         
     def init_menubar( self ) :
         menu_bar = QMenuBar(self)

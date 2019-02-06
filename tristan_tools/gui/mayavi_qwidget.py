@@ -1,35 +1,41 @@
 # First, and before importing any Enthought packages, set the ETS_TOOLKIT
 # environment variable to qt4, to tell Traits that we will use Qt.
-import os
-os.environ['ETS_TOOLKIT'] = 'qt4'
-os.environ['QT_API'] = 'pyqt5'
+# import os
+# os.environ['ETS_TOOLKIT'] = 'qt4'
+# os.environ['QT_API'] = 'pyqt5'
 
 
-# By default, the PySide binding will be used. If you want the PyQt bindings
-# to be used, you need to set the QT_API environment variable to 'pyqt'
-#os.environ['QT_API'] = 'pyqt'
+# from pyface.qt import QtGui, QtCore
 
-# To be able to use PySide or PyQt4 and not run in conflicts with traits,
-# we need to import QtGui and QtCore from pyface.qt
-from pyface.qt import QtGui, QtCore
+from PyQt5 import QtCore, QtGui
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import Qt
+
+
+
 # Alternatively, you can bypass this line, but you need to make sure that
 # the following lines are executed before the import of PyQT:
 #   import sip
 #   sip.setapi('QString', 2)
 
+
 from traits.api import HasTraits, Instance, on_trait_change
-from traitsui.api import View, Item
+from traitsui.api import View, Item, Handler
 
 from mayavi.core.ui.api import MayaviScene, MlabSceneModel, \
     SceneEditor
 
-from PyQt5.QtWidgets import *
-from PyQt5 import QtCore
+# from PyQt5.QtWidgets import *
+# from PyQt5 import QtCore
+
 
 from plot_control_widget import PlotControlWidget 
 
 
 from tristan_tools.analysis import TristanDataPlotter 
+
+
+
 
 
 class Visualization( HasTraits ) :
@@ -44,48 +50,59 @@ class Visualization( HasTraits ) :
 
         # We can do normal mlab calls on the embedded scene.
         # self.scene.mlab.test_points3d()
-        self.plotter.plot_timestep( timestep )
+        self.tristan_data_plotter.plot_timestep( timestep )
         
     # the layout of the dialog screated
     view = View(Item('scene', editor=SceneEditor(scene_class=MayaviScene),
-                     height=250, width=250, show_label=False),
-                resizable=True # We need this to resize with the parent widget
-                )
+                     height=0, width=0, show_label=False),
+                resizable=True )
 
-    plotter = None
+    tristan_data_plotter = None
     
 
 
     
-class MayaviQWidget( QtGui.QWidget ):
+class MayaviQWidget( QWidget ) : # QtGui.QWidget ):
 
     def __init__(self, tristan_data_analyzer, plot_type, keys ):
         super().__init__()
 
         self.analyzer = tristan_data_analyzer
         
-        layout = QtGui.QVBoxLayout(self)
+        layout = QVBoxLayout(self)
         layout.setContentsMargins(0,0,0,0)
         layout.setSpacing(0)
 
+        self.title_label = QLabel( '' )
+        self.title_label.setAlignment( Qt.AlignCenter ) 
+        layout.addWidget( self.title_label ) 
+
         self.visualization = Visualization()
-        self.plotter = TristanDataPlotter( self.analyzer, plot_type = plot_type,
-                                           keys = keys,
-                                mayavi_scene = self.visualization.scene.mayavi_scene ) 
-
-        self.visualization.plotter = self.plotter
-
-        print( 'in MayaviQWidget. indices are loaded: '
-               + str( self.visualization.plotter.analyzer.indices_with_data )  )
 
         # The edit_traits call will generate the widget to embed.
-        self.ui = self.visualization.edit_traits(parent=self,
-                                                 kind='subpanel').control
+        self.ui = self.visualization.edit_traits( handler = DisableToolbarHandler(), # ,
+                                                  kind='subpanel').control
+
+        self.tristan_data_plotter = TristanDataPlotter( self.analyzer, plot_type = plot_type, keys = keys,
+                                                        mayavi_scene = self.visualization.scene.mayavi_scene ) 
+
+        self.visualization.tristan_data_plotter = self.tristan_data_plotter
+
+        # print( 'in MayaviQWidget. indices are loaded: '
+        #        + str( self.visualization.tristan_data_plotter.analyzer.indices_with_data )  )
+
+        
         self.ui.setParent(self)
         layout.addWidget(self.ui)
         
-        self.plot_controller = PlotControlWidget( self.analyzer )
-        layout.addWidget( self.plot_controller ) 
+        self.plot_controller = PlotControlWidget( self.tristan_data_plotter )
+        layout.addWidget( self.plot_controller )
+
+        
+        self.set_title() 
+        
+        
+
 
         
     # def mouseReleaseEvent(self, QMouseEvent):
@@ -95,7 +112,8 @@ class MayaviQWidget( QtGui.QWidget ):
     #         #do what you want here
     #         print("Right Button Clicked")
 
-            
+
+    
     # if the timestep is supplied, then set the timestep and update plot to the
     # new timestep. otherwise, grab the timestep from the plot controller and
     # update the plot to that timestep.
@@ -108,4 +126,40 @@ class MayaviQWidget( QtGui.QWidget ):
             self.plot_controller.time_slider_widget.update( timestep ) 
 
         self.visualization.update_plot( timestep ) 
+
+        
+        # self.tristan_data_plotter.plotter.set_title( self.tristan_data_plotter.plot_type ) 
+
+
+
+    def set_title( self, title = None ) :
+
+        # default title 
+        if title is None :
+
+            keys_str = ''
+            keys = self.tristan_data_plotter.keys 
+            for i in range( len( keys ) ) :
+
+                keys_str += str( keys[i] )
+
+                if i < len( keys ) - 1 :
+                    keys_str += ', '
+                            
+            plot_type = self.tristan_data_plotter.plot_type
+
+            title = keys_str + ': ' + plot_type
             
+        self.title_label.setText( title ) 
+        
+
+
+
+        
+# hack to disable the mayavi toolbar
+class DisableToolbarHandler( Handler ):
+
+    def position(self, info):
+        editor = info.ui.get_editors('scene')[0]
+        editor._scene._tool_bar.setVisible(False)
+     
