@@ -91,13 +91,3 @@ class VectorFieldPlotter( Plotter ) :
 
 
 
-                
-def print_info( obj ) :
-
-    print( type( obj ) )
-    print('') 
-    pprint( vars( obj ) )
-    print('') 
-    pprint( dir( obj ) ) 
-    print('') 
-    pprint( obj.trait_names() ) 
