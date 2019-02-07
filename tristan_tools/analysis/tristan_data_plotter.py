@@ -4,9 +4,36 @@ from mayavi import mlab
 from .tristan_data_container import TristanDataContainer
 from .helper_functions import check_spatial_dim 
 
+from collections import OrderedDict
 
+
+
+# store the keys for each type of data 
+DATA_NAME_TO_KEYS_DICT = { 'B' : [ 'bx', 'by', 'bz' ]  }
+
+
+ALL_SCALARS = [ 'dens', 'densi',
+                'bx', 'by', 'bz',
+                'ex', 'ey', 'ez',
+                'jx', 'jy', 'jz',
+                'v3x', 'v3y', 'v3z' ] 
+
+ALL_VECTORS = [ 'E', 'B', 'J', 'V' ]
+
+
+for x in ALL_SCALARS :
+    DATA_NAME_TO_KEYS_DICT[ x ] = [ x ] 
+
+
+# this is an orderedDict instead of regular dict so that the
+# keys added are in the same order as they appear in the gui.
+AVAILABLE_DATA_DICT = OrderedDict( [
+    ( 'volume_slice', ALL_SCALARS ),
+    ( 'vector_field', ALL_VECTORS )
+] )
     
 
+    
 # handle all the common functionality to 2d and 3d, such as saving
 # images / movies, storing relevant variables such as data and plots,
 # etc. the heavy lifting of plots is done in the plotter instance variable
@@ -63,8 +90,14 @@ class TristanDataPlotter( object ) :
                           'quiver3d' : Quiver3D }
 
 
-        self.plotter = self.plotters[ self.plot_type ]( self.mayavi_scene ) 
+        self.plotter = self.plotters[ self.plot_type ]( self.mayavi_scene )
 
+
+        self.available_data_dict = AVAILABLE_DATA_DICT
+
+        self.data_name_to_keys_dict = DATA_NAME_TO_KEYS_DICT 
+                
+        
         self.timestep = None
         
             # self.plot_functions = { 'quiver3d' : self.quiver3d,
@@ -134,6 +167,13 @@ class TristanDataPlotter( object ) :
             
         self.timestep = timestep 
 
+        
+    def refresh( self ) :
+
+        self.check_clear()
+        data = self.data_getter( self.timestep )
+        self.plotter.set_data( data ) 
+        
 
         
     # used to access the plotting functions
@@ -189,18 +229,29 @@ class Plotter( object ) :
     def __init__( self, mayavi_scene ) : 
         self.mayavi_scene = mayavi_scene
         # self.mayavi_plot = None
-        self.needs_update = 1 
+        # self.needs_update = 1 
 
+                
         self.orientation_axes = None
         
         
         self.orientation_axes_state = 0
-        self.outline_state = 0 
+        self.outline_state = 0
+
+        # these make the oaxes and outline get generated automatically
+        # feel free to disable.
+        
         
         # self.actions = [ self.toggle_orientation_axes ]
         # self.actions_descriptions = [ 'toggle orientation axes' ] 
 
 
+        
+    # # this function is called when the data is plotted for the first time
+    # # feel free to change 
+    # def startup( self ) :
+        
+        
     def set_orientation_axes( self, state ) :
 
         if state :
@@ -287,7 +338,11 @@ class VolumeSlice( Plotter ) :
     def __init__( self, mayavi_scene, data = None ) :
         super().__init__( mayavi_scene ) 
 
+        self.data_added = 0
+        self.needs_startup = 1 
+        
         self.data = data
+        # self.colorbar_added = 0 
         
         # variable storing each of the 3 addable /removable slices 
         self.mayavi_plots = [ None, None, None ]
@@ -298,10 +353,32 @@ class VolumeSlice( Plotter ) :
 
         # add default slices if possible. only works if data already is loaded,
         # which means that this only goes through if reset is called 
-        for i in range( 3 ) :
+        # for i in range( 3 ) :
+        #     if self.slices_to_add[i] :
+        #         self.add_slice( i )
+
+
+                
+    def startup( self ) :
+        # super().startup()
+        print( 'startup called ' )
+
+        colorbar_added = 0 
+        
+        for i in range(3) :
             if self.slices_to_add[i] :
                 self.add_slice( i )
 
+                if not colorbar_added :
+                    mlab.colorbar( self.mayavi_plots[i], orientation = 'vertical' )
+                    colorbar_added = 1 
+        
+        self.set_orientation_axes( 1 )
+        self.set_outline( 1 )
+        self.needs_startup =  0 
+      
+        
+        
                 
     def reset( self ) :
         mlab.clf( figure = self.mayavi_scene ) 
@@ -311,10 +388,10 @@ class VolumeSlice( Plotter ) :
     # axis can be 0, 1, or 2 
     def add_slice( self, axis ) :
 
-        # if we don't have data yet, then just add the slice next time we receive data.
-        if self.data is None :
-            self.slices_to_add[ axis ] = 1
-            return 
+        # # if we don't have data yet, then just add the slice next time we receive data.
+        # if self.data is None :
+        #     self.slices_to_add[ axis ] = 1
+        #     return 
         
         # do nothing if axis already created. 
         if self.mayavi_plots[ axis ] :
@@ -338,28 +415,42 @@ class VolumeSlice( Plotter ) :
         
     def set_data( self, data ) :
 
-
-        # init is 1 if the data has not been set yet 
-        init = 0
-        if self.data is None :
-            init = 1 
-        
+        # if self.data is None :
+        #     self.needs_startup = 1 
+ 
+        if data is not None : 
+            self.data_added = 1 
+            
         self.data = data[0]
 
-        # add any slices that couldn't be added before we had data
-        # once there is data, they can just be added automatically without using slices_to_add.
-        if init :
-            for i in range(3) :
-                if self.slices_to_add[i] :
-                    self.add_slice( i ) 
-        
-        for mayavi_plot in self.mayavi_plots : 
-            if mayavi_plot : 
-                mayavi_plot.mlab_source.trait_set( scalars = self.data )
+        print( 'data shape: ' + str( self.data.shape ) ) 
 
+        # # add any slices that couldn't be added before we had data
+        # # once there is data, they can just be added automatically without using slices_to_add.
+        # if self.needs_startup :
+        #     self.startup()
+
+        # otherwise just set the data of the existing plot.
+
+        print( self.data_added )
+        print( self.needs_startup )
+
+        
+        if self.data_added and self.needs_startup :
+            self.startup() 
+            pass 
+
+        else : 
+            for mayavi_plot in self.mayavi_plots : 
+                if mayavi_plot : 
+                    mayavi_plot.mlab_source.trait_set( scalars = self.data )
+
+            # if not self.colorbar_added :
+            #     mlab.colorbar( self.mayavi_plots[0], orientation = 'vertical' )
+            #     self.colorbar_added = 1 
                 # self.data = 
 
-                
+            
     # def update( self, data ) :
     #     super().update( data )
     #     for i in range( 3 ) :
@@ -382,6 +473,16 @@ class VolumeSlice( Plotter ) :
 class Quiver3D( Plotter ) :
 
     pass 
+
+
+
+
+
+
+class VectorField( Plotter ) :
+
+    pass 
+
 
 
 # class 
