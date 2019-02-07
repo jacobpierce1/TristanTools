@@ -115,7 +115,7 @@ class App( QWidget ) :
         if self.state_handler.data_load_policy == LoadPolicy.LOAD_ALL :
             self.analyzer.load_indices() 
 
-        print( 'in main. indices are loaded: ' + str( self.analyzer.indices_with_data )  )
+        # print( 'in main. indices are loaded: ' + str( self.analyzer.indices_with_data )  )
 
         
         
@@ -137,8 +137,7 @@ class App( QWidget ) :
 
             
     def load_directory( self ) :
-        dir_path = str( QFileDialog.getExistingDirectory(
-            self, "Select Output Directory") )
+        dir_path = str( QFileDialog.getExistingDirectory( self, "Select Output Directory") )
         # self.analyzer.clear()
         self.analyzer.set_data_path( dir_path ) 
 

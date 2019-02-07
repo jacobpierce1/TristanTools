@@ -13,24 +13,21 @@ class MainControlPanel( QWidget ) :
     def __init__( self, plotter_widget  ) :
         super().__init__() 
         
-        max_time = len( plotter_widget.analyzer ) 
+        num_timesteps = len( plotter_widget.analyzer ) 
         self.plotter_widget = plotter_widget
 
         layout = QHBoxLayout() 
 
-        self.time_slider_widget = TimeSliderWidget( max_time, updater = self.updater ) 
+        self.time_slider_widget = TimeSliderWidget( num_timesteps, updater = self.updater ) 
         self.reload_button = QPushButton( 'Reload' ) 
-        self.load_new_button = QPushButton( 'Load New' ) 
+        self.load_new_button = QPushButton( 'Load New' )
+        
         # self.set_plot_shape_button = QPushButton( 'Set Plot Shape' )
         # self.save_state_button = QPushButton( 'Save State' )
         # self.load_state_button = QPushButton( 'Load State' ) 
 
-        self.index = 0
+        # self.index = 0
         
-        # self.layout.addWidget( self.left_button )
-        # self.layout.addWidget( self.right_button )
-        # self.layout.addWidget( self.index_entry ) 
-        # self.layout.addWidget( self.slider )
         layout.addWidget( self.time_slider_widget ) 
         layout.addWidget( self.reload_button ) 
         layout.addWidget( self.load_new_button ) 

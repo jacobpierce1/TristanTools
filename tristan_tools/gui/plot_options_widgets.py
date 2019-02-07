@@ -5,6 +5,8 @@
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
 from PyQt5.QtCore import Qt 
+from PyQt5.QtGui import QIntValidator
+
 
 import time 
 
@@ -108,8 +110,147 @@ class VolumeSliceOptionsWidget( PlotOptionsWidget ) :
     
 
 
-class Quiver3DOptionsWidget( PlotOptionsWidget ) :
+# class Quiver3DOptionsWidget( PlotOptionsWidget ) :
+
+#     def __init__( self, plotter ) :
+#         super().__init__( plotter, 0 ) 
+
+
+class VectorFieldOptionsWidget( PlotOptionsWidget ) :
 
     def __init__( self, plotter ) :
-        super().__init__( plotter, 0 ) 
-    
+        super().__init__( plotter, 0 )
+
+        layout = self.layout()
+        self.mask_points_entry = QLineEdit()
+        self.mask_points_entry.setValidator( QIntValidator() )
+        self.mask_points_entry.returnPressed.connect( self.set_mask_points ) 
+
+        layout.addRow( 'Mask Points', self.mask_points_entry ) 
+        
+        self.set_current_values() 
+
+
+    def set_current_values( self ) :
+        super().set_current_values()
+        self.mask_points_entry.setText( str( self.plotter.get_mask_points() ) ) 
+
+
+    def set_mask_points( self ) :
+        mask_points = int( self.mask_points_entry.text() )
+        self.plotter.set_mask_points( mask_points ) 
+
+
+
+        
+
+
+class VectorCutPlaneOptionsWidget( PlotOptionsWidget ) : 
+
+    def __init__( self, plotter ) :
+        super().__init__( plotter, 0 )
+        layout = self.layout()
+
+        self.slice_checkboxes = [ QCheckBox() for i in range(3) ]
+        labels = [ s + ' Slice: ' for s in [ 'x', 'y', 'z' ] ]
+
+        for i in range(3) :
+            self.slice_checkboxes[i].clicked.connect( lambda state, a=i : self.set_slice( a ) )
+            layout.addRow( labels[i], self.slice_checkboxes[i] ) 
+
+        self.mask_points_entry = QLineEdit()
+        self.mask_points_entry.setValidator( QIntValidator() )
+        self.mask_points_entry.returnPressed.connect( self.set_mask_points ) 
+
+        layout.addRow( 'Mask Points', self.mask_points_entry ) 
+
+
+        self.set_current_values()
+
+
+        
+    def set_current_values( self ) :
+        super().set_current_values()
+
+        # add slice states 
+        for i in range(3) :
+            slice_active = not not self.plotter.mayavi_plots[i] 
+            self.slice_checkboxes[i].setCheckState( int2checkstate( slice_active ) )
+
+        self.mask_points_entry.setText( str( self.plotter.get_mask_points() ) ) 
+
+
+        
+    def set_mask_points( self ) :
+        mask_points = int( self.mask_points_entry.text() )
+        self.plotter.set_mask_points( mask_points ) 
+
+
+            
+    def set_slice( self, i ) :
+        state = self.slice_checkboxes[i].checkState()
+        if state:
+            self.plotter.add_slice( i )
+        else :
+            self.plotter.remove_slice( i ) 
+        
+
+
+
+
+
+class VolumeOptionsWidget( PlotOptionsWidget ) : 
+
+    def __init__( self, plotter ) :
+        super().__init__( plotter, 0 )
+
+        layout = self.layout()
+
+        labels = [ 'vmin', 'vmax' ]
+        callbacks = [ self.set_vmin, self.set_vmax ] 
+        entries = [] 
+
+        for i in range(2) : 
+            x = QLineEdit()
+            x.setValidator( QIntValidator() )
+            x.returnPressed.connect( callbacks[i] ) 
+            layout.addRow( labels[i], x )
+            entries.append(x) 
+
+        self.vmin_entry, self.vmax_entry = entries 
+            
+        self.set_current_values() 
+
+
+    def set_current_values( self ) :
+        super().set_current_values()
+        # self.mask_points_entry.setText( str( self.plotter.get_mask_points() ) ) 
+
+
+    def set_vmin( self ) :
+        vmin = int( self.vmin_entry.text() )
+        self.plotter.set_vmin( vmin )
+
+        
+    def set_vmax( self ) :
+        vmax = int( self.vmax_entry.text() )
+        self.plotter.set_vmax( vmax ) 
+
+
+
+
+        
+# class VectorCutPlaneOptionsWidget( PlotOptionsWidget ) : 
+
+#     def __init__( self ) :
+#         super().__init__( plotter, 0 )
+#         layout = self.layout() 
+
+#         self.set_current_values()
+
+
+#     def set_current_values( self ) :
+        
+
+#         super().set_current_values()
+        

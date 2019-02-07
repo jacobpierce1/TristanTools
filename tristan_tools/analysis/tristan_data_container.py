@@ -139,15 +139,14 @@ class TristanDataContainer( object ) :
                 print( 'ERROR: file not found: %s' % fname ) 
                 sys.exit(1)
                 
-
-        print( self._keys_at_prefix ) 
+        print( 'INFO: found keys in the following files:' )
+        for key, val in self._keys_at_prefix.items() :
+            print( key + str( ' : ' ) + str( val ) )
 
 
         
     # note that reload is already a built in python funciton
     def load_indices( self, indices = None, prefixes = None, keys = None, _reload = 0 ) :
-
-        print( self._keys_at_prefix ) 
         
         if indices is None :
             indices = np.arange( len( self.data ) ) 
@@ -301,12 +300,11 @@ def idx_to_str( idx ) :
 
 
 
-# get number of timesteps in the directory 
-# note: this will fail if any other files are added to the output directory! 
 def get_num_times( output_path ) :
     # print( os.listdir( output_path ) )
     
-    num_files = len([name for name in os.listdir( output_path )])
-    return num_files // 4 
+    # num_files = len([name for name in os.listdir( output_path )])
+    num_files = len( glob.glob( 'spect.*' ) ) 
+    return num_files
 
                                    

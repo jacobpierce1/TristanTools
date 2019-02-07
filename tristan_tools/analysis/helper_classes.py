@@ -90,16 +90,13 @@ class RecursiveAttrDict( dict ) :
         return self.data.keys()
 
     def __len__( self ) :
-        return len( data )     
-
+        return self.size 
+        
     def __str__( self ) :
         return str( self.data ) 
         
     def __repr__( self ) :
         return str( self ) 
-
-    def __len__( self ) :
-        return len( self.data ) 
 
     def clear( self ) :
         # for key in self.data.keys() :
@@ -108,6 +105,7 @@ class RecursiveAttrDict( dict ) :
         self.size = 0 
 
     def set_size( self, size ) :
+        # print( 'new size: ' + str( size ) ) 
         self.size = size     
 
 

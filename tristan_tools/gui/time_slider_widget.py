@@ -11,11 +11,11 @@ TEXTFIELD_WIDTH_CHARS =  6   # 30 pixels per char
 
 class TimeSliderWidget( QWidget ) :
 
-    def __init__( self, max_time, use_slider = 1, updater = None ) :
+    def __init__( self, num_timesteps, use_slider = 1, updater = None ) :
         super().__init__()
 
         # variables we will track
-        self.max_time = max_time 
+        self.num_timesteps = num_timesteps 
         self.use_slider = use_slider
         self.stride = 1 
         self.timestep = 0
@@ -54,7 +54,7 @@ class TimeSliderWidget( QWidget ) :
             
         if self.use_slider : 
             self.slider = QSlider( QtCore.Qt.Horizontal )
-            self.slider.setMaximum( max_time )
+            self.slider.setMaximum( num_timesteps - 1 )
             self.slider.sliderMoved.connect( self.slider_moved ) 
             self.slider.sliderReleased.connect( self.slider_released ) 
             layout.addWidget( self.slider )
@@ -74,7 +74,7 @@ class TimeSliderWidget( QWidget ) :
         
     def timestep_entry_returnPressed( self ) :
         tmp = int( self.timestep_entry.text() ) 
-        timestep = min( self.max_time, max( 0, tmp ) )
+        timestep = min( self.num_timesteps, max( 0, tmp ) )
             
         self.handle_new_timestep( timestep )
 
@@ -91,27 +91,22 @@ class TimeSliderWidget( QWidget ) :
 
         
     def left_button_clicked( self ) :
-        print( 'left button clicked' ) 
         timestep = max( 0, self.timestep - self.stride ) 
         self.handle_new_timestep( timestep )
         self.update() 
         
         
     def right_button_clicked( self ) :
-        timestep = min( self.max_time, self.timestep + self.stride ) 
+        timestep = min( self.num_timesteps - 1, self.timestep + self.stride ) 
         self.handle_new_timestep( timestep ) 
         self.update()
 
 
     # update both the slider and the timestep_entry 
     def update( self, timestep = None ) :
-
-        print( 'update' ) 
         
         if timestep is None :
             timestep = self.timestep 
-
-        print( 'timestep: ' + str( timestep ) )
             
         self.set_slider( timestep ) 
         self.set_timestep_entry( timestep ) 
@@ -121,9 +116,6 @@ class TimeSliderWidget( QWidget ) :
 
         if timestep is None :
             timestep = self.timestep 
-
-        print( 'set_slider ' ) 
-        print( 'timestep: ' + str( timestep ) )
         
         if self.use_slider :
             self.slider.setValue( timestep )            
@@ -133,19 +125,12 @@ class TimeSliderWidget( QWidget ) :
 
         if timestep is None :
             timestep = self.timestep 
-
-        print( 'set_timestep_entry ' ) 
-        print( 'timestep: ' + str( timestep ) )
         
         self.timestep_entry.setText( str( timestep ) )
             
             
     # do something if the timestep is ever changed
     def handle_new_timestep( self, timestep ) :
-
-        print( 'handling new timestep' )
-        print( 'timestep = ' + str( timestep ) )
-        print( 'self.timestep = ' + str( self.timestep ) )
         
         if timestep != self.timestep :
 

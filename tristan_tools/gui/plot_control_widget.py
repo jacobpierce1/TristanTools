@@ -13,7 +13,10 @@ from PyQt5.QtCore import Qt
 MOVIE_TYPES = [ 'GIF', 'mp4', 'mov' ] 
 
 
-_plot_options_widgets = { 'volume_slice' : VolumeSliceOptionsWidget } 
+_plot_options_widgets = { 'volume_slice' : VolumeSliceOptionsWidget,
+                          'volume' : VolumeOptionsWidget, 
+                          'vector_field' : VectorFieldOptionsWidget,
+                          'vector_cut_plane' : VectorCutPlaneOptionsWidget } 
 
 
 
@@ -39,9 +42,10 @@ class PlotControlWidget( QWidget ) :
         layout.addWidget( reset_button ) 
         layout.addWidget( options_button ) 
         layout.addWidget( actions_button ) 
-        
-        self.time_slider_widget = TimeSliderWidget( len( self.tristan_data_plotter.analyzer ),
-                                                    use_slider = 0 )
+
+        num_times = len( self.tristan_data_plotter.analyzer )
+        self.time_slider_widget = TimeSliderWidget( num_times, use_slider = 0 )
+
         layout.addWidget( self.time_slider_widget ) 
 
         self.setLayout( layout ) 
@@ -73,15 +77,13 @@ class PlotControlWidget( QWidget ) :
 
 
 
-
-
         
         
 class PlotOptionsDialog( QDialog ) :
 
     def __init__( self, tristan_data_plotter ) :
-        super().__init__() 
-
+        super().__init__()
+        
         self.plot_type_changed_status = 0
         
         # disable blocking of the main application
@@ -90,21 +92,16 @@ class PlotOptionsDialog( QDialog ) :
         self.tristan_data_plotter = tristan_data_plotter 
         
         self.plot_type = tristan_data_plotter.plot_type
-        # self.plot_quantity = None
-        # self.plot_options = None
         
         self.setWindowTitle( 'Plot Options' ) 
         
         self.plot_type_combobox = QComboBox()
-        # self.plot_type_combobox.setObjectName( 'test' )
-
-        # for plot_type in PLOT_TYPES :
-        #     self.plot_type_combobox.addItem( plot_type ) 
 
         for key in self.tristan_data_plotter.available_data_dict.keys() :
             self.plot_type_combobox.addItem( key )  
 
-        # activated signal is when the user chooses a new index 
+        # activated signal is when the user selects a new index
+        # but not when the index is changed via a setter 
         self.plot_type_combobox.activated.connect( self.plot_type_changed ) 
             
         self.data_selection_combobox = QComboBox()
@@ -113,8 +110,9 @@ class PlotOptionsDialog( QDialog ) :
 
         print( tristan_data_plotter.analyzer.data.keys() )
 
-        ok_button = QPushButton( 'OK' )         
-        ok_button.clicked.connect( self.ok_button_clicked )
+        # ok_button = QPushButton( 'OK' )         
+        # ok_button.clicked.connect( self.ok_button_clicked )
+
         
         layout = QVBoxLayout() 
         self.setLayout( layout )
@@ -122,17 +120,35 @@ class PlotOptionsDialog( QDialog ) :
         toplayout = QHBoxLayout() 
         toplayout.addWidget( self.plot_type_combobox ) 
         toplayout.addWidget( self.data_selection_combobox ) 
-        toplayout.addWidget( ok_button ) 
+        # toplayout.addWidget( ok_button ) 
         
         layout.addLayout( toplayout )
 
-        # init_data = 
-        plot_options_widget = _plot_options_widgets[ self.plot_type ]( tristan_data_plotter.plotter )
-        layout.addWidget( plot_options_widget ) 
+        self.plot_options_widget = None
+        self.update_plot_options_widget()
+
+        # self.accept() 
+        
+        # init_data =
+        # self.plot_options_widget = None
+        # self.update_plot_options_widget()
+        # layout.addWidget( self.plot_options_widget )
         
 
+    def update_plot_options_widget( self ) :
+        layout = self.layout()
+        if self.plot_options_widget is not None :
+            # self.plot_options_widget.delete()
+            self.plot_options_widget.deleteLater()
+            layout.removeWidget( self.plot_options_widget )
+            del self.plot_options_widget 
+        self.plot_options_widget = _plot_options_widgets[ self.plot_type ]( self.tristan_data_plotter.plotter )
+        layout.addWidget( self.plot_options_widget ) 
+        
+        
         
     def reset_data_selection_combobox( self ) :
+        print( 'resetting data selection' ) 
         self.data_selection_combobox.clear()
         available_data = self.tristan_data_plotter.available_data_dict[ self.plot_type ]
         for i in range( len( available_data ) ) :
@@ -149,7 +165,10 @@ class PlotOptionsDialog( QDialog ) :
         # if the plot type has been changed, then change the plot type and set the new keys
         if self.plot_type_changed_status :
             self.tristan_data_plotter.set_plot_type( self.plot_type, keys ) 
-            self.plot_type_changed_status = 0 
+            self.tristan_data_plotter.refresh()
+            self.update_plot_options_widget() 
+            self.plot_type_changed_status = 0
+            
         
         # otherwise update the data immediately 
         else :
@@ -160,6 +179,7 @@ class PlotOptionsDialog( QDialog ) :
 
 
     def plot_type_changed( self ) :
+        print( 'called plot type changed' ) 
         self.plot_type = self.plot_type_combobox.currentText()
         self.plot_type_changed_status = 1 
         self.reset_data_selection_combobox()
@@ -170,9 +190,11 @@ class PlotOptionsDialog( QDialog ) :
 
         # if self.plot_type_changed_status :
         #     keys = self.tristan_data_plotter.data_name_to_keys_dict[ self.data_name ] 
-        #     self.tristan_data_plotter.set_plot_type( self.plot_type, keys ) 
-        
-        self.close() 
+        #     self.tristan_data_plotter.set_plot_type( self.plot_type, keys )
+        pass 
+        # self.close() 
+
+
 
 
 
@@ -233,6 +255,8 @@ class PlotActionsDialog( QDialog ) :
 
 
 
+
+        
 
 
 # # class for tracking the current plot options and interacting with a plotter to change them. 
