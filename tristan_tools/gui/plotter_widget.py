@@ -52,15 +52,18 @@ class PlotterWidget( QWidget ) :
         for i in range( shape[0] ) :
             for j in range( shape[1] ) : 
 
+                # if (i,j) != (0,0) :
+                #     continue
+                
                 print( (i,j) )
                 print( self.state_handler.plot_types[i,j] )
                 print( self.state_handler.keys[i,j] )
 
-                x = MayaviQWidget( self.analyzer,
-                                   self.state_handler.plot_types[i,j],
-                                   self.state_handler.keys[i,j] )
-                self.mayavi_plots[i,j] = x 
-                layout.addWidget(x, i, j)
+                self.mayavi_plots[i,j] = MayaviQWidget( self.analyzer,
+                                                        self.state_handler.plot_types[i,j],
+                                                        self.state_handler.keys[i,j] )
+            
+                layout.addWidget( self.mayavi_plots[i,j], i, j)
                 
         self.setLayout( layout )         
 

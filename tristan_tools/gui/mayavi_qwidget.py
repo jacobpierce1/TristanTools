@@ -88,6 +88,8 @@ class MayaviQWidget( QWidget ) : # QtGui.QWidget ):
             self.analyzer, plot_type = plot_type, keys = keys,
             mayavi_scene = self.visualization.scene.mayavi_scene ) 
 
+        print( 'mayavi scene: ', self.visualization.scene.mayavi_scene ) 
+        
         self.visualization.tristan_data_plotter = self.tristan_data_plotter
 
         # print( 'in MayaviQWidget. indices are loaded: '

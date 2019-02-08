@@ -42,8 +42,7 @@ class VectorCutPlanePlotter( Plotter ) :
                 self.add_slice( i )
 
                 # if not colorbar_added :
-                #     mlab.vectorbar( self.mayavi_plots[i], orientation = 'vertical',
-                #                     figure = self.mayavi_scene )
+                #     mlab.vectorbar( self.mayavi_plots[i], orientation = 'vertical'  )
                 #     colorbar_added = 1 
         
         self.set_orientation_axes( 1 )
@@ -60,7 +59,6 @@ class VectorCutPlanePlotter( Plotter ) :
         
     # axis can be 0, 1, or 2 
     def add_slice( self, axis ) :
-        return
         
         # do nothing if axis already created. 
         if self.mayavi_plots[ axis ] :
@@ -72,7 +70,7 @@ class VectorCutPlanePlotter( Plotter ) :
             print( 'ERROR: axis must be 0, 1, or 2' )
             sys.exit(1)
 
-        source = mlab.pipeline.vector_field( * self.data )
+        source = mlab.pipeline.vector_field( * self.data, figure = self.mayavi_scene )
         
         self.mayavi_plots[ axis ] = mlab.pipeline.vector_cut_plane(
             source, plane_orientation = tmp,
