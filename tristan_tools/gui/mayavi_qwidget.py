@@ -81,7 +81,7 @@ class MayaviQWidget( QWidget ) : # QtGui.QWidget ):
 
         # The edit_traits call will generate the widget to embed.
         self.ui = self.visualization.edit_traits( parent = self,
-                                                  handler = DisableToolbarHandler(), # ,
+                                                  # handler = DisableToolbarHandler(), # ,
                                                   kind='subpanel').control
 
         self.tristan_data_plotter = TristanDataPlotter(
