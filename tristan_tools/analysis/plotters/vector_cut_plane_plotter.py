@@ -74,7 +74,7 @@ class VectorCutPlanePlotter( Plotter ) :
         
         self.mayavi_plots[ axis ] = mlab.pipeline.vector_cut_plane(
             source, plane_orientation = tmp,
-            scale_mode = 'none',
+            # scale_mode = 'none',
             figure = self.mayavi_scene )# ,
             # slice_index = self.data[0].shape[ axis ] / 2 ) 
             # mask_points = self.mask_points )
