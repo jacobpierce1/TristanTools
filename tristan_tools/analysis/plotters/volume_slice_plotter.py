@@ -23,6 +23,10 @@ class VolumeSlicePlotter( Plotter ) :
         # set defaults here 
         self.slices_to_add = [ 1, 0, 0 ] 
 
+        # startup if possible 
+        if self.data is not None :
+            self.startup()
+            
         # add default slices if possible. only works if data already is loaded,
         # which means that this only goes through if reset is called 
         # for i in range( 3 ) :
@@ -40,9 +44,11 @@ class VolumeSlicePlotter( Plotter ) :
             if self.slices_to_add[i] :
                 self.add_slice( i )
 
-                if not colorbar_added :
-                    mlab.colorbar( self.mayavi_plots[i], orientation = 'vertical' )
-                    colorbar_added = 1 
+                # if not colorbar_added :
+                #     mlab.colorbar( self.mayavi_plots[i], orientation = 'vertical',
+                #                    figure = self.mayavi_scene 
+                # )
+                # colorbar_added = 1 
         
         self.set_orientation_axes( 1 )
         self.set_outline( 1 )

@@ -1,6 +1,6 @@
 
 # dimensions of the gui main window in pixels 
-WINDOW_WIDTH = 600
+WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 600 
 
 # number of rows and cols in the array of plots

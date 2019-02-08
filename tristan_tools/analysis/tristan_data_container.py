@@ -178,7 +178,7 @@ class TristanDataContainer( object ) :
                         for key in _keys :
                             if _reload or ( self.data[key][idx] is None ) : 
                                 # print( 'set data: %s %d' % (key, idx ) ) 
-                                self.data[ key ][ idx ] = f[ key ][:] 
+                                self.data[ key ][ idx ] = f[ key ][:].T 
                                 
                 except OSError :
                     print( 'ERROR: file not found: %s' % fname ) 

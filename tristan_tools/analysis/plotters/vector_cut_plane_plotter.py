@@ -23,11 +23,10 @@ class VectorCutPlanePlotter( Plotter ) :
         # set defaults here 
         self.slices_to_add = [ 1, 0, 0 ] 
 
-        # add default slices if possible. only works if data already is loaded,
-        # which means that this only goes through if reset is called 
-        # for i in range( 3 ) :
-        #     if self.slices_to_add[i] :
-        #         self.add_slice( i )
+        # startup if possible 
+        if self.data is not None :
+            self.startup()
+            
 
 
                 
@@ -42,9 +41,10 @@ class VectorCutPlanePlotter( Plotter ) :
             if self.slices_to_add[i] :
                 self.add_slice( i )
 
-                if not colorbar_added :
-                    mlab.vectorbar( self.mayavi_plots[i], orientation = 'vertical' )
-                    colorbar_added = 1 
+                # if not colorbar_added :
+                #     mlab.vectorbar( self.mayavi_plots[i], orientation = 'vertical',
+                #                     figure = self.mayavi_scene )
+                #     colorbar_added = 1 
         
         self.set_orientation_axes( 1 )
         self.set_outline( 1 )
@@ -60,6 +60,7 @@ class VectorCutPlanePlotter( Plotter ) :
         
     # axis can be 0, 1, or 2 
     def add_slice( self, axis ) :
+        return
         
         # do nothing if axis already created. 
         if self.mayavi_plots[ axis ] :
@@ -74,12 +75,15 @@ class VectorCutPlanePlotter( Plotter ) :
         source = mlab.pipeline.vector_field( * self.data )
         
         self.mayavi_plots[ axis ] = mlab.pipeline.vector_cut_plane(
-            source, plane_orientation = tmp )# ,
+            source, plane_orientation = tmp,
+            scale_mode = 'none',
+            figure = self.mayavi_scene )# ,
             # slice_index = self.data[0].shape[ axis ] / 2 ) 
             # mask_points = self.mask_points )
 
         self.mayavi_plots[ axis ].glyph.trait_set( mask_input_points = True ) 
-        self.mayavi_plots[ axis ].glyph.mask_points.trait_set( on_ratio = self.mask_points, random_mode = False )
+        self.mayavi_plots[ axis ].glyph.mask_points.trait_set( on_ratio = self.mask_points,
+                                                               random_mode = False )
 
         
     def remove_slice( self, axis ) :
@@ -95,6 +99,10 @@ class VectorCutPlanePlotter( Plotter ) :
                 plot.glyph.mask_points.trait_set( on_ratio = mask_points )
         
 
+    def set_scale_factor( self, scale_factor ) :
+        print_info( self.mayavi_plots[0].glyph ) 
+        
+                
     # return mask points of the first active plot. note that they all have the
     # same mask points.
     def get_mask_points( self ) :
@@ -130,4 +138,15 @@ class VectorCutPlanePlotter( Plotter ) :
     def decode( cls, self ) :
         return 
 
-    
+
+        
+from pprint import pprint
+        
+def print_info( obj ) :
+    pprint( vars( obj ) )
+    print() 
+    pprint( dir( obj ) )
+    print() 
+    pprint( obj.trait_names() )
+    print() 
+            

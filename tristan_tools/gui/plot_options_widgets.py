@@ -158,12 +158,19 @@ class VectorCutPlaneOptionsWidget( PlotOptionsWidget ) :
             self.slice_checkboxes[i].clicked.connect( lambda state, a=i : self.set_slice( a ) )
             layout.addRow( labels[i], self.slice_checkboxes[i] ) 
 
-        self.mask_points_entry = QLineEdit()
-        self.mask_points_entry.setValidator( QIntValidator() )
-        self.mask_points_entry.returnPressed.connect( self.set_mask_points ) 
 
-        layout.addRow( 'Mask Points', self.mask_points_entry ) 
-
+        # text entries
+        entries = []
+        callbacks = [ self.set_mask_points, self.set_scale_factor ]
+        descriptions = [ 'Mask points', 'Scale factor' ]
+        for i in range(2) : 
+            x = QLineEdit()
+            x.setValidator( QIntValidator() )
+            x.returnPressed.connect( callbacks[i] ) 
+            layout.addRow( descriptions[i], x ) 
+            entries.append(x) 
+            
+        self.mask_points_entry, self.scale_factor_entry = entries 
 
         self.set_current_values()
 
@@ -185,6 +192,10 @@ class VectorCutPlaneOptionsWidget( PlotOptionsWidget ) :
         mask_points = int( self.mask_points_entry.text() )
         self.plotter.set_mask_points( mask_points ) 
 
+
+    def set_scale_factor( self ) :
+        scale_factor = int( self.scale_factor_entry.text() )
+        self.plotter.set_scale_factor( scale_factor ) 
 
             
     def set_slice( self, i ) :

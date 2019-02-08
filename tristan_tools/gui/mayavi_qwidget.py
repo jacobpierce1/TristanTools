@@ -69,7 +69,7 @@ class MayaviQWidget( QWidget ) : # QtGui.QWidget ):
 
         self.analyzer = tristan_data_analyzer
         
-        layout = QVBoxLayout(self)
+        layout = QVBoxLayout()
         layout.setContentsMargins(0,0,0,0)
         layout.setSpacing(0)
 
@@ -80,24 +80,25 @@ class MayaviQWidget( QWidget ) : # QtGui.QWidget ):
         self.visualization = Visualization()
 
         # The edit_traits call will generate the widget to embed.
-        self.ui = self.visualization.edit_traits( handler = DisableToolbarHandler(), # ,
+        self.ui = self.visualization.edit_traits( parent = self,
+                                                  handler = DisableToolbarHandler(), # ,
                                                   kind='subpanel').control
 
-        self.tristan_data_plotter = TristanDataPlotter( self.analyzer, plot_type = plot_type, keys = keys,
-                                                        mayavi_scene = self.visualization.scene.mayavi_scene ) 
+        self.tristan_data_plotter = TristanDataPlotter(
+            self.analyzer, plot_type = plot_type, keys = keys,
+            mayavi_scene = self.visualization.scene.mayavi_scene ) 
 
         self.visualization.tristan_data_plotter = self.tristan_data_plotter
 
         # print( 'in MayaviQWidget. indices are loaded: '
         #        + str( self.visualization.tristan_data_plotter.analyzer.indices_with_data )  )
-
-        
         self.ui.setParent(self)
         layout.addWidget(self.ui)
         
         self.plot_controller = PlotControlWidget( self.tristan_data_plotter )
         layout.addWidget( self.plot_controller )
 
+        self.setLayout( layout ) 
         
         self.set_title() 
         

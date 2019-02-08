@@ -23,7 +23,7 @@ class StateHandler( object ) :
 
         # self.load_state( DEFAULT_STATE_NAME ) 
 
-        self.shape = ( 1, 1 ) 
+        self.shape = ( 1, 2 ) 
         # self.shape = (1,1)
         
         self.data_load_policy = LoadPolicy.LOAD_ALL 
@@ -32,7 +32,7 @@ class StateHandler( object ) :
                                   [ 'bx', 'by', 'bz' ],
                                   [ 'ex', 'ey', 'ez' ] ] ] ) 
 
-        self.plot_types = np.array( [ [ 'volume_slice', 'quiver3d', 'quiver3d' ] ] ) 
+        self.plot_types = np.array( [ [ 'volume_slice', 'vector_cut_plane', 'quiver3d' ] ] ) 
 
         # self.plot_data = [ [ 'dens' ],
         #                    [ 'bx', 'by', 'bz' ],

@@ -37,7 +37,9 @@ class MayaviQWidget(QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
         self.visualization = Visualization()
-        self.ui = self.visualization.edit_traits(handler=DisableToolbarHandler(), kind='subpanel').control
+        self.ui = self.visualization.edit_traits( parent = self,  # uncomment -> works 
+                                                  handler=DisableToolbarHandler(),
+                                                  kind='subpanel').control
         layout.addWidget(self.ui)
         self.ui.setParent(self)
 

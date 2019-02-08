@@ -47,12 +47,19 @@ class PlotterWidget( QWidget ) :
         # add array of mayavi plots 
 
         shape = self.state_handler.shape
-        for i in range( shape[0] ):
-            for j in range( shape[1] ):
+        # for i in reversed( range( shape[0] ) ):
+        #     for j in reversed( range( shape[1]  ) ):
+        for i in range( shape[0] ) :
+            for j in range( shape[1] ) : 
+
+                print( (i,j) )
+                print( self.state_handler.plot_types[i,j] )
+                print( self.state_handler.keys[i,j] )
+
                 x = MayaviQWidget( self.analyzer,
                                    self.state_handler.plot_types[i,j],
                                    self.state_handler.keys[i,j] )
-                self.mayavi_plots[i][j] = x 
+                self.mayavi_plots[i,j] = x 
                 layout.addWidget(x, i, j)
                 
         self.setLayout( layout )         
@@ -65,7 +72,11 @@ class PlotterWidget( QWidget ) :
 
     # update all plots 
     def update( self, timestep ) :
+        print( 'in update' ) 
         shape = self.state_handler.shape 
         for i in range( shape[0] ) :
             for j in range( shape[1] ) :
+                print( (i,j) )
+                print( self.mayavi_plots[i,j].tristan_data_plotter.keys )
+                print( self.mayavi_plots[i,j].tristan_data_plotter.plot_type )
                 self.mayavi_plots[i,j].update( timestep ) 
