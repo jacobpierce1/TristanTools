@@ -80,7 +80,7 @@ class MayaviQWidget( QWidget ) : # QtGui.QWidget ):
         self.visualization = Visualization()
 
         # The edit_traits call will generate the widget to embed.
-        self.ui = self.visualization.edit_traits( parent = None,
+        self.ui = self.visualization.edit_traits( parent = self,
                                                   handler = DisableToolbarHandler(), # ,
                                                   kind='subpanel').control
 
@@ -94,7 +94,7 @@ class MayaviQWidget( QWidget ) : # QtGui.QWidget ):
 
         # print( 'in MayaviQWidget. indices are loaded: '
         #        + str( self.visualization.tristan_data_plotter.analyzer.indices_with_data )  )
-        self.ui.setParent( self )
+        # self.ui.setParent( self )
         layout.addWidget( self.ui )
         
         self.plot_controller = PlotControlWidget( self.tristan_data_plotter )
