@@ -41,12 +41,22 @@ class VectorCutPlanePlotter( Plotter ) :
             if self.slices_to_add[i] :
                 self.add_slice( i )
 
-                # if not colorbar_added :
-                #     mlab.vectorbar( self.mayavi_plots[i], orientation = 'vertical'  )
-                #     colorbar_added = 1 
+                if not colorbar_added :
+                    # tmp = mlab.vectorbar( self.mayavi_plots[i], orientation = 'vertical'  )
+                    # tmp.remove()
+
+                    # self.colorbar = mlab.vectorbar( self.mayavi_plots[i], orientation = 'vertical'  )
+                    # self.colorbar = mlab.vectorbar( self.mayavi_plots[i], orientation = 'vertical'  )
+                    # self.colorbar = mlab.vectorbar( self.mayavi_plots[i], orientation = 'vertical'  )
+                    
+                    # self.colorbar = mlab.vectorbar() #  self.mayavi_scene, orientation = 'vertical'  )
+
+                    # self.colorbar.remove() 
+                    colorbar_added = 1 
         
         self.set_orientation_axes( 1 )
         self.set_outline( 1 )
+        mlab.vectorbar()
         self.needs_startup =  0 
       
         

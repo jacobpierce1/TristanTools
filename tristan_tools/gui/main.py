@@ -113,7 +113,13 @@ class App( QWidget ) :
         self.analyzer = gui_config.analyzer( data_path ) 
 
         if self.state_handler.data_load_policy == LoadPolicy.LOAD_ALL :
-            self.analyzer.load_indices() 
+
+            if gui_config.DEVELOPER_MODE :
+                indices = range(10)
+            else :
+                indices = None
+            
+            self.analyzer.load_indices( indices ) 
 
         # print( 'in main. indices are loaded: ' + str( self.analyzer.indices_with_data )  )
 

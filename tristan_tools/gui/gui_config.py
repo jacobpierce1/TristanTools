@@ -1,7 +1,10 @@
 
+
+DEVELOPER_MODE = 1
+
 # dimensions of the gui main window in pixels 
-WINDOW_WIDTH = 800
-WINDOW_HEIGHT = 600 
+WINDOW_WIDTH = 1200
+WINDOW_HEIGHT = 1000 
 
 # number of rows and cols in the array of plots
 NUM_PLOT_ROWS = 1
