@@ -24,16 +24,20 @@ from collections import OrderedDict
 DATA_NAME_TO_KEYS_DICT = OrderedDict( [
     ( 'B', [ 'bx', 'by', 'bz' ] ),
     ( 'E', [ 'ex', 'ey', 'ez' ] ),
-    ( 'J', [ 'jx', 'jy', 'jz' ] )
+    ( 'J', [ 'jx', 'jy', 'jz' ] ),
+    ( 'V3', [ 'v3x', 'v3y', 'v3z' ] ),
+    ( 'V3i', [ 'v3xi', 'v3yi', 'v3zi' ] )
 ] ) 
 
 ALL_SCALARS = [ 'dens', 'densi',
                 'bx', 'by', 'bz',
                 'ex', 'ey', 'ez',
-                'jx', 'jy', 'jz' ] 
-                # 'v3x', 'v3y', 'v3z' ] 
+                'jx', 'jy', 'jz',
+                'v3x', 'v3y', 'v3z',
+                'v3xi', 'v3y', 'v3zi',
+                'EE', 'BB', 'JJ' ] 
 
-ALL_VECTORS = [ 'E', 'B', 'J' ] # , 'V' ]
+ALL_VECTORS = [ 'E', 'B', 'J', 'V3', 'V3i' ] 
 
 
 # these are implemented in the directory plotters 

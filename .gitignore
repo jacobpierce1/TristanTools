@@ -2,5 +2,4 @@
 *#
 *.pyc
 *.egg-info
-*test_data
 *.DS_Store

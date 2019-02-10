@@ -7,21 +7,46 @@
 
 
 import numpy as np
+import sys
+import os
+import h5py
+
+
 
 from .tristan_data_container import TristanDataContainer
-from .helper_classes import AttrDict, RecursiveAttrDict
+# from .helper_classes import AttrDict, RecursiveAttrDict
+
+
+
 
 
 class TristanDataAnalyzer( TristanDataContainer ) :
     
-    def __init__( self, data_path = None ) :
+    def __init__( self, data_path = None, computations_path = None, spectra_nbins = 1000 ) :
 
         # store all computed quantities 
-        self.computations = None 
+        # self.computations = None 
 
         # call __init__ from TristanDataContainer 
         super().__init__( data_path )
-        
+
+        if computations_path is None :
+            computations_path = self.data_path + '../computations/'
+
+        self.computations_path = computations_path 
+
+        if os.path.exists( computations_path ) :
+            print( 'INFO: found computations directory: ' + computations_path ) 
+
+        else : 
+            try : 
+                print( 'INFO: creating computations directory: ' + computations_path )
+                os.makedirs( self.computations_path, exist_ok = 1 )
+
+            except OSError : 
+                print( 'ERROR: unable to create computations directory: %s' % self.computations_path )
+                sys.exit( 1 ) 
+                
         # dictionary containing the function to be called to compute
         # the given quantity. each key maps to a function which takes one
         # argument, the index, which computes the quantity from available
@@ -32,13 +57,16 @@ class TristanDataAnalyzer( TristanDataContainer ) :
         # work with the new key and function if you request the data to be
         # computed. the default values here are not hard-coded anywhere.
         # better yet, i would recommend subclassing the TristanDataAnalyzer
-        # (e.g. class TristanShockAnalyzer( TristanDataAnalyzer ) and implement
-        # the functions there.
-        self.computation_dict = { 'BB' : self.compute_BB,
-                                  'EE' : self.compute_EE,
-                                  'JJ' : self.compute_JJ,
-                                  'ExB' : self.compute_ExB }
+        # (e.g. class TristanShockAnalyzer( TristanDataAnalyzer ) or
+        # class JetAnalyzer( Analyzer ) and implement specific functions there.
+        self.computation_callbacks = { 'BB' : self.compute_BB,
+                                       'EE' : self.compute_EE,
+                                       'JJ' : self.compute_JJ,
+                                       'ExB' : self.compute_ExB } 
+                                       # 'momenta_spectra' : self.compute_momentum_spectra }
 
+        self.computation_keys = set( self.computation_callbacks.keys() )
+        
         
         # return the requiremnents for each computation:
         # first the quantities required, then the indices. this is crucial
@@ -52,30 +80,42 @@ class TristanDataAnalyzer( TristanDataContainer ) :
             'BB' : lambda x : ( [x], [ 'bx', 'by', 'bz' ] ),
             'EE' : lambda x : ( [x], [ 'ex', 'ey', 'ez' ] )
         }
-        
-        
-        # put empty values in the computations RecursiveAttrDict 
-        self.computations = RecursiveAttrDict.empty( self.computation_dict.keys(),
-                                                     len( self.data ) ) 
 
+        
+        # we store all computations in the same RecursiveAttrDict as created in the parent
+        # TristanDataContainer.
+        for key in self.computation_keys :
+            self.data[ key ] = None
+        
         
         # this dict is accessed by the GUI to print the available quantities
         # in latex. ignore if using TristanDataAnalyzer for offline analysis.
         # make sure to append to this dict any new quantities you make if
         # you want to be able to visualize them in the GUI.
-        self.computation_key_dict = { 'BB' : r'$|B|^2$',
-                                      'EE' : r'$|E|^2$',
-                                      'JJ' : r'$|J|^2$',
-                                      'ExB' : r'$E\times B$' } 
+        self.computation_key_descriptions_dict = { 'BB' : r'$|B|^2$',
+                                                   'EE' : r'$|E|^2$',
+                                                   'JJ' : r'$|J|^2$',
+                                                   'ExB' : r'$E\times B$' } 
+
+    # def clear( self ) :
+            
+    #     # call clear method from TristanDataContainer 
+    #     super().clear()
+        
+
+
+
+    def get_computations_file( self, idx ) :
+        return ( self.computations_path + 'computations.%d' % idx )
 
         
     # analagous to the data-loading implementation of TristanDataContainer.
     # here we can compute quantities at given indices and keys instead of all.
     # if recompute is not 0, then the key will be computed even if already loaded.
-    def compute_indices( self, indices = None, keys = None, recompute = 0 ) :
+    def compute_indices( self, indices = None, keys = None, recompute = 0, save = 1 ) :
 
         if indices is None :
-            indices = np.arange( len( self.computations ) )
+            indices = np.arange( len( self ) )
             
         # check scalar 
         if not hasattr( indices, '__len__' ) :
@@ -83,77 +123,179 @@ class TristanDataAnalyzer( TristanDataContainer ) :
         
         # default: compute everything. not recommended. 
         if keys is None :
-            keys = self.computation_dict.keys()
-
-        for idx in indices :
-            # don't compute if already computed, else compute 
-            for key in keys :
-                if ( not recompute ) and self.computations[ key ][ idx ] :
-                    continue
-                self.computation_dict[ key ]( idx ) 
-
-
-    # unload data
-    # indices = None -> unload all indices 
-    # keys = None -> unload all keys 
-    def uncompute_indices( self, indices = None, keys = None ) : 
-
-        if indices is None :
-            indices = np.arange( len( self.computations ) ) 
+            _keys = self.computation_keys
+        else :
+            _keys = self.computation_keys & set( keys ) 
         
-        # check scalar 
-        if not hasattr( indices, '__len__' ) :
-            indices = [ indices ] 
-        
-        # default: compute everything. not recommended. 
-        if keys is None :
-            keys = self.computation_dict.keys()
-
         for idx in indices :
-            for key in keys :
-                self.computations[ idx ][ key ] = None
+            
+            # we need access to the file if we are either saving or loading from memory.
+            if ( not recompute ) or save : 
+        
+                # append mode: Read/write if exists, create otherwise (default)
+                with h5py.File( self.get_computations_file( idx ), 'a' ) as f : 
+
+                    # keys that are already in the dataset
+                    existing_keys = set( f.keys() )
+                    # print( 'existing keys: ' + str( existing_keys ) )
+                    
+                    if not recompute : 
+                        keys_to_compute = _keys - existing_keys  
+                        
+
+                        for key in existing_keys :
+                            self.data[ key ][ idx ] = np.array( f[ key ] ) 
+
+                    # otherwise declare that no keys have been computed
+                    else :
+                        keys_to_compute = _keys
+
+                    # print( 'keys_to_compute: ' + str( keys_to_compute ) ) 
+                        
+                    # compute keys that were not in the file, then write them. 
+                    for key in keys_to_compute :
+                        self.computation_callbacks[ key ]( idx ) 
+
+                        if save :
+                            # print( 'saving key' ) 
+                            tmp_data = self.data[ key ][ idx ]
+
+                            # print( key )
+                            # print( tmp_data ) 
+                            
+                            # the dataset did not exist before, hence why it wasnt in the keys
+                            # thus create it and insert the data. 
+                            if key not in existing_keys : 
+                                f.create_dataset( key, data = tmp_data )
+
+                            # otherwise overwrite the existing key.
+                            else :
+                                dset = f[ key ]
+                                dset[ ... ] = tmp_data
+                            
+            # if recomputing and not saving: just go ahead and compute everything. 
+            else :
+                for key in _keys :             
+                    self.computation_callbacks[ key ]( idx )  
 
                 
+
+                
+    # # unload data
+    # # indices = None -> unload all indices 
+    # # keys = None -> unload all keys 
+    # def uncompute_indices( self, indices = None, keys = None ) : 
+
+    #     _indices = indices 
+    #     _keys = keys 
+        
+    #     if _indices is None :
+    #         _indices = np.arange( len( self ) ) 
+        
+    #     # check scalar 
+    #     if not hasattr( _indices, '__len__' ) :
+    #         _indices = [ _indices ] 
+        
+    #     # default: compute everything. not recommended. 
+    #     if _keys is None :
+    #         _keys = self.computation_dict.keys()
+
+    #     for idx in _indices :
+    #         for key in _keys :
+    #             self.computations[ idx ][ key ] = None
+
+
+                
+
+    # # reimplement unload_indices: option to save data first.
+    # def unload_indices( self, indices = None, keys = None ) :
+
+    #     # call the parent unload. note that all the keys will be removed, both
+    #     # computations and simulation data, since they are both stored in self.data
+    #     super().unload_indices( indices = _indices, keys = keys ) 
+
+        
 
     ######################################################3
     # ANALYSIS FUNCTIONS
 
+    # def compute_BB( self, idx ) :
+    #     self.computations.BB[ idx ] = vector_norm_squared( [ self.data.bx[idx],
+    #                                                          self.data.by[idx],
+    #                                                          self.data.bz[idx] ] ) 
+
+        
+    # def compute_EE( self, idx ) :
+    #     self.computations.EE[ idx ] = vector_norm_squared( [ self.data.ex[idx],
+    #                                                          self.data.ey[idx],
+    #                                                          self.data.ez[idx] ] ) 
+
+        
+    # def compute_JJ( self, idx ) :
+    #     self.computations.JJ[ idx ] = vector_norm_squared( [ self.data.jx[idx],
+    #                                                          self.data.jy[idx],
+    #                                                          self.data.jz[idx] ] ) 
+
+
     def compute_BB( self, idx ) :
-        self.computations.BB[ idx ] = vector_norm_squared( [ self.data.bx[idx],
-                                                             self.data.by[idx],
-                                                             self.data.bz[idx] ] ) 
+        return self._compute_norm_squared( 'BB', [ 'bx', 'by', 'bz' ], idx )
 
-        
-    def compute_EE( self, idx ) :
-        self.computations.EE[ idx ] = vector_norm_squared( [ self.data.ex[idx],
-                                                             self.data.ey[idx],
-                                                             self.data.ez[idx] ] ) 
-
-        
-    def compute_JJ( self, idx ) :
-        self.computations.JJ[ idx ] = vector_norm_squared( [ self.data.jx[idx],
-                                                             self.data.jy[idx],
-                                                             self.data.jz[idx] ] ) 
-
-    def compute_ExB( self, idx ) :
-        pass     
-        
-
-    def clear( self ) :
-
-        # call clear method from TristanDataContainer 
-        super().clear()
-        
-        if self.computations : 
-            self.computations.clear() 
     
+    def compute_EE( self, idx ) :
+        return self._compute_norm_squared( 'EE', [ 'ex', 'ey', 'ez' ], idx )
+
+    
+    def compute_JJ( self, idx ) :
+        return self._compute_norm_squared( 'JJ', [ 'jx', 'jy', 'jz' ], idx )
+
+    
+    # helper function for EE, BB, JJ
+    def _compute_norm_squared( self, data_name, keys, idx ) :
+        x = np.zeros( self.data[ keys[0] ][idx].shape )
+        for key in keys :
+            x += self.data[ key ][ idx ] ** 2 
+
+        self.data[ data_name ][idx ]  = x
 
             
-# compute squared vector norm of vector field formed with components
-# given in the list components (e.g. components = [ np.array(32,32), np.array(32,32) ] )
-# see compute_BB e.g. for example 
-def vector_norm_squared( components ) : 
-    return np.sum( [ x**2 for x in components ], axis = 0 )
+    def compute_ExB( self, idx ) :
+
+        # print( 'computing ExB' )
+        
+        E = [ self.data[ key ][ idx ] for key in [ 'ex', 'ey', 'ez' ] ]
+        B = [ self.data[ key ][ idx ] for key in [ 'bx', 'by', 'bz' ] ]
+        
+        tmp  = np.cross( E, B, axis = 0 ) 
+        # print( 'cross product shape: ' + str(  tmp.shape ) )
+        self.data[ 'ExB' ][ idx ] = tmp
+
+
+
+    # compute global momentum spectra 
+    def compute_momentum_spectra( self, idx, alternate_name = None, boundaries = None ) :
+
+        # keys = [ 'momentum_spectrum_e', 'momentum_spectrum_i' ] 
+
+        # momenta = [ [
+        
+        # for i in range(2) :
+        pass
+
+        # return keys
+
+
+    
+    def rebin_hist( self, hist, new_dim ) :
+        
+        pass 
+        
+                
+            
+# # compute squared vector norm of vector field formed with components
+# # given in the list components (e.g. components = [ np.array(32,32), np.array(32,32) ] )
+# # see compute_BB e.g. for example 
+# def vector_norm_squared( components ) : 
+#     return np.sum( [ x**2 for x in components ], axis = 0 )
 
 
 

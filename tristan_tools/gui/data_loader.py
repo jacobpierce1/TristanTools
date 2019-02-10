@@ -118,13 +118,6 @@ class DataLoader( object ) :
 
 
 
-
-    # def load_timestep( self, timestep  ) :
-
-    #     self.timesteps_being_loaded.add( timestep ) 
-    #     # threading.Thread( target = self.load_timestep_target, args = ( timestep ) ) 
-
-        
         
     def load_timestep_target( self ) :
 
@@ -145,7 +138,8 @@ class DataLoader( object ) :
                     print( 'loading timestep: ' + str( timestep ) ) 
 
                 self.tristan_data_analyzer.load_indices( timestep ) 
-
+                self.tristan_data_analyzer.compute_indices( timestep ) 
+                
                 # update the status. only one thread can update the variables at a time.  
                 with self.lock :
                     self.timesteps_loaded.add( timestep )

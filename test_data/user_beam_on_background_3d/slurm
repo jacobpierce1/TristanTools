@@ -1,0 +1,16 @@
+#!/bin/bash
+#SBATCH --time=5
+#SBATCH --partition=astroplasmas
+#SBATCH --ntasks=4
+#SBATCH --job-name=pic_jets
+#SBATCH --output=pic_jets.out 
+#SBATCH --error=pic_jets.err
+#SBATCH --ntasks-per-node=1
+
+#Submit this with sbatch file.name
+
+# Note: you need the excecuitable which for me (colby) can be 
+# found here: ~/tristan-mp-pu/exec/tristan-mp2d
+# and the input file: ~/tristan-mp-pu/user_colby/input.jet
+
+mpirun ./tristan-mp3d-user_beam_on_background-2 > out

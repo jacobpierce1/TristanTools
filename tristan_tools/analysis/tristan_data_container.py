@@ -144,7 +144,7 @@ class TristanDataContainer( object ) :
                 
         print( 'INFO: found keys in the following files:' )
         for key, val in self._keys_at_prefix.items() :
-            print( key + str( ' : ' ) + str( val ) )
+            print( '\t\t' + key + str( ' : ' ) + str( val ) )
 
 
         
@@ -258,11 +258,11 @@ class TristanDataContainer( object ) :
         
     def print_keys( self ) :
         print( '***** PARAMS KEYS ***** ' )
-        for key in self.params.keys() :
+        for key in sorted( self.params.keys() ) :
             print( key )
             
         print( '\n\n***** DATA KEYS ***** ' )
-        for key in self.data.keys() :
+        for key in sorted( self.data.keys() ) :
             print( key ) 
 
             
@@ -271,7 +271,7 @@ class TristanDataContainer( object ) :
     def print_shapes( self, idx ) :
         
         print( '***** PARAMS KEYS ***** ' )
-        for key in self.params.keys() :
+        for key in sorted( self.params.keys() ) :
             try :
                 shape = self.params[key].shape
                 print( str( key ) + ': ' + str( shape )  )
@@ -279,7 +279,7 @@ class TristanDataContainer( object ) :
                 print( str( key ) + ': scalar' )
                 
         print( '\n\n***** DATA KEYS ***** ' )
-        for key in self.data.keys() :
+        for key in sorted( self.data.keys() ) : 
             try :
                 shape = self.data[key][idx].shape
                 print( str( key ) + ': ' + str( shape ) )

@@ -1,0 +1,79 @@
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-midway2-0573: error: *** STEP 56014510.0 ON midway2-0573 CANCELLED AT 2019-01-08T21:05:27 DUE TO TIME LIMIT ***
+slurmstepd-midway2-0573: error: *** JOB 56014510 ON midway2-0573 CANCELLED AT 2019-01-08T21:05:27 DUE TO TIME LIMIT ***
+forrtl: error (78): process killed (SIGTERM)
+Image              PC                Routine            Line        Source             
+tristan-mp3d-user  000000000089A5A5  Unknown               Unknown  Unknown
+tristan-mp3d-user  00000000008981C7  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000084E934  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000084E746  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000803F86  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000807B4E  Unknown               Unknown  Unknown
+libpthread.so.0    00007F93E67A2680  Unknown               Unknown  Unknown
+libc.so.6          00007F93E64A99D7  Unknown               Unknown  Unknown
+libmpi.so.12       00007F93E6CD0105  Unknown               Unknown  Unknown
+libmpi.so.12       00007F93E6DDBE39  Unknown               Unknown  Unknown
+libmpi.so.12       00007F93E6DDBB32  Unknown               Unknown  Unknown
+libmpi.so.12       00007F93E6CB52F9  Unknown               Unknown  Unknown
+libmpi.so.12       00007F93E6CB4D5D  Unknown               Unknown  Unknown
+libmpi.so.12       00007F93E6CB4BDC  Unknown               Unknown  Unknown
+libmpi.so.12       00007F93E6CB4B0C  Unknown               Unknown  Unknown
+libmpi.so.12       00007F93E6CB6932  Unknown               Unknown  Unknown
+libmpifort.so.12   00007F93E73DBB1C  Unknown               Unknown  Unknown
+tristan-mp3d-user  00000000005479BB  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000548B4E  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000040585E  Unknown               Unknown  Unknown
+libc.so.6          00007F93E63E83D5  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000405769  Unknown               Unknown  Unknown
+forrtl: error (78): process killed (SIGTERM)
+Image              PC                Routine            Line        Source             
+tristan-mp3d-user  000000000089A5A5  Unknown               Unknown  Unknown
+tristan-mp3d-user  00000000008981C7  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000084E934  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000084E746  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000803F86  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000807B4E  Unknown               Unknown  Unknown
+libpthread.so.0    00007FF7F3D06680  Unknown               Unknown  Unknown
+libc.so.6          00007FF7F3A0D9D7  Unknown               Unknown  Unknown
+libmpi.so.12       00007FF7F4234105  Unknown               Unknown  Unknown
+libmpi.so.12       00007FF7F449D346  Unknown               Unknown  Unknown
+libmpifort.so.12   00007FF7F4A1416A  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000047953F  Unknown               Unknown  Unknown
+tristan-mp3d-user  00000000004204F0  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000547534  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000548B4E  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000040585E  Unknown               Unknown  Unknown
+libc.so.6          00007FF7F394C3D5  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000405769  Unknown               Unknown  Unknown
+forrtl: error (78): process killed (SIGTERM)
+Image              PC                Routine            Line        Source             
+tristan-mp3d-user  000000000089A5A5  Unknown               Unknown  Unknown
+tristan-mp3d-user  00000000008981C7  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000084E934  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000084E746  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000803F86  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000807B4E  Unknown               Unknown  Unknown
+libpthread.so.0    00007FDB5F8E0680  Unknown               Unknown  Unknown
+libc.so.6          00007FDB5F5E79D7  Unknown               Unknown  Unknown
+libmpi.so.12       00007FDB5FE0E105  Unknown               Unknown  Unknown
+libmpi.so.12       00007FDB60077346  Unknown               Unknown  Unknown
+libmpifort.so.12   00007FDB605EE16A  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000475094  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000420447  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000547534  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000548B4E  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000040585E  Unknown               Unknown  Unknown
+libc.so.6          00007FDB5F5263D5  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000405769  Unknown               Unknown  Unknown
+forrtl: error (78): process killed (SIGTERM)
+Image              PC                Routine            Line        Source             
+tristan-mp3d-user  000000000089A5A5  Unknown               Unknown  Unknown
+tristan-mp3d-user  00000000008981C7  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000084E934  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000084E746  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000803F86  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000807B4E  Unknown               Unknown  Unknown
+libpthread.so.0    00007FE231602680  Unknown               Unknown  Unknown
+libc.so.6          00007FE2313099D7  Unknown               Unknown  Unknown
+
+Stack trace terminated abnormally.
