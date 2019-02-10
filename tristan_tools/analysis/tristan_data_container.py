@@ -44,6 +44,7 @@ class TristanDataContainer( object ) :
         self.params = AttrDict()
 
         if data_path :
+            data_path += '/'
             self.set_data_path( data_path ) 
 
         # track all the indices that have data loaded 
@@ -54,7 +55,8 @@ class TristanDataContainer( object ) :
         
     # set the data path and load parameters  
     def set_data_path( self, data_path ) : 
-        self.clear() 
+        self.clear()
+        # self.data_path = data_path
 
         if not os.path.exists( data_path ) :
             print( 'ERROR: data path %s not found' % data_path ) 
@@ -65,8 +67,9 @@ class TristanDataContainer( object ) :
         num_times = get_num_times( data_path )
 
         if num_times == 0 :
-            print( 'WARNING: output directory %s is empty' % self.data_path ) 
-
+            print( 'ERROR: data directory %s is empty' % data_path ) 
+            sys.exit(1) 
+            
         self.data.set_size( num_times ) 
             
         self.data_path = data_path
@@ -167,16 +170,28 @@ class TristanDataContainer( object ) :
 
         for prefix in prefixes : 
             _keys = set( keys ).intersection( self._keys_at_prefix[ prefix ] ) 
-
+            
             for idx in indices : 
 
                 self.indices_with_data.add( idx )
                 
                 fname = '%s/%s.%s' % ( self.data_path, prefix, idx_to_str( idx ) )
+
+                # 1 for each key if it is to be reloaded.
+                reload_statuses = {}
+                for key in _keys :
+                    reload_statuses[ key ] = _reload or ( self.data[key][idx] is None )
+
+                # if all keys loaded then don't open file.
+                if not any( reload_statuses ) :
+                    # print( 'skipping, no keys'  ) 
+                    continue
+
+                # otherwise proceed to open and load the necessary keys.
                 try:
                     with h5py.File( fname, 'r' ) as f:
-                        for key in _keys :
-                            if _reload or ( self.data[key][idx] is None ) : 
+                        for key in _keys :        
+                            if reload_statuses[ key ] :
                                 # print( 'set data: %s %d' % (key, idx ) ) 
                                 self.data[ key ][ idx ] = f[ key ][:].T 
                                 
@@ -201,7 +216,7 @@ class TristanDataContainer( object ) :
             keys = self.data.keys()
 
         for idx in indices : 
-            for key in keys() :
+            for key in keys :
                 self.data[ idx ][ key ] = None
 
 
@@ -304,7 +319,7 @@ def get_num_times( output_path ) :
     # print( os.listdir( output_path ) )
     
     # num_files = len([name for name in os.listdir( output_path )])
-    num_files = len( glob.glob( 'spect.*' ) ) 
+    num_files = len( glob.glob( output_path + 'spect.*' ) ) 
     return num_files
 
                                    

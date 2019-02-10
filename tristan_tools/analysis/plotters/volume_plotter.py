@@ -22,22 +22,13 @@ class VolumePlotter( Plotter ) :
         # variable storing each of the 3 addable /removable slices 
         self.mayavi_plot = None
 
-        # these slices are added on the next
-        # set defaults here 
-
-        # add default slices if possible. only works if data already is loaded,
-        # which means that this only goes through if reset is called 
-        # for i in range( 3 ) :
-        #     if self.slices_to_add[i] :
-        #         self.add_slice( i )
-
 
                 
     def startup( self ) :
         # super().startup()
 
         # print( len( self.data ) ) 
-        src = mlab.pipeline.scalar_field( self.data )
+        src = mlab.pipeline.scalar_field( self.data, figure = self.mayavi_scene )
         self.mayavi_plot = mlab.pipeline.volume( src, figure = self.mayavi_scene,
                                                  vmin = 0, vmax = 0.8 ) 
         

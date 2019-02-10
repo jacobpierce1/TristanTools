@@ -3,6 +3,7 @@
 import gui_config 
 from mayavi_qwidget import MayaviQWidget
 
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -32,10 +33,11 @@ class PlotterWidget( QWidget ) :
         # store inputs 
         self.analyzer = tristan_data_analyzer 
         self.state_handler = state_handler 
-
+        
         self.reset()
 
 
+        
     def reset( self ) :
             
         # store all the qwidgets
@@ -68,13 +70,16 @@ class PlotterWidget( QWidget ) :
         self.setLayout( layout )         
 
         
+        
     # clear all plots. possibly change dimensions of the plot array.
     def clear( self ) : 
        pass  
 
+   
 
     # update all plots 
     def update( self, timestep ) :
+        
         print( 'in update' ) 
         shape = self.state_handler.shape 
         for i in range( shape[0] ) :

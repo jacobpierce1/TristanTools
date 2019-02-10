@@ -56,7 +56,9 @@ class VectorCutPlanePlotter( Plotter ) :
         
         self.set_orientation_axes( 1 )
         self.set_outline( 1 )
-        mlab.vectorbar()
+        mlab.vectorbar( orientation = 'vertical' )
+        mlab.vectorbar( orientation = 'vertical' )
+        # mlab.vectorbar()
         self.needs_startup =  0 
       
         

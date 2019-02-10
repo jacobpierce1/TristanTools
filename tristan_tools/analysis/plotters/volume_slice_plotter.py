@@ -44,26 +44,7 @@ class VolumeSlicePlotter( Plotter ) :
             if self.slices_to_add[i] :
                 self.add_slice( i )
 
-                # if not colorbar_added :
-                #     mlab.colorbar( self.mayavi_plots[i], orientation = 'vertical' )
-                #     colorbar_added = 1 
 
-        
-        # tmp.edit_traits( scene = self.mayavi_scene ) 
-        # tmp.remove() 
-        # del tmp 
-        
-        # print_info( tmp ) 
-        
-
-        # mlab.pitch( -1 ) 
-        
-        # colorbar.scalar_bar_representation.position = [0.9, 0.1]
-
-        
-        # pprint( tmp ) 
-        
-        # tmp.clear()
         self.set_orientation_axes( 1 )
         self.set_outline( 1 )
         colorbar = mlab.colorbar( orientation = 'vertical' )

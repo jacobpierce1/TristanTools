@@ -24,7 +24,7 @@ class StateHandler( object ) :
         # self.load_state( DEFAULT_STATE_NAME ) 
 
         # self.shape = ( 1, 2 ) 
-        self.shape = ( 1, 1 )
+        self.shape = ( 1, 2 )
         
         self.data_load_policy = LoadPolicy.LOAD_ALL 
 

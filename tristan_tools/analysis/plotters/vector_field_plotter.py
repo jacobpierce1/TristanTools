@@ -22,26 +22,18 @@ class VectorFieldPlotter( Plotter ) :
         # variable storing each of the 3 addable /removable slices 
         self.mayavi_plot = None
 
-        # these slices are added on the next
-        # set defaults here 
-
-        # add default slices if possible. only works if data already is loaded,
-        # which means that this only goes through if reset is called 
-        # for i in range( 3 ) :
-        #     if self.slices_to_add[i] :
-        #         self.add_slice( i )
-
+        
 
                 
     def startup( self ) :
         # super().startup()
 
         # print( len( self.data ) ) 
-        src = mlab.pipeline.vector_field( * self.data )
+        src = mlab.pipeline.vector_field( * self.data, figure = self.mayavi_scene )
         self.mayavi_plot = mlab.pipeline.vectors( src, figure = self.mayavi_scene ) 
         
         mlab.vectorbar( self.mayavi_plot, orientation = 'vertical' )
-
+        mlab.vectorbar( self.mayavi_plot, orientation = 'vertical' )
 
         # see https://docs.enthought.com/mayavi/mayavi/auto/example_magnetic_field.html
         self.mayavi_plot.glyph.trait_set( mask_input_points = True ) 
@@ -54,7 +46,7 @@ class VectorFieldPlotter( Plotter ) :
 
         
         self.set_orientation_axes( 1 )
-        # self.set_outline( 1 )
+        self.set_outline( 1 )
         self.needs_startup =  0
 
 

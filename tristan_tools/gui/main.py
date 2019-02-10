@@ -85,9 +85,10 @@ class App( QWidget ) :
         layout.addWidget( self.control_panel ) 
 
         # plot data at timestep 0
-        self.plotter_widget.update( 0 ) 
-        
+        # self.plotter_widget.update( 0 ) 
+        self.control_panel.updater() 
 
+        
         
     def init_analyzer( self ) :
         cwd = os.getcwd()
@@ -112,14 +113,15 @@ class App( QWidget ) :
         # set the type of analyzer to be used in the gui_config.py
         self.analyzer = gui_config.analyzer( data_path ) 
 
-        if self.state_handler.data_load_policy == LoadPolicy.LOAD_ALL :
+        
+        # if self.state_handler.data_load_policy == LoadPolicy.LOAD_ALL :
 
-            if gui_config.DEVELOPER_MODE :
-                indices = range(10)
-            else :
-                indices = None
+        #     if gui_config.DEVELOPER_MODE :
+        #         indices = range(10)
+        #     else :
+        #         indices = None
             
-            self.analyzer.load_indices( indices ) 
+        #     self.analyzer.load_indices( indices ) 
 
         # print( 'in main. indices are loaded: ' + str( self.analyzer.indices_with_data )  )
 
@@ -148,12 +150,19 @@ class App( QWidget ) :
         self.analyzer.set_data_path( dir_path ) 
 
 
+        
     def set_plot_dimensions( self ) :
         pass
 
+
+
+    
     def save_state( self ) :
         pass
 
+
+
+    
     def load_state( self ) :
         pass
         

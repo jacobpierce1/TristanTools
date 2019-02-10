@@ -15,7 +15,8 @@ class TimeSliderWidget( QWidget ) :
         super().__init__()
 
         # variables we will track
-        self.num_timesteps = num_timesteps 
+        self.num_timesteps = num_timesteps
+        self.max_timestep = num_timesteps - 1 
         self.use_slider = use_slider
         self.stride = 1 
         self.timestep = 0
@@ -54,7 +55,7 @@ class TimeSliderWidget( QWidget ) :
             
         if self.use_slider : 
             self.slider = QSlider( QtCore.Qt.Horizontal )
-            self.slider.setMaximum( num_timesteps - 1 )
+            self.slider.setMaximum( self.max_timestep )
             self.slider.sliderMoved.connect( self.slider_moved ) 
             self.slider.sliderReleased.connect( self.slider_released ) 
             layout.addWidget( self.slider )
