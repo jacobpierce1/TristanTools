@@ -1,14 +1,14 @@
 from mayavi import mlab
 from pprint import pprint 
 
-from .plotter import Plotter 
+from .plotter import *
 
 # from mayavi.filters.mask_points import MaskPoints
 
 
 
 # allows you to control up to 3 volume slices
-class VolumePlotter( Plotter ) :
+class VolumePlotter( MayaviPlotter ) :
 
     def __init__( self, mayavi_scene, data = None ) :
         super().__init__( mayavi_scene ) 
@@ -44,7 +44,7 @@ class VolumePlotter( Plotter ) :
         
         # self.set_mask_points( 5 ) 
 
-        print_info( self.mayavi_plot ) 
+        # print_info( self.mayavi_plot ) 
         
         self.set_orientation_axes( 1 )
         # self.set_outline( 1 )

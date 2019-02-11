@@ -1,11 +1,11 @@
 from mayavi import mlab
 
-from .plotter import Plotter 
+from .plotter import *
 
 
 
 # allows you to control up to 3 volume slices 
-class VolumeSlicePlotter( Plotter ) :
+class VolumeSlicePlotter( MayaviPlotter ) :
 
     def __init__( self, mayavi_scene, data = None ) :
         super().__init__( mayavi_scene ) 

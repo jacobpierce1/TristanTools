@@ -13,7 +13,7 @@ os.environ['QT_API'] = 'pyqt5'
 
 import gui_config 
 from main_control_panel import MainControlPanel 
-from plotter_widget import PlotterWidget
+from plot_array import PlotArray
 from state_handler import StateHandler, LoadPolicy 
 
 
@@ -77,11 +77,11 @@ class App( QWidget ) :
         layout = QVBoxLayout()
         self.setLayout( layout ) 
         
-        self.plotter_widget = PlotterWidget( self.analyzer, self.state_handler )
-        layout.addWidget( self.plotter_widget ) 
+        self.plot_array = PlotArray( self.analyzer, self.state_handler )
+        layout.addWidget( self.plot_array ) 
         # layout.addWidget( self.plotter_widget.canvas )
         
-        self.control_panel = MainControlPanel( self.plotter_widget )
+        self.control_panel = MainControlPanel( self.plot_array )
         layout.addWidget( self.control_panel ) 
 
         # plot data at timestep 0

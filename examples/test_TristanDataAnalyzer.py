@@ -22,10 +22,10 @@ analyzer = analysis.TristanDataAnalyzer( output_path )
 
 
 analyzer.load_indices( [5] ) 
-analyzer.print_shapes( 5 )
+# analyzer.print_shapes( 5 )
 
 
-print( analyzer.data.che[5] ) 
+# print( analyzer.data.che[5] ) 
 
 # uncomment to see that it loaded 
 # print( analyzer.data[0] ) 
@@ -33,11 +33,5 @@ print( analyzer.data.che[5] )
 # compute all quantities at index 0 
 
 
-# analyzer.compute_indices( [0], recompute = 1, save = 0  ) 
+analyzer.compute_indices( 5, recompute = 0, save = 1  ) 
 
-# print( analyzer.data[0] ) 
-
-# print( analyzer.computations[0] ) 
-
-
-# print( analyzer.computations.BB[0].shape ) 

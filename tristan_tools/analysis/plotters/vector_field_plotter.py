@@ -1,14 +1,14 @@
 from mayavi import mlab
 from pprint import pprint 
 
-from .plotter import Plotter 
+from .plotter import *
 
 # from mayavi.filters.mask_points import MaskPoints
 
 
 
 # allows you to control up to 3 volume slices
-class VectorFieldPlotter( Plotter ) :
+class VectorFieldPlotter( MayaviPlotter ) :
 
     def __init__( self, mayavi_scene, data = None ) :
         super().__init__( mayavi_scene ) 

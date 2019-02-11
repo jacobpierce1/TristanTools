@@ -18,12 +18,30 @@ def int2checkstate( x ) :
     else :
         return 2
 
-    
 
-class PlotOptionsWidget( QWidget ) :
+
+
+class MPLPlotOptionsWidget( QWidget ) :
+
+    def __init__( self, plotter, set_current_values = 1 ) :
+
+        super().__init__()
+
+        if set_current_values :
+            self.set_current_values() 
+
+
+    def set_current_values( self ) :
+        pass 
+
+
+            
+
+class MayaviPlotOptionsWidget( QWidget ) :
 
     # plotter is a Plotter subclass, defined in tristan_data_plotter.
     def __init__( self, plotter, set_current_values = 1 ) :
+        
         super().__init__()
         self.plotter = plotter 
 
@@ -71,7 +89,7 @@ class PlotOptionsWidget( QWidget ) :
 
     
         
-class VolumeSliceOptionsWidget( PlotOptionsWidget ) :
+class VolumeSliceOptionsWidget( MayaviPlotOptionsWidget ) :
 
     def __init__( self, plotter ) :
         super().__init__( plotter, 0 )
@@ -116,7 +134,7 @@ class VolumeSliceOptionsWidget( PlotOptionsWidget ) :
 #         super().__init__( plotter, 0 ) 
 
 
-class VectorFieldOptionsWidget( PlotOptionsWidget ) :
+class VectorFieldOptionsWidget( MayaviPlotOptionsWidget ) :
 
     def __init__( self, plotter ) :
         super().__init__( plotter, 0 )
@@ -145,7 +163,7 @@ class VectorFieldOptionsWidget( PlotOptionsWidget ) :
         
 
 
-class VectorCutPlaneOptionsWidget( PlotOptionsWidget ) : 
+class VectorCutPlaneOptionsWidget( MayaviPlotOptionsWidget ) : 
 
     def __init__( self, plotter ) :
         super().__init__( plotter, 0 )
@@ -210,7 +228,7 @@ class VectorCutPlaneOptionsWidget( PlotOptionsWidget ) :
 
 
 
-class VolumeOptionsWidget( PlotOptionsWidget ) : 
+class VolumeOptionsWidget( MayaviPlotOptionsWidget ) : 
 
     def __init__( self, plotter ) :
         super().__init__( plotter, 0 )
@@ -246,6 +264,35 @@ class VolumeOptionsWidget( PlotOptionsWidget ) :
     def set_vmax( self ) :
         vmax = int( self.vmax_entry.text() )
         self.plotter.set_vmax( vmax ) 
+
+
+
+
+
+
+
+
+
+        
+class Hist1dOptionsWidget( MPLPlotOptionsWidget  ) : 
+
+    def __init__( self, plotter ) :
+        super().__init__( plotter, 0 )
+        layout = self.layout() 
+
+        self.set_current_values()
+
+
+    def set_current_values( self ) :
+        
+
+        super().set_current_values()
+        
+
+
+
+
+
 
 
 

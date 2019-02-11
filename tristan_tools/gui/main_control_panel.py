@@ -16,13 +16,13 @@ from data_loader import DataLoader
 
 class MainControlPanel( QWidget ) :
 
-    def __init__( self, plotter_widget  ) :
+    def __init__( self, plot_array  ) :
         super().__init__() 
         
-        num_timesteps = len( plotter_widget.analyzer ) 
-        self.plotter_widget = plotter_widget
+        num_timesteps = len( plot_array.analyzer ) 
+        self.plot_array = plot_array
         
-        self.data_loader = DataLoader( self.plotter_widget.analyzer ) 
+        self.data_loader = DataLoader( self.plot_array.analyzer ) 
 
         
         layout = QHBoxLayout() 
@@ -53,7 +53,7 @@ class MainControlPanel( QWidget ) :
                                           self.time_slider_widget.stride,
                                           self.time_slider_widget.max_timestep ) 
 
-        self.plotter_widget.update( self.time_slider_widget.timestep )
+        self.plot_array.update( self.time_slider_widget.timestep )
 
                 
         

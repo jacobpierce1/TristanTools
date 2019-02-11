@@ -37,20 +37,32 @@ ALL_SCALARS = [ 'dens', 'densi',
                 'v3xi', 'v3y', 'v3zi',
                 'EE', 'BB', 'JJ' ] 
 
-ALL_VECTORS = [ 'E', 'B', 'J', 'V3', 'V3i' ] 
+ALL_VECTORS = [ 'E', 'B', 'J', 'V3', 'V3i' ]
 
+ALL_1D_SPECTRA_KEYS = [ 'PP_e_spec', 'PP_i_spec',
+                        'px_e_spec', 'py_e_spec', 'pz_e_spec',
+                        'px_i_spec', 'py_i_spec', 'pz_i_spec'   ] 
+
+
+ALL_HISTS = []
+ALL_HISTS.extend( ALL_1D_SPECTRA_KEYS ) 
 
 # these are implemented in the directory plotters 
 PLOTTERS_DICT = { 'volume_slice' : VolumeSlicePlotter,
                   'volume' : VolumePlotter, 
                   'vector_field' : VectorFieldPlotter,
-                  'vector_cut_plane' : VectorCutPlanePlotter }
+                  'vector_cut_plane' : VectorCutPlanePlotter,
+                  'hist1d' : Hist1dPlotter }
+
 
 
 
 for x in ALL_SCALARS :
     DATA_NAME_TO_KEYS_DICT[ x ] = [ x ] 
 
+for x in ALL_HISTS :
+    DATA_NAME_TO_KEYS_DICT[ x ] = [ x ]
+    
 
 # this is an orderedDict instead of regular dict so that the
 # keys added are in the same order as they appear in the gui.
@@ -58,7 +70,8 @@ AVAILABLE_DATA_DICT = OrderedDict( [
     ( 'volume_slice', ALL_SCALARS ),
     ( 'volume', ALL_SCALARS ),
     ( 'vector_field', ALL_VECTORS ),
-    ( 'vector_cut_plane', ALL_VECTORS )
+    ( 'vector_cut_plane', ALL_VECTORS ),
+    ( 'hist1d', ALL_HISTS )
 ] )
     
 
@@ -74,7 +87,7 @@ class TristanDataPlotter( object ) :
     # be accessed for plotting the data. you are responsible for loading
     # the appropriate data as necessary in this object.
     # save_path (optional): directory in which to save files 
-    def __init__( self, tristan_data_analyzer, keys = None, mayavi_scene = None,
+    def __init__( self, tristan_data_analyzer, plot_canvas = None, keys = None, 
                   save_path = None, plot_type = None, data_getter = None ) :
 
         # analyzer for accessing data and computations 
@@ -83,9 +96,9 @@ class TristanDataPlotter( object ) :
         # keys that will be used to access data 
         self.keys = keys
 
-        # mayavi plot for updating. a new one will be created if not supplied.
-        self.mayavi_scene = mayavi_scene
-        self.mayavi_plot = None 
+        # # mayavi plot for updating. a new one will be created if not supplied.
+        # self.mayavi_scene = mayavi_scene
+        # self.mayavi_plot = None 
         
         # path where movies and images can be saved. 
         self.save_path = save_path
@@ -94,8 +107,8 @@ class TristanDataPlotter( object ) :
         # can always be changed later.
         self.plot_type = plot_type
 
-        # will be called by plot() if the plot needs to be cleared
-        self.plot_needs_clear = 0 
+        # # will be called by plot() if the plot needs to be cleared
+        # self.plot_needs_clear = 0 
 
         # a new plot will be created if this is 1 and any function is called
         self.need_new_plot = 1
@@ -118,7 +131,8 @@ class TristanDataPlotter( object ) :
         self.plotters_dict = PLOTTERS_DICT 
 
 
-        self.plotter = self.plotters_dict[ self.plot_type ]( self.mayavi_scene )
+        # plot_canvas is either a mayavi_scene or a mpl axes. 
+        self.plotter = self.plotters_dict[ self.plot_type ]( plot_canvas )
 
 
         self.available_data_dict = AVAILABLE_DATA_DICT
@@ -155,13 +169,26 @@ class TristanDataPlotter( object ) :
     
 
     def set_plot_type( self, plot_type, keys ) :
-        self.plot_needs_clear = 1     
+
+        old_plot_type = self.plotter.get_type()
+        old_canvas = self.plotter.get_canvas() 
+        
+        # self.plot_needs_clear = 1     
         self.plot_type = plot_type
         self.keys = keys
-        self.plotter.clear() 
-        self.plotter = self.plotters_dict[ self.plot_type ]( self.mayavi_scene ) 
-        
+        self.plotter.clear()
 
+        self.plotter = self.plotters_dict[ self.plot_type ]( None ) 
+
+        # if the plotter type has not changed, then use the old plotter canvas.
+        # otherwise initialize the new plotter with no canvas.
+
+        new_plot_type = self.plotter.get_type()
+
+        if new_plot_type == old_plot_type :
+            self.plotter.set_canvas( old_canvas ) 
+        
+        
     # change keys 
     def set_keys( self, keys ) :
         if len( keys ) != len( self.keys ) :
@@ -171,24 +198,22 @@ class TristanDataPlotter( object ) :
         self.keys = keys
     
         
-    # def check_clear( self ) :
-    #     if self.plot_needs_clear :
-    #         self.clear() 
-
-
-            
-    # def clear( self ) :
-    #     self.mayavi_plot.clear()
-    #     self.need_new_plot = 1 
+    # def set_mayavi_scene( self, mayavi_scene ) :
+    #     self.mayavi_scene = mayavi_scene
+    #     self.plotter.mayavi_scene = mayavi_scene 
 
         
         
     def plot_timestep( self, timestep ) :
         # self.check_clear() 
+
         data = self.data_getter( timestep )
+
         # self[ self.plot_type ]( data ) 
         # self.need_new_plot = 0
-            
+
+        # print( self.mayavi_scene ) 
+        
         if timestep != self.timestep : 
             self.plotter.set_data( data ) 
             self.plotter.update() 
@@ -206,11 +231,13 @@ class TristanDataPlotter( object ) :
         self.plotter.set_data( data ) 
         
 
-        
-    # # used to access the plotting functions
-    # # e.g. self[ 'quiver3d' ] is the same as self.quiver3d
-    # def __getitem__( self, item ) :
-    #     return self.plot_functions[ item ]      
+    # def remove( self ) :
+        # self.plotter.clear() 
+
+        # if self.mayavi_scene : 
+        #     self.mayavi_scene.remove()
+
+        # if self.
         
 
     
@@ -220,91 +247,13 @@ class TristanDataPlotter( object ) :
 
     
 
-    # def plot_field( self, field_name ) :
-    #     pass
-    
-    # def quiver_plot_3d( self, key1, key2, key3, mayavi_ax = None ) :
-    #     pass # mayavi_ax = mlab.
-
-    # def volume_slice( self, data ) :
-    #     if self.need_new_plot :
-    #         self.mayavi_plot = mlab.volume_slice( data[0], plane_orientation = 'z_axes',
-    #                                               figure = self.mayavi_scene )
-    #         mlab.outline( figure = self.mayavi_scene ) 
-    #     else :
-    #         self.mayavi_plot.mlab_source.trait_set( scalars = data[0] )             
+    def get_plotter_type( self ) :
+        return self.plotter.get_type()
 
 
-            
-    # def quiver3d( self, data ) :
-    #     if self.need_new_plot :
-    #         self.mayavi_plot = mlab.quiver3d( *data, figure = self.mayavi_scene ) 
-    #         mlab.outline( figure = self.mayavi_scene ) 
-    #     else :
-    #         self.mayavi_plot.mlab_source.trait_set( u=data[0], v=data[1], w=data[2] )
+    def get_plotter_canvas( self ) :
+        return self.plotter.get_canvas() 
 
 
-
-
-
-
-    
-
-        
-
-
-
-# class 
-
-
-
-        
-            
-    # def set_tristan_data( self, tristan_data_container ) :
-    #     self.tristan_data = tristan_data_container 
-
-
-
-
-    
-
-# # this class (as well as Plotter3D) provides all the functionality for
-# # making nice plots from the data, but does not have any functionality for saving plots
-# # and does not store any other variables that are generically handled in both the
-# # 2d and 3d cases. 
-
-# class Plotter2D( object ) :
-            
-#     def __init__( self, tristan_data_container ) :
-#         self.tristan_data_container = tristan_data_container 
-
-        
-#     # plot a single field component or scalar in the 2D simulation plane.
-#     # name: 'dens', 'bx', 'jz', etc. 
-#     def plot_scalar( self, name ) : 
-#         pass
-
-#     # create 2D quiver plot in the simulation plane of 
-#     def plot_quiver_2d( self, vector1_name, vector2_name ) :
-#         pass
-
-#     # create 3d quiver plot in simulation plane
-#     def plot_quiver_3d( self, v1, v2, v3 ) :
-#         pass     
-
-#     def phase_plot( self, name  ) :
-#         pass
-
-
-
-    
-# # same idea as Plotter2D: handles specific plots for spatially 3D
-# # data, but nothing more general such as saving plots etc. 
-# class Plotter3D( object ) : 
-
-#     def __init__( self, tristan_data_container ) :
-#         self.tristan_data_container = tristan_data_container 
-
-#     # input: 3d array,
-#     def plot_slice( self, array_3d ) : 
-#         pass
+    def set_plotter_canvas( self, canvas ) :
+        self.plotter.set_canvas( canvas ) 

@@ -16,16 +16,20 @@ MOVIE_TYPES = [ 'GIF', 'mp4', 'mov' ]
 _plot_options_widgets = { 'volume_slice' : VolumeSliceOptionsWidget,
                           'volume' : VolumeOptionsWidget, 
                           'vector_field' : VectorFieldOptionsWidget,
-                          'vector_cut_plane' : VectorCutPlaneOptionsWidget } 
+                          'vector_cut_plane' : VectorCutPlaneOptionsWidget,
+                          'hist1d' : Hist1dOptionsWidget } 
 
 
+# plotter widget is the parent, i.e. this object is created inside a
+# PlotterWidget. we need access to the parent to modify the plot.
 
 class PlotControlWidget( QWidget ) :
 
-    def __init__( self, tristan_data_plotter ) :
+    def __init__( self, tristan_data_plotter, plotter_widget ) :
         super().__init__() 
 
         self.tristan_data_plotter = tristan_data_plotter
+        self.plotter_widget = plotter_widget
 
         reset_button = QPushButton( 'Reset' ) 
         options_button = QPushButton( 'Options' )
@@ -58,7 +62,7 @@ class PlotControlWidget( QWidget ) :
 
         
     def launch_options_window( self ) :
-        self.options_dialog = PlotOptionsDialog( self.tristan_data_plotter )
+        self.options_dialog = PlotOptionsDialog( self.tristan_data_plotter, self.plotter_widget )
         
         # options_dialog.exec_()
         self.options_dialog.show() 
@@ -81,15 +85,18 @@ class PlotControlWidget( QWidget ) :
         
 class PlotOptionsDialog( QDialog ) :
 
-    def __init__( self, tristan_data_plotter ) :
+    def __init__( self, tristan_data_plotter, plotter_widget ) :
         super().__init__()
         
+        self.tristan_data_plotter = tristan_data_plotter
+        self.plotter_widget = plotter_widget
+
+
         self.plot_type_changed_status = 0
         
         # disable blocking of the main application
         self.setWindowModality( Qt.NonModal )
         
-        self.tristan_data_plotter = tristan_data_plotter 
         
         self.plot_type = tristan_data_plotter.plot_type
         
@@ -135,17 +142,24 @@ class PlotOptionsDialog( QDialog ) :
         # layout.addWidget( self.plot_options_widget )
         
 
+
+        
     def update_plot_options_widget( self ) :
         layout = self.layout()
+
+        # remove the current plot options widget 
         if self.plot_options_widget is not None :
             # self.plot_options_widget.delete()
             self.plot_options_widget.deleteLater()
             layout.removeWidget( self.plot_options_widget )
             del self.plot_options_widget 
+
+        # add the new one (or initialized one)
         self.plot_options_widget = _plot_options_widgets[ self.plot_type ]( self.tristan_data_plotter.plotter )
         layout.addWidget( self.plot_options_widget ) 
         
         
+
         
     def reset_data_selection_combobox( self ) :
         print( 'resetting data selection' ) 
@@ -164,10 +178,26 @@ class PlotOptionsDialog( QDialog ) :
 
         # if the plot type has been changed, then change the plot type and set the new keys
         if self.plot_type_changed_status :
+
+            old_plotter_code = self.tristan_data_plotter.get_plotter_type()
+            
             self.tristan_data_plotter.set_plot_type( self.plot_type, keys ) 
+            
+            self.plot_type_changed_status = 0
+
+            new_plotter_code = self.tristan_data_plotter.get_plotter_type()
+
+            if new_plotter_code != old_plotter_code :
+                self.plotter_widget.rebuild_plot_container()
+                self.tristan_data_plotter.set_plotter_canvas( self.plotter_widget.get_canvas() )
+
+            # only refresh after the plot has been properly changed, if that was necessary.
             self.tristan_data_plotter.refresh()
             self.update_plot_options_widget() 
-            self.plot_type_changed_status = 0
+                
+            # check if we need to change the Plotter type (i.e. MPLPlotter or MayaviPlotter). if so,
+            # then proceed to do it.
+            
             
         
         # otherwise update the data immediately 
@@ -176,13 +206,22 @@ class PlotOptionsDialog( QDialog ) :
             self.tristan_data_plotter.set_keys( keys )
             self.tristan_data_plotter.refresh() 
 
+        
+        # update title
+        self.plotter_widget.set_title()
 
 
+        
+        
     def plot_type_changed( self ) :
         print( 'called plot type changed' ) 
         self.plot_type = self.plot_type_combobox.currentText()
         self.plot_type_changed_status = 1 
         self.reset_data_selection_combobox()
+
+        # update title
+        self.plotter_widget.set_title()
+
         
 
 

@@ -63,23 +63,38 @@ class TristanDataAnalyzer( TristanDataContainer ) :
                                        'EE' : self.compute_EE,
                                        'JJ' : self.compute_JJ,
                                        'ExB' : self.compute_ExB } 
-                                       # 'momenta_spectra' : self.compute_momentum_spectra }
+                                       # 'momentum_spectra' : self.compute_momentum_spectra }
+                                       
+        # add momentum spectrum computers:
+        components = 'xyz'
+        for particle_type in 'ei' :
+            for i in range(3) :
+                key = 'p' + components[i] + '_' + particle_type + '_spec' 
+                self.computation_callbacks[ key ] = (
+                    lambda idx, p = particle_type, i = i :
+                    self.compute_momentum_component_spectrum( idx, p, i ) )
 
+            # total momentum computer
+            key = 'PP_' + particle_type + '_spec'
+            self.computation_callbacks[ key ] = (
+                lambda idx, p = particle_type : self.compute_total_momentum_spectrum( idx, p ) )
+                                                                                                  
+                                       
         self.computation_keys = set( self.computation_callbacks.keys() )
         
         
-        # return the requiremnents for each computation:
-        # first the quantities required, then the indices. this is crucial
-        # for real-time computation and data-loading: this way only the
-        # necessary data can be loaded if you aren't able to load all the
-        # available data at once. each key has a function where the input
-        # is the index to be computed, and then the required keys and indices.
-        # as expected, just update this dict if you subclass and add more
-        # computable quantities.
-        self.computation_requirements_dict = {
-            'BB' : lambda x : ( [x], [ 'bx', 'by', 'bz' ] ),
-            'EE' : lambda x : ( [x], [ 'ex', 'ey', 'ez' ] )
-        }
+        # # return the requiremnents for each computation:
+        # # first the quantities required, then the indices. this is crucial
+        # # for real-time computation and data-loading: this way only the
+        # # necessary data can be loaded if you aren't able to load all the
+        # # available data at once. each key has a function where the input
+        # # is the index to be computed, and then the required keys and indices.
+        # # as expected, just update this dict if you subclass and add more
+        # # computable quantities.
+        # self.computation_requirements_dict = {
+        #     'BB' : lambda x : ( [x], [ 'bx', 'by', 'bz' ] ),
+        #     'EE' : lambda x : ( [x], [ 'ex', 'ey', 'ez' ] )
+        # }
 
         
         # we store all computations in the same RecursiveAttrDict as created in the parent
@@ -87,7 +102,10 @@ class TristanDataAnalyzer( TristanDataContainer ) :
         for key in self.computation_keys :
             self.data[ key ] = None
         
-        
+
+        # # this allocates space for more keys 
+        # self.compute_momentum_spectra( 0, init = 1 )     
+            
         # this dict is accessed by the GUI to print the available quantities
         # in latex. ignore if using TristanDataAnalyzer for offline analysis.
         # make sure to append to this dict any new quantities you make if
@@ -96,11 +114,6 @@ class TristanDataAnalyzer( TristanDataContainer ) :
                                                    'EE' : r'$|E|^2$',
                                                    'JJ' : r'$|J|^2$',
                                                    'ExB' : r'$E\times B$' } 
-
-    # def clear( self ) :
-            
-    #     # call clear method from TristanDataContainer 
-    #     super().clear()
         
 
 
@@ -154,21 +167,31 @@ class TristanDataAnalyzer( TristanDataContainer ) :
                         
                     # compute keys that were not in the file, then write them. 
                     for key in keys_to_compute :
-                        self.computation_callbacks[ key ]( idx ) 
+
+                        # the callback returns a list of all the keys it computed
+                        # if it isn't just the name of the key used to call the callback.
+                        computed_keys = self.computation_callbacks[ key ]( idx ) 
+
+                        # print( computed_key ) 
+                        
+                        # if computed_keys is None :
+                        #     computed_keys = [ key ]
+
+                        # for computed_key in computed_keys : 
 
                         if save :
-                            # print( 'saving key' ) 
+                            print( 'saving key: ' + str( key ) ) 
                             tmp_data = self.data[ key ][ idx ]
 
                             # print( key )
                             # print( tmp_data ) 
-                            
+
                             # the dataset did not exist before, hence why it wasnt in the keys
                             # thus create it and insert the data. 
                             if key not in existing_keys : 
                                 f.create_dataset( key, data = tmp_data )
 
-                            # otherwise overwrite the existing key.
+                            # otherwise overwrite the existing key if already in the file.
                             else :
                                 dset = f[ key ]
                                 dset[ ... ] = tmp_data
@@ -177,76 +200,22 @@ class TristanDataAnalyzer( TristanDataContainer ) :
             else :
                 for key in _keys :             
                     self.computation_callbacks[ key ]( idx )  
-
                 
 
-                
-    # # unload data
-    # # indices = None -> unload all indices 
-    # # keys = None -> unload all keys 
-    # def uncompute_indices( self, indices = None, keys = None ) : 
-
-    #     _indices = indices 
-    #     _keys = keys 
-        
-    #     if _indices is None :
-    #         _indices = np.arange( len( self ) ) 
-        
-    #     # check scalar 
-    #     if not hasattr( _indices, '__len__' ) :
-    #         _indices = [ _indices ] 
-        
-    #     # default: compute everything. not recommended. 
-    #     if _keys is None :
-    #         _keys = self.computation_dict.keys()
-
-    #     for idx in _indices :
-    #         for key in _keys :
-    #             self.computations[ idx ][ key ] = None
-
-
-                
-
-    # # reimplement unload_indices: option to save data first.
-    # def unload_indices( self, indices = None, keys = None ) :
-
-    #     # call the parent unload. note that all the keys will be removed, both
-    #     # computations and simulation data, since they are both stored in self.data
-    #     super().unload_indices( indices = _indices, keys = keys ) 
-
-        
-
-    ######################################################3
-    # ANALYSIS FUNCTIONS
-
-    # def compute_BB( self, idx ) :
-    #     self.computations.BB[ idx ] = vector_norm_squared( [ self.data.bx[idx],
-    #                                                          self.data.by[idx],
-    #                                                          self.data.bz[idx] ] ) 
-
-        
-    # def compute_EE( self, idx ) :
-    #     self.computations.EE[ idx ] = vector_norm_squared( [ self.data.ex[idx],
-    #                                                          self.data.ey[idx],
-    #                                                          self.data.ez[idx] ] ) 
-
-        
-    # def compute_JJ( self, idx ) :
-    #     self.computations.JJ[ idx ] = vector_norm_squared( [ self.data.jx[idx],
-    #                                                          self.data.jy[idx],
-    #                                                          self.data.jz[idx] ] ) 
-
-
+    
     def compute_BB( self, idx ) :
         return self._compute_norm_squared( 'BB', [ 'bx', 'by', 'bz' ], idx )
 
+    
     
     def compute_EE( self, idx ) :
         return self._compute_norm_squared( 'EE', [ 'ex', 'ey', 'ez' ], idx )
 
     
+    
     def compute_JJ( self, idx ) :
         return self._compute_norm_squared( 'JJ', [ 'jx', 'jy', 'jz' ], idx )
+
 
     
     # helper function for EE, BB, JJ
@@ -257,6 +226,7 @@ class TristanDataAnalyzer( TristanDataContainer ) :
 
         self.data[ data_name ][idx ]  = x
 
+        
             
     def compute_ExB( self, idx ) :
 
@@ -271,19 +241,70 @@ class TristanDataAnalyzer( TristanDataContainer ) :
 
 
 
-    # compute global momentum spectra 
-    def compute_momentum_spectra( self, idx, alternate_name = None, boundaries = None ) :
-
-        # keys = [ 'momentum_spectrum_e', 'momentum_spectrum_i' ] 
-
-        # momenta = [ [
+    def compute_momentum_component_spectrum( self, idx, particle_type, i,
+                                             alternate_name = None, boundaries = None ) :
+        # construct tristan key name
+        tristan_component_names = 'uvw'
+        new_component_names = 'xyz' 
         
-        # for i in range(2) :
-        pass
+        tristan_key = tristan_component_names[ i ] + particle_type 
+                  
+        # construct our key name 
+        key = 'p' + new_component_names[i] + '_' + particle_type + '_spec'
+        
+        momentum = self.data[ tristan_key ][ idx ]
 
-        # return keys
+        # len( bins ) == len( hist ) + 1
+        # https://astropy.readthedocs.io/en/latest/visualization/histogram.html#bayesian-models
+        # could use the above histograms for better optimized bins instead 
+        hist, bins = np.histogram( momentum, bins = 'rice', density = 1 )
+        
+        data = np.zeros( ( 2, len( bins ) ) )
+        data[0,:-1] = hist
+        data[1,:] = bins
+        
+        self.data[ key ][ idx ] = data
+
+        # print( key )
+        # print( self.data[ key ][ idx ] )
+        
+
+        
+    def compute_total_momentum_spectrum( self, idx, particle_type,
+                                         alternate_name = None, boundaries = None ) :
+
+        tristan_component_names = 'uvw'
+
+        new_component_names = 'xyz' 
+                        
+        key = 'PP' + '_' + particle_type + '_spec'
+            
+        for i in range(3) :
+        
+            tristan_key = tristan_component_names[ i ] + particle_type 
+
+            momentum = self.data[ tristan_key ][ idx ] 
+            
+            if i == 0 :
+                total_momentum_sq = np.zeros( momentum.shape ) 
+            
+            total_momentum_sq += momentum ** 2 
+                
+        # now compute total momentum distribution.
+        hist, bins = np.histogram(  np.sqrt( total_momentum_sq ), bins = 'rice' )
+
+        data = np.zeros( ( 2, len( bins ) ) )
+        data[0,:-1] = hist
+        data[1,:] = bins
+
+        # convert from f(p) to p^2 f(p) and normalize
+        data[0,:] *= bins
+        data[0,:] /= np.amax( data[0,:] ) 
+
+        self.data[ key ][ idx ] = data
 
 
+    
     
     def rebin_hist( self, hist, new_dim ) :
         
