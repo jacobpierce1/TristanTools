@@ -21,7 +21,7 @@ analyzer = analysis.TristanDataAnalyzer( output_path )
 # analyzer.print_keys() 
 
 
-analyzer.load_indices( [5] ) 
+analyzer.load_indices( [0] ) 
 # analyzer.print_shapes( 5 )
 
 
@@ -33,5 +33,12 @@ analyzer.load_indices( [5] )
 # compute all quantities at index 0 
 
 
-analyzer.compute_indices( 5, recompute = 0, save = 1  ) 
+# analyzer.compute_indices( 5, recompute = 0, save = 1  ) 
 
+analyzer.print_keys() 
+
+import numpy as np 
+np.set_printoptions( threshold = np.nan ) 
+
+print( analyzer.data.we[0] ) 
+# print( analyzer.

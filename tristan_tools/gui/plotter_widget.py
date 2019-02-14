@@ -111,7 +111,7 @@ class PlotterWidget( QWidget ) :
         
         plot_container_class = _get_plot_container_class( self.tristan_data_plotter.plot_type ) 
         self.plot_container = plot_container_class( self.tristan_data_plotter )
-        layout.addWidget( self.plot_container ) 
+        layout.insertWidget( 1, self.plot_container ) 
         
         # self.plot_container = 
 

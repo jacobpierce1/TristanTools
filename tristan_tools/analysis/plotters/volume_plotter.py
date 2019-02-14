@@ -29,8 +29,11 @@ class VolumePlotter( MayaviPlotter ) :
 
         # print( len( self.data ) ) 
         src = mlab.pipeline.scalar_field( self.data, figure = self.mayavi_scene )
-        self.mayavi_plot = mlab.pipeline.volume( src, figure = self.mayavi_scene,
-                                                 vmin = 0, vmax = 0.8 ) 
+        self.mayavi_plot = mlab.pipeline.volume( src, figure = self.mayavi_scene, vmin = 12 , vmax = 14 ) 
+                                                 # vmin = 0.8, vmax = 1.0,
+                                                 # color = (0.5,0.5,0.5))
+
+        print_info( self.mayavi_plot._otf ) 
         
         mlab.colorbar( self.mayavi_plot, orientation = 'vertical' )
 

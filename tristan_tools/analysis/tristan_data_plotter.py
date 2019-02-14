@@ -1,5 +1,7 @@
 import numpy as np
-from mayavi import mlab  
+# from mayavi import mlab  
+import sys
+
 
 from .tristan_data_container import TristanDataContainer
 from .helper_functions import check_spatial_dim 
@@ -208,6 +210,13 @@ class TristanDataPlotter( object ) :
         # self.check_clear() 
 
         data = self.data_getter( timestep )
+
+        # check for unloaded data. 
+        for i in range( len( data ) ) :
+            if data[i] is None : 
+                print( 'ERROR: attempted to plot unloaded data: %s at timestep %d'
+                       % ( self.keys[i], timestep ) )
+                sys.exit( 1 )
 
         # self[ self.plot_type ]( data ) 
         # self.need_new_plot = 0
