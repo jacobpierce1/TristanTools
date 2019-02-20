@@ -15,6 +15,8 @@ class LoadPolicy( Enum ) :
     DESCRIPTIONS = ['Load all', 'Load necessary' ]
 
 
+
+
     
 
 class StateHandler( object ) :
@@ -24,21 +26,21 @@ class StateHandler( object ) :
         # self.load_state( DEFAULT_STATE_NAME ) 
 
         # self.shape = ( 1, 2 ) 
-        self.shape = ( 1, 2 )
+        self.shape = ( 1, 3 )
         
         self.data_load_policy = LoadPolicy.LOAD_ALL 
 
         self.keys = np.array( [ [ [ 'dens'],
                                   [ 'bx', 'by', 'bz' ],
-                                  [ 'ex', 'ey', 'ez' ] ] ] ) 
+                                  [ 'PP_e_spec' ] ] ] ) 
 
-        self.plot_types = np.array( [ [ 'volume_slice', 'vector_cut_plane', 'quiver3d' ] ] ) 
+        self.plot_types = np.array( [ [ 'volume_slice', 'vector_cut_plane', 'hist1d' ] ] ) 
 
         # self.plot_data = [ [ 'dens' ],
         #                    [ 'bx', 'by', 'bz' ],
         #                    [ 'ex', 'ey', 'ez' ] ]
         
-        self.computation_keys = []
+        # self.computation_keys = []
 
         self.stride = 1
         

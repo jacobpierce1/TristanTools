@@ -30,7 +30,9 @@ class PlotArray( QWidget ) :
 
         # store inputs 
         self.analyzer = tristan_data_analyzer 
-        self.state_handler = state_handler 
+        self.state_handler = state_handler
+
+        # self.timestep = 0 
         
         self.reset()
 
@@ -67,8 +69,9 @@ class PlotArray( QWidget ) :
 
     # update all plots 
     def update( self, timestep ) :
+
+        # self.timestep = timestep 
         
-        print( 'in update' ) 
         shape = self.state_handler.shape 
         for i in range( shape[0] ) :
             for j in range( shape[1] ) :

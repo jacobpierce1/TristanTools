@@ -86,8 +86,9 @@ class App( QWidget ) :
 
         # plot data at timestep 0
         # self.plotter_widget.update( 0 ) 
-        self.control_panel.updater() 
-
+        # self.control_panel.update_plots() 
+        
+        
         
         
     def init_analyzer( self ) :

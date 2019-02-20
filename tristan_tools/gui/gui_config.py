@@ -27,3 +27,10 @@ DATA_LOADER_NUM_THREADS = 6
 # a different one for your analysis 
 import tristan_tools.analysis as analysis
 analyzer = analysis.TristanDataAnalyzer 
+
+
+
+
+# configure the default plots here
+# just kidding. not surer if this is best place.
+

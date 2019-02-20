@@ -21,7 +21,7 @@ class VolumeSlicePlotter( MayaviPlotter ) :
 
         # these slices are added on the next
         # set defaults here 
-        self.slices_to_add = [ 1, 0, 0 ] 
+        self.slices_to_add = [ 0, 0, 1 ] 
 
         # startup if possible 
         if self.data is not None :

@@ -9,6 +9,11 @@ import unicode_shortcuts
 
 TEXTFIELD_WIDTH_CHARS =  6   # 30 pixels per char
 
+
+
+
+# updater is a function that is called whenever the timestep changes
+# for the timesliderwidget in the MainControlPanel, this is update_plots which updates all the plots.
 class TimeSliderWidget( QWidget ) :
 
     def __init__( self, num_timesteps, use_slider = 1, updater = None ) :

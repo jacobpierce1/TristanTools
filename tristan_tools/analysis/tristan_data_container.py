@@ -117,13 +117,15 @@ class TristanDataContainer( object ) :
         print( 'INFO: loading keys' ) 
         
         # track the keys that belong to each of the time dependent data files
-        self._keys_at_prefix = { spectra_prefix : [],
-                                 particles_prefix : [],
-                                 fields_prefix : [],
-                                 params_prefix : [] } 
+        self._keys_at_prefix = { spectra_prefix : set(),
+                                 particles_prefix : set(),
+                                 fields_prefix : set(),
+                                 params_prefix : set() } 
 
-        # set all time indices to None 
-        self.data.time = None  
+        # set all time indices to None
+        # note that by construction, self.data.time = None will not properly set all times to None,
+        # it will actually delete the list and replace it with None.
+        self.data[ 'time' ] = None  
 
         idx = 0
         for prefix in all_prefixes :
@@ -136,16 +138,21 @@ class TristanDataContainer( object ) :
                         # set all indices to None
                         if prefix != params_prefix : 
                             self.data[ key ] = None
-                        self._keys_at_prefix[ prefix ].append( key ) 
+                        self._keys_at_prefix[ prefix ].add( key ) 
                         
             except OSError : 
                 print( 'ERROR: file not found: %s' % fname ) 
                 sys.exit(1)
+
+        # in Tristan, the time is output in both particles and params. here we only use
+        # the one from params.
+        self._keys_at_prefix[ particles_prefix ].discard( 'time' )
                 
         print( 'INFO: found keys in the following files:' )
         for key, val in self._keys_at_prefix.items() :
             print( '\t\t' + key + str( ' : ' ) + str( val ) )
 
+            
 
         
     # note that reload is already a built in python funciton
@@ -192,17 +199,19 @@ class TristanDataContainer( object ) :
                     with h5py.File( fname, 'r' ) as f:
                         for key in _keys :        
                             if reload_statuses[ key ] :
-                                # print( 'set data: %s %d' % (key, idx ) ) 
+                                # print( 'set data: %s %d' % (key, idx ) )
                                 self.data[ key ][ idx ] = f[ key ][:].T 
+                                # print( key + ': ' + str( self.data[ key ][ idx ].shape ) ) 
                                 
                 except OSError :
                     print( 'ERROR: file not found: %s' % fname ) 
                     sys.exit(1)
                     
         # if 'time' in keys : 
-        #     self.load_time( indices ) 
+        #     self.load_times( indices ) 
 
-            
+
+        
 
     def unload_indices( self, indices = None, keys = None ) :
 
