@@ -147,3 +147,12 @@ class TimeSliderWidget( QWidget ) :
                 self.updater() 
 
 
+
+    # called if changing the number of timesteps in the current data. 
+    def set_num_timesteps( self, num_timesteps ) :
+
+        self.num_timesteps = num_timesteps
+        self.max_timestep = self.num_timesteps - 1 
+        
+        if self.use_slider :
+            self.slider.setMaximum( self.max_timestep )

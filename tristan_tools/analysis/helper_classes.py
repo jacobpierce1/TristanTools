@@ -16,13 +16,17 @@ class RecursiveAttrDict( dict ) :
             data = {} 
 
         self.data = data 
-        # self.__keys = list( data.keys() )
+
+        # if data is already available (i.e. its not empty) then set current length
+        # to be size of the first array 
         if self.data : 
             self.size = len( next( iter( data.values() ) ) )
 
         else : 
             self.size = size
-            
+
+        # if data was passed in, we need to make sure that the data is in a
+        # valid state (all array lengths are the same).
         self.check_good() 
 
 
@@ -104,11 +108,25 @@ class RecursiveAttrDict( dict ) :
         self.data.clear() 
         self.size = 0 
 
+    # resize all the arrays 
     def set_size( self, size ) :
         # print( 'new size: ' + str( size ) ) 
+
+        if size == self.size :
+            return 
+
+        # if new size is larger, then extend with empty data 
+        elif size > self.size : 
+            for key in self.data.keys() : 
+                self.data[ key ].extend( [ None for i in range( size - self.size ) ] )
+
+        # if new size is smaller then keep deleting the rear elements until size matches.
+        else :
+            for key in self.data.keys() :
+                for i in range( self.size - size ) : 
+                    del self.data[ key ][-1] 
+                
         self.size = size     
-
-
         
         
 # data container for the params. example usage: 

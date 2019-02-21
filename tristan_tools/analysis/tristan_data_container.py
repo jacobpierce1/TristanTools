@@ -76,6 +76,17 @@ class TristanDataContainer( object ) :
 
         self.load_params()
         self.load_keys() 
+
+
+    
+    # don't remove any of the data that is currently loaded, but resize
+    # all the arrays appropriately. this is mainly useful in the gui when
+    # you start a session before data collection has ended. 
+    def reload_data_path( self ) :
+        num_timesteps = get_num_times( self.data_path )
+        self.data.set_size( num_timesteps ) 
+
+
         
         
     # # read all available data at once into the object
