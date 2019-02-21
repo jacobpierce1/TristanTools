@@ -251,7 +251,7 @@ class TristanDataAnalyzer( TristanDataContainer ) :
         if self.data[ 'BB' ][ idx ] is not None :
             B_mag = np.sqrt( self.data[ 'BB' ][ idx ] )
         else :
-            B_mag = np.sqrt( self.compute_norm_squared( ['bx','by','bz'], idx) )
+            B_mag = np.sqrt( self._compute_norm_squared( ['bx','by','bz'], idx) )
 
         # normalize by B, so that what we see is the electric field component parallel to B
         self.data[ 'EB' ][ idx ] = tmp / B_mag
