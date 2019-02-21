@@ -1,0 +1,56 @@
+forrtl: severe (174): SIGSEGV, segmentation fault occurred
+Image              PC                Routine            Line        Source             
+tristan-mp3d-user  000000000089CEC5  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000089AAE7  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000851254  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000851066  Unknown               Unknown  Unknown
+tristan-mp3d-user  00000000008068A6  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000080A4A0  Unknown               Unknown  Unknown
+libpthread.so.0    00007F0787F3F680  Unknown               Unknown  Unknown
+libmpifort.so.12   00007F0788BB549A  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000054B473  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000040585E  Unknown               Unknown  Unknown
+libc.so.6          00007F0787B853D5  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000405769  Unknown               Unknown  Unknown
+forrtl: severe (174): SIGSEGV, segmentation fault occurred
+Image              PC                Routine            Line        Source             
+tristan-mp3d-user  000000000089CEC5  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000089AAE7  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000851254  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000851066  Unknown               Unknown  Unknown
+tristan-mp3d-user  00000000008068A6  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000080A4A0  Unknown               Unknown  Unknown
+libpthread.so.0    00007F684C07A680  Unknown               Unknown  Unknown
+libmpifort.so.12   00007F684CCF049A  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000054B473  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000040585E  Unknown               Unknown  Unknown
+libc.so.6          00007F684BCC03D5  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000405769  Unknown               Unknown  Unknown
+forrtl: severe (174): SIGSEGV, segmentation fault occurred
+Image              PC                Routine            Line        Source             
+tristan-mp3d-user  000000000089CEC5  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000089AAE7  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000851254  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000851066  Unknown               Unknown  Unknown
+tristan-mp3d-user  00000000008068A6  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000080A4A0  Unknown               Unknown  Unknown
+libpthread.so.0    00007FBE353A7680  Unknown               Unknown  Unknown
+libmpifort.so.12   00007FBE3601D49A  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000054B473  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000040585E  Unknown               Unknown  Unknown
+libc.so.6          00007FBE34FED3D5  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000405769  Unknown               Unknown  Unknown
+forrtl: severe (174): SIGSEGV, segmentation fault occurred
+Image              PC                Routine            Line        Source             
+tristan-mp3d-user  000000000089CEC5  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000089AAE7  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000851254  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000851066  Unknown               Unknown  Unknown
+tristan-mp3d-user  00000000008068A6  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000080A4A0  Unknown               Unknown  Unknown
+libpthread.so.0    00007FAECAEAB680  Unknown               Unknown  Unknown
+libmpifort.so.12   00007FAECBB2149A  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000054B473  Unknown               Unknown  Unknown
+tristan-mp3d-user  000000000040585E  Unknown               Unknown  Unknown
+libc.so.6          00007FAECAAF13D5  Unknown               Unknown  Unknown
+tristan-mp3d-user  0000000000405769  Unknown               Unknown  Unknown

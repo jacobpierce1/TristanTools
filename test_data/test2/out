@@ -1,0 +1,659 @@
+ Using input file 
+ input                                                                          
+                                                                                
+                                                                                
+                                            
+ Using user file user_beam_on_plasma.F90
+           0 :my indivisible by number of processors in the y direction
+           4           0
+           1 :my indivisible by number of processors in the y direction
+           4           0
+           2 :my indivisible by number of processors in the y direction
+           3 :my indivisible by number of processors in the y direction
+           4           0
+           4           0
+ finished adding ions
+  Reached end of inject_plasma_region_new
+ reordering particles
+ INFO: initializing EM fields...
+ initialize_fields :            1
+ finished adding ions
+  Reached end of inject_plasma_region_new
+ INFO: initializing EM fields...
+ initialize_fields :            1
+ finished adding ions
+ finished adding ions
+ successfully called init_EMfields_user
+  Reached end of inject_plasma_region_new
+  Reached end of inject_plasma_region_new
+ successfully called init_EMfields_user
+ INFO: initializing EM fields...
+ initialize_fields :            1
+ INFO: initializing EM fields...
+ initialize_fields :            1
+ successfully called init_EMfields_user
+ Read the following parameters from the input file
+ mx0, my0, mz0                    55                    55                    55
+ maxptl0               5000000
+ sizex           1 sizey           4
+ successfully called init_EMfields_user
+ exiting subroutine initialize
+ c,sigma, c_omp, gamma0,delgam,ppc0,me,mi,freevar  0.4500000       5.000000    
+   10.00000       10.00000      9.9999997E-05   16.00000      1.2656249E-03
+  1.2656249E-03  0.0000000E+00
+ irestart           0 intrestart       10000 laprest                     0 
+ namedrestint               1000000        -200
+ periodicx,periodicy,periodicz           0           0           1
+  wall,shiftint,shiftstart F           0           0
+  Highorder T
+ Corr   1.025000    
+ Last          20
+ interval, torqint           1     2000000
+ istep, istep1           1           2
+ ntimes          32 cleanfld           0 cleanint           0
+ Graphics, ips           1           1
+ debug F
+ btheta, bphi   1.570796       1.570796    
+ writetestlec F
+ writetestion F
+ rank           0           0           1   10.00000    
+ buffsize      180000
+ hdf5 def
+ maxptl0               5000000
+           0 :mz          55 mzall                     0 mz0
+                    55
+           0 :mzlast                     0
+           0 :my          17 myall                     0 my0
+                    55
+ mylast                     0
+ rank:           0 
+ restart/restflds.default.000.d                                        
+ exiting subroutine initialize
+ exiting subroutine initialize
+           0 :qe= -1.2656249E-03
+ Hello, world! I am            0  of            4
+           0 :prtl.000. flds.000. restart/restflds.default.000.d                
+ local mx=          55          55          55          55
+ exiting subroutine initialize
+ fparam=
+ output/param.000                                                               
+  
+ fnamefld=
+ output/flds.tot.000                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/prtl.tot.000                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/spect.000                                                               
+                                                                                
+                                                                                
+                                            
+ lap           1                  7200                  7200
+ Timers for this step ----------------------------------
+Field slv --> 2.31E-03 max  +17.0% min -18.6% stddev 16.9% nodes   1   3
+Mover     --> 4.71E-04 max +100.4% min -99.5% stddev 99.5% nodes   2   1
+Deposit   --> 7.28E-04 max  +37.6% min -40.4% stddev 37.6% nodes   2   1
+Part exch --> 2.96E-04 max +100.8% min -95.2% stddev 94.8% nodes   1   2
+Currnt exch-> 3.31E-04 max   +1.4% min  -2.5% stddev  1.6% nodes   2   4
+Filter    --> 2.32E-02 max   +0.5% min  -0.4% stddev  0.3% nodes   4   2
+Inject    --> 1.43E-05 max  +20.0% min -15.0% stddev 12.6% nodes   3   1
+=Total, sec=> 2.10E-01 max   +0.0% min  -0.0% stddev  0.0% nodes   4   1
+ ------------------------------------------------------
+ fparam=
+ output/param.001                                                               
+  
+ fnamefld=
+ output/flds.tot.001                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/prtl.tot.001                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/spect.001                                                               
+                                                                                
+                                                                                
+                                            
+ lap           2                  7200                  7200
+ Timers for this step ----------------------------------
+Field slv --> 1.94E-03 max  +22.7% min -23.2% stddev 20.9% nodes   1   3
+Mover     --> 4.61E-04 max +100.4% min -99.9% stddev 99.9% nodes   2   1
+Deposit   --> 3.29E-04 max  +84.0% min -83.6% stddev 83.6% nodes   2   1
+Part exch --> 2.89E-04 max  +96.4% min -97.2% stddev 96.3% nodes   4   2
+Currnt exch-> 1.86E-04 max   +3.5% min  -7.3% stddev  4.3% nodes   2   4
+Filter    --> 2.26E-02 max   +0.5% min  -0.5% stddev  0.3% nodes   4   2
+Inject    --> 1.05E-05 max  +22.7% min -22.7% stddev 18.7% nodes   2   1
+=Total, sec=> 1.98E-01 max   +0.0% min  -0.0% stddev  0.0% nodes   1   3
+ ------------------------------------------------------
+ fparam=
+ output/param.002                                                               
+  
+ fnamefld=
+ output/flds.tot.002                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/prtl.tot.002                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/spect.002                                                               
+                                                                                
+                                                                                
+                                            
+ lap           3                  7200                  7200
+ Timers for this step ----------------------------------
+Field slv --> 1.84E-03 max  +22.7% min -24.2% stddev 20.6% nodes   4   3
+Mover     --> 4.30E-04 max +112.1% min -99.9% stddev100.3% nodes   3   1
+Deposit   --> 2.86E-04 max +111.9% min -85.2% stddev 86.4% nodes   3   4
+Part exch --> 3.37E-04 max  +76.1% min -97.9% stddev 75.9% nodes   4   3
+Currnt exch-> 1.63E-04 max   +5.4% min  -7.4% stddev  4.7% nodes   3   4
+Filter    --> 2.03E-02 max   +0.4% min  -0.3% stddev  0.3% nodes   1   2
+Inject    --> 9.83E-06 max  +21.2% min -36.9% stddev 22.4% nodes   2   1
+=Total, sec=> 1.89E-01 max   +0.0% min  -0.0% stddev  0.0% nodes   4   1
+ ------------------------------------------------------
+ fparam=
+ output/param.003                                                               
+  
+ fnamefld=
+ output/flds.tot.003                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/prtl.tot.003                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/spect.003                                                               
+                                                                                
+                                                                                
+                                            
+ lap           4                  7200                  7200
+ Timers for this step ----------------------------------
+Field slv --> 1.77E-03 max  +18.4% min -22.1% stddev 16.8% nodes   4   2
+Mover     --> 3.62E-04 max +116.0% min -99.9% stddev100.6% nodes   2   1
+Deposit   --> 2.46E-04 max  +86.1% min -83.7% stddev 81.8% nodes   2   4
+Part exch --> 2.15E-04 max  +95.1% min -97.1% stddev 91.8% nodes   4   2
+Currnt exch-> 1.45E-04 max   +4.8% min  -7.6% stddev  4.7% nodes   1   4
+Filter    --> 2.03E-02 max   +0.6% min  -0.7% stddev  0.5% nodes   1   3
+Inject    --> 9.48E-06 max  +15.7% min -37.1% stddev 21.8% nodes   3   1
+=Total, sec=> 1.81E-01 max   +0.0% min  -0.0% stddev  0.0% nodes   1   3
+ ------------------------------------------------------
+ fparam=
+ output/param.004                                                               
+  
+ fnamefld=
+ output/flds.tot.004                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/prtl.tot.004                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/spect.004                                                               
+                                                                                
+                                                                                
+                                            
+ lap           5                  7200                  7200
+ Timers for this step ----------------------------------
+Field slv --> 1.69E-03 max  +18.3% min -20.3% stddev 16.3% nodes   4   2
+Mover     --> 3.50E-04 max +110.7% min -99.9% stddev100.3% nodes   2   1
+Deposit   --> 2.50E-04 max  +84.4% min -83.9% stddev 82.4% nodes   2   4
+Part exch --> 2.19E-04 max  +97.1% min -96.7% stddev 94.1% nodes   4   2
+Currnt exch-> 1.45E-04 max   +4.8% min  -8.9% stddev  5.3% nodes   1   4
+Filter    --> 2.03E-02 max   +0.6% min  -0.7% stddev  0.5% nodes   1   3
+Inject    --> 1.12E-05 max  +34.0% min -46.8% stddev 29.9% nodes   3   1
+=Total, sec=> 1.83E-01 max   +0.0% min  -0.0% stddev  0.0% nodes   1   3
+ ------------------------------------------------------
+ fparam=
+ output/param.005                                                               
+  
+ fnamefld=
+ output/flds.tot.005                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/prtl.tot.005                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/spect.005                                                               
+                                                                                
+                                                                                
+                                            
+ lap           6                  7200                  7200
+ Timers for this step ----------------------------------
+Field slv --> 1.90E-03 max  +17.0% min -19.3% stddev 15.3% nodes   4   2
+Mover     --> 3.58E-04 max +113.4% min -99.9% stddev100.4% nodes   2   1
+Deposit   --> 2.50E-04 max  +86.2% min -83.9% stddev 81.9% nodes   2   4
+Part exch --> 2.21E-04 max  +95.0% min -96.2% stddev 91.0% nodes   4   2
+Currnt exch-> 1.56E-04 max   +5.2% min  -7.0% stddev  4.4% nodes   1   4
+Filter    --> 2.04E-02 max   +0.6% min  -0.6% stddev  0.5% nodes   1   3
+Inject    --> 1.25E-05 max  +35.9% min -52.1% stddev 33.4% nodes   3   1
+=Total, sec=> 1.81E-01 max   +0.0% min  -0.0% stddev  0.0% nodes   1   3
+ ------------------------------------------------------
+ fparam=
+ output/param.006                                                               
+  
+ fnamefld=
+ output/flds.tot.006                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/prtl.tot.006                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/spect.006                                                               
+                                                                                
+                                                                                
+                                            
+ lap           7                  7200                  7200
+ Timers for this step ----------------------------------
+Field slv --> 1.74E-03 max  +19.4% min -24.4% stddev 18.0% nodes   4   2
+Mover     --> 3.67E-04 max +118.0% min -99.9% stddev100.7% nodes   2   4
+Deposit   --> 2.47E-04 max  +88.0% min -83.7% stddev 82.1% nodes   2   4
+Part exch --> 2.23E-04 max  +93.3% min -96.8% stddev 90.0% nodes   4   2
+Currnt exch-> 1.65E-04 max   +4.5% min  -6.9% stddev  4.3% nodes   1   4
+Filter    --> 2.00E-02 max   +0.5% min  -0.7% stddev  0.4% nodes   1   3
+Inject    --> 1.10E-05 max  +36.2% min -45.9% stddev 29.7% nodes   3   1
+=Total, sec=> 1.81E-01 max   +0.0% min  -0.0% stddev  0.0% nodes   1   3
+ ------------------------------------------------------
+ fparam=
+ output/param.007                                                               
+  
+ fnamefld=
+ output/flds.tot.007                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/prtl.tot.007                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/spect.007                                                               
+                                                                                
+                                                                                
+                                            
+ lap           8                  7200                  7200
+ Timers for this step ----------------------------------
+Field slv --> 1.73E-03 max  +19.2% min -23.0% stddev 17.5% nodes   4   2
+Mover     --> 3.61E-04 max +112.7% min -99.9% stddev100.3% nodes   2   4
+Deposit   --> 2.66E-04 max +100.5% min -84.5% stddev 83.8% nodes   2   4
+Part exch --> 2.72E-04 max  +82.3% min -97.3% stddev 80.7% nodes   4   2
+Currnt exch-> 1.44E-04 max   +5.4% min  -7.8% stddev  4.9% nodes   1   4
+Filter    --> 2.00E-02 max   +0.5% min  -0.7% stddev  0.5% nodes   1   3
+Inject    --> 1.10E-05 max  +36.2% min -45.9% stddev 29.7% nodes   3   1
+=Total, sec=> 2.21E-01 max   +0.0% min  -0.0% stddev  0.0% nodes   1   3
+ ------------------------------------------------------
+ fparam=
+ output/param.008                                                               
+  
+ fnamefld=
+ output/flds.tot.008                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/prtl.tot.008                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/spect.008                                                               
+                                                                                
+                                                                                
+                                            
+ lap           9                  7200                  7200
+ Timers for this step ----------------------------------
+Field slv --> 1.71E-03 max  +19.2% min -19.9% stddev 17.5% nodes   4   2
+Mover     --> 3.66E-04 max +103.7% min -99.6% stddev 98.8% nodes   2   4
+Deposit   --> 2.57E-04 max  +81.2% min -83.2% stddev 81.1% nodes   2   4
+Part exch --> 2.19E-04 max  +95.2% min -94.4% stddev 91.4% nodes   4   3
+Currnt exch-> 1.64E-04 max   +7.6% min  -5.8% stddev  5.4% nodes   1   2
+Filter    --> 2.04E-02 max   +0.5% min  -0.5% stddev  0.4% nodes   1   3
+Inject    --> 1.13E-05 max  +33.3% min -47.0% stddev 31.9% nodes   3   1
+=Total, sec=> 1.84E-01 max   +0.0% min  -0.0% stddev  0.0% nodes   1   3
+ ------------------------------------------------------
+ fparam=
+ output/param.009                                                               
+  
+ fnamefld=
+ output/flds.tot.009                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/prtl.tot.009                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/spect.009                                                               
+                                                                                
+                                                                                
+                                            
+ lap          10                  7200                  7200
+ reordering particles
+ Timers for this step ----------------------------------
+Field slv --> 1.78E-03 max  +17.9% min -18.6% stddev 16.6% nodes   4   2
+Mover     --> 3.67E-04 max +103.3% min -99.9% stddev100.0% nodes   2   1
+Deposit   --> 2.53E-04 max  +85.8% min -83.0% stddev 81.0% nodes   3   4
+Part exch --> 2.17E-04 max  +95.8% min -97.0% stddev 91.8% nodes   4   3
+Currnt exch-> 1.47E-04 max   +6.3% min  -7.3% stddev  4.9% nodes   1   4
+Filter    --> 2.05E-02 max   +0.5% min  -0.5% stddev  0.4% nodes   1   3
+Inject    --> 1.07E-05 max  +22.2% min -35.5% stddev 21.7% nodes   3   1
+=Total, sec=> 1.83E-01 max   +0.0% min  -0.1% stddev  0.0% nodes   3   4
+ ------------------------------------------------------
+ fparam=
+ output/param.010                                                               
+  
+ fnamefld=
+ output/flds.tot.010                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/prtl.tot.010                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/spect.010                                                               
+                                                                                
+                                                                                
+                                            
+ lap          11                  7200                  7200
+ Timers for this step ----------------------------------
+Field slv --> 1.75E-03 max  +17.6% min -17.3% stddev 16.2% nodes   4   2
+Mover     --> 3.56E-04 max +100.8% min -99.9% stddev 99.8% nodes   2   4
+Deposit   --> 2.64E-04 max  +85.6% min -84.0% stddev 81.7% nodes   2   4
+Part exch --> 2.29E-04 max  +95.9% min -96.8% stddev 92.2% nodes   4   2
+Currnt exch-> 1.46E-04 max   +4.9% min  -7.5% stddev  4.6% nodes   1   4
+Filter    --> 2.14E-02 max   +0.5% min  -0.5% stddev  0.4% nodes   1   3
+Inject    --> 1.42E-05 max  +32.8% min -51.2% stddev 33.3% nodes   2   1
+=Total, sec=> 1.87E-01 max   +0.0% min  -0.0% stddev  0.0% nodes   1   2
+ ------------------------------------------------------
+ fparam=
+ output/param.011                                                               
+  
+ fnamefld=
+ output/flds.tot.011                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/prtl.tot.011                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/spect.011                                                               
+                                                                                
+                                                                                
+                                            
+ lap          12                  7200                  7200
+ Timers for this step ----------------------------------
+Field slv --> 1.75E-03 max  +19.4% min -21.6% stddev 17.5% nodes   4   2
+Mover     --> 3.78E-04 max +110.3% min -99.9% stddev100.1% nodes   2   4
+Deposit   --> 2.42E-04 max  +82.0% min -83.9% stddev 81.0% nodes   2   4
+Part exch --> 2.05E-04 max  +99.6% min -96.5% stddev 94.5% nodes   4   2
+Currnt exch-> 1.45E-04 max   +8.7% min  -7.7% stddev  5.8% nodes   1   4
+Filter    --> 2.05E-02 max   +0.6% min  -0.6% stddev  0.4% nodes   1   3
+Inject    --> 1.17E-05 max  +36.0% min -49.2% stddev 32.2% nodes   3   1
+=Total, sec=> 1.85E-01 max   +0.0% min  -0.0% stddev  0.0% nodes   1   3
+ ------------------------------------------------------
+ fparam=
+ output/param.012                                                               
+  
+ fnamefld=
+ output/flds.tot.012                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/prtl.tot.012                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/spect.012                                                               
+                                                                                
+                                                                                
+                                            
+ lap          13                  7200                  7200
+ Timers for this step ----------------------------------
+Field slv --> 1.80E-03 max  +20.6% min -22.0% stddev 18.5% nodes   4   2
+Mover     --> 4.05E-04 max +103.9% min -99.9% stddev100.0% nodes   2   1
+Deposit   --> 2.52E-04 max  +89.7% min -82.4% stddev 81.8% nodes   3   4
+Part exch --> 2.33E-04 max  +91.2% min -97.3% stddev 89.1% nodes   4   3
+Currnt exch-> 1.61E-04 max   +5.6% min -12.4% stddev  7.2% nodes   1   4
+Filter    --> 2.05E-02 max   +0.6% min  -0.7% stddev  0.5% nodes   1   3
+Inject    --> 1.20E-05 max  +32.7% min -50.4% stddev 31.2% nodes   3   1
+=Total, sec=> 4.50E-01 max   +0.0% min  -0.0% stddev  0.0% nodes   1   3
+ ------------------------------------------------------
+ fparam=
+ output/param.013                                                               
+  
+ fnamefld=
+ output/flds.tot.013                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/prtl.tot.013                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/spect.013                                                               
+                                                                                
+                                                                                
+                                            
+ lap          14                  7200                  7200
+ Timers for this step ----------------------------------
+Field slv --> 1.82E-03 max  +18.7% min -18.2% stddev 17.4% nodes   4   2
+Mover     --> 3.85E-04 max +101.6% min -99.9% stddev100.0% nodes   3   1
+Deposit   --> 2.80E-04 max  +85.5% min -84.3% stddev 82.6% nodes   2   4
+Part exch --> 2.45E-04 max  +96.0% min -96.7% stddev 92.6% nodes   4   2
+Currnt exch-> 1.69E-04 max   +4.6% min  -6.6% stddev  4.1% nodes   1   4
+Filter    --> 2.11E-02 max   +0.4% min  -0.5% stddev  0.4% nodes   1   3
+Inject    --> 1.07E-05 max  +31.1% min -44.4% stddev 27.7% nodes   3   1
+=Total, sec=> 2.21E-01 max   +0.0% min  -0.0% stddev  0.0% nodes   1   3
+ ------------------------------------------------------
+ fparam=
+ output/param.014                                                               
+  
+ fnamefld=
+ output/flds.tot.014                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/prtl.tot.014                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/spect.014                                                               
+                                                                                
+                                                                                
+                                            
+ lap          15                  7200                  7200
+ Timers for this step ----------------------------------
+Field slv --> 1.77E-03 max  +19.2% min -22.4% stddev 17.5% nodes   4   2
+Mover     --> 3.87E-04 max +115.3% min -99.9% stddev100.5% nodes   2   1
+Deposit   --> 2.42E-04 max  +83.0% min -83.3% stddev 81.8% nodes   2   4
+Part exch --> 2.13E-04 max  +97.7% min -96.7% stddev 94.4% nodes   4   2
+Currnt exch-> 1.45E-04 max   +5.2% min  -7.9% stddev  4.9% nodes   1   4
+Filter    --> 2.04E-02 max   +0.6% min  -0.6% stddev  0.5% nodes   1   3
+Inject    --> 1.28E-05 max  +34.6% min -45.7% stddev 30.2% nodes   3   1
+=Total, sec=> 2.45E-01 max   +0.0% min  -0.0% stddev  0.0% nodes   1   3
+ ------------------------------------------------------
+ fparam=
+ output/param.015                                                               
+  
+ fnamefld=
+ output/flds.tot.015                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/prtl.tot.015                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/spect.015                                                               
+                                                                                
+                                                                                
+                                            
+ lap          16                  7200                  7200
+ Timers for this step ----------------------------------
+Field slv --> 2.23E-03 max  +15.4% min -16.7% stddev 14.7% nodes   4   2
+Mover     --> 3.73E-04 max +105.1% min -99.9% stddev100.1% nodes   2   1
+Deposit   --> 2.84E-04 max  +80.1% min -84.5% stddev 76.1% nodes   2   4
+Part exch --> 2.29E-04 max +102.8% min -96.4% stddev 88.2% nodes   4   2
+Currnt exch-> 1.95E-04 max  +19.6% min -13.2% stddev 12.1% nodes   1   3
+Filter    --> 2.25E-02 max   +0.2% min  -0.4% stddev  0.2% nodes   1   3
+Inject    --> 1.18E-05 max  +27.3% min -39.4% stddev 25.6% nodes   3   1
+=Total, sec=> 2.00E-01 max   +0.0% min  -0.0% stddev  0.0% nodes   1   2
+ ------------------------------------------------------
+ fparam=
+ output/param.016                                                               
+  
+ fnamefld=
+ output/flds.tot.016                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/prtl.tot.016                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/spect.016                                                               
+                                                                                
+                                                                                
+                                            
+ lap          17                  7200                  7200
+ Timers for this step ----------------------------------
+Field slv --> 1.77E-03 max  +18.7% min -22.8% stddev 17.2% nodes   4   2
+Mover     --> 3.75E-04 max +118.8% min -99.9% stddev100.9% nodes   2   1
+Deposit   --> 2.53E-04 max  +88.9% min -84.1% stddev 82.3% nodes   2   4
+Part exch --> 2.31E-04 max  +91.5% min -96.4% stddev 88.9% nodes   4   2
+Currnt exch-> 1.64E-04 max   +8.5% min  -9.1% stddev  6.2% nodes   3   4
+Filter    --> 2.05E-02 max   +0.6% min  -0.7% stddev  0.5% nodes   1   3
+Inject    --> 1.97E-05 max  +32.1% min -64.8% stddev 38.1% nodes   4   2
+=Total, sec=> 1.83E-01 max   +0.0% min  -0.0% stddev  0.0% nodes   2   3
+ ------------------------------------------------------
+ fparam=
+ output/param.017                                                               
+  
+ fnamefld=
+ output/flds.tot.017                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/prtl.tot.017                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/spect.017                                                               
+                                                                                
+                                                                                
+                                            
+ lap          18                  7200                  7200
+ Timers for this step ----------------------------------
+Field slv --> 1.75E-03 max  +21.6% min -22.6% stddev 19.0% nodes   1   3
+Mover     --> 3.71E-04 max +100.8% min -99.9% stddev 99.9% nodes   3   4
+Deposit   --> 2.82E-04 max  +94.8% min -84.6% stddev 83.9% nodes   2   4
+Part exch --> 2.81E-04 max  +82.0% min -92.4% stddev 81.9% nodes   1   2
+Currnt exch-> 1.52E-04 max   +0.9% min  -1.2% stddev  0.7% nodes   1   2
+Filter    --> 2.00E-02 max   +0.6% min  -0.6% stddev  0.4% nodes   4   2
+Inject    --> 7.45E-06 max  +34.4% min -20.0% stddev 22.4% nodes   2   1
+=Total, sec=> 1.61E-01 max   +0.0% min  -0.0% stddev  0.0% nodes   1   3
+ ------------------------------------------------------
+ fparam=
+ output/param.018                                                               
+  
+ fnamefld=
+ output/flds.tot.018                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/prtl.tot.018                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/spect.018                                                               
+                                                                                
+                                                                                
+                                            
+ lap          19                  7200                  7200
+ Timers for this step ----------------------------------
+Field slv --> 1.73E-03 max  +25.2% min -22.2% stddev 21.8% nodes   1   3
+Mover     --> 4.08E-04 max +110.8% min -99.9% stddev100.3% nodes   2   1
+Deposit   --> 2.71E-04 max  +82.6% min -81.8% stddev 80.2% nodes   2   1
+Part exch --> 2.30E-04 max  +94.4% min -96.9% stddev 93.5% nodes   1   2
+Currnt exch-> 1.45E-04 max   +5.0% min  -7.9% stddev  4.8% nodes   1   4
+Filter    --> 1.95E-02 max   +0.6% min  -0.4% stddev  0.4% nodes   4   2
+Inject    --> 9.18E-06 max  +29.9% min -35.0% stddev 26.0% nodes   2   1
+=Total, sec=> 2.23E-01 max   +0.0% min  -0.0% stddev  0.0% nodes   1   3
+ ------------------------------------------------------
+ fparam=
+ output/param.019                                                               
+  
+ fnamefld=
+ output/flds.tot.019                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/prtl.tot.019                                                            
+                                                                                
+                                                                                
+                                            
+ 
+ output/spect.019                                                               
+                                                                                
+                                                                                
+                                            
+ lap          20                  7200                  7200
+ reordering particles
+ Timers for this step ----------------------------------
+Field slv --> 1.72E-03 max  +22.3% min -22.8% stddev 19.6% nodes   1   3
+Mover     --> 3.77E-04 max +102.0% min -99.9% stddev100.0% nodes   2   1
+Deposit   --> 2.65E-04 max  +82.4% min -83.7% stddev 82.1% nodes   3   4
+Part exch --> 2.19E-04 max +100.0% min -96.8% stddev 96.9% nodes   4   2
+Currnt exch-> 1.63E-04 max   +9.7% min -14.8% stddev  9.2% nodes   2   4
+Filter    --> 1.93E-02 max   +0.6% min  -0.7% stddev  0.5% nodes   4   2
+Inject    --> 7.03E-06 max  +28.8% min -15.2% stddev 18.0% nodes   2   1
+=Total, sec=> 1.93E-01 max   +0.1% min  -0.1% stddev  0.0% nodes   2   4
+ ------------------------------------------------------
