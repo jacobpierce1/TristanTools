@@ -118,3 +118,10 @@ class MPLPlotContainer( QWidget ) :
 
     def delete( self ) :
         pass 
+
+
+    def clear( self ) :
+        self.tristan_data_plotter.clear() 
+
+    def reset( self ) :
+        self.tristan_data_plotter.reset() 

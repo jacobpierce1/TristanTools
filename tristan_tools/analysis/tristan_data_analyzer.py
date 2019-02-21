@@ -23,29 +23,6 @@ from .tristan_data_container import TristanDataContainer
 class TristanDataAnalyzer( TristanDataContainer ) :
     
     def __init__( self, data_path = None, computations_path = None, spectra_nbins = 1000 ) :
-
-        # store all computed quantities 
-        # self.computations = None 
-
-        # call __init__ from TristanDataContainer 
-        super().__init__( data_path )
-
-        if computations_path is None :
-            computations_path = self.data_path + '../computations/'
-
-        self.computations_path = computations_path 
-
-        if os.path.exists( computations_path ) :
-            print( 'INFO: found computations directory: ' + computations_path ) 
-
-        else : 
-            try : 
-                print( 'INFO: creating computations directory: ' + computations_path )
-                os.makedirs( self.computations_path, exist_ok = 1 )
-
-            except OSError : 
-                print( 'ERROR: unable to create computations directory: %s' % self.computations_path )
-                sys.exit( 1 ) 
                 
         # dictionary containing the function to be called to compute
         # the given quantity. each key maps to a function which takes one
@@ -82,7 +59,29 @@ class TristanDataAnalyzer( TristanDataContainer ) :
                                                                                                   
                                        
         self.computation_keys = set( self.computation_callbacks.keys() )
-        
+
+
+        # call __init__ from TristanDataContainer. only call it after the computation keys
+        # have been created so that the load_keys function will work. 
+        super().__init__( data_path )
+
+        if computations_path is None :
+            computations_path = self.data_path + '../computations/'
+
+        self.computations_path = computations_path 
+
+        if os.path.exists( computations_path ) :
+            print( 'INFO: found computations directory: ' + computations_path ) 
+
+        else : 
+            try : 
+                print( 'INFO: creating computations directory: ' + computations_path )
+                os.makedirs( self.computations_path, exist_ok = 1 )
+
+            except OSError : 
+                print( 'ERROR: unable to create computations directory: %s' % self.computations_path )
+                sys.exit( 1 ) 
+
         
         # # return the requiremnents for each computation:
         # # first the quantities required, then the indices. this is crucial
@@ -100,9 +99,18 @@ class TristanDataAnalyzer( TristanDataContainer ) :
         
         # we store all computations in the same RecursiveAttrDict as created in the parent
         # TristanDataContainer.
-        for key in self.computation_keys :
-            self.data[ key ] = None
+        print( 'calling load keys ' ) 
+        self.load_keys( 0 )
+
+
+
+    def load_keys( self, load_data_keys = 1 ) :
+
+        if load_data_keys : 
+            super().load_keys()
         
+        for key in self.computation_keys : 
+            self.data[ key ] = None
 
         # # this allocates space for more keys 
         # self.compute_momentum_spectra( 0, init = 1 )     

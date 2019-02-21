@@ -123,7 +123,13 @@ class PlotterWidget( QWidget ) :
     def get_canvas( self ) :
         return self.plot_container.get_canvas() 
 
+
+    def clear( self ) :
+        self.plot_container.clear()
+
         
+    def reset( self ) :
+        self.plot_container.reset() 
         
 
 def _get_plot_container_class( plot_type ) :

@@ -46,13 +46,20 @@ class VectorCutPlanePlotter( MayaviPlotter ) :
         # mlab.vectorbar()
         self.needs_startup =  0 
       
+
         
+    def clear( self ) :
+        for i in range(3) :
+            self.remove_slice(i)         
+        super().clear() 
+
+        
+    def reset( self ) :
+        self.clear() 
+        self.__init__( self.mayavi_scene, data = self.data ) 
+
         
                 
-    def reset( self ) :
-        mlab.clf( figure = self.mayavi_scene ) 
-        self.__init__( self.mayavi_scene, data = self.data ) 
-        
         
     # axis can be 0, 1, or 2 
     def add_slice( self, axis ) :

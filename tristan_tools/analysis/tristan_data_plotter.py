@@ -287,3 +287,12 @@ class TristanDataPlotter( object ) :
 
     def set_plotter_canvas( self, canvas ) :
         self.plotter.set_canvas( canvas ) 
+
+
+    def clear( self ) :
+        self.plotter.clear()
+
+
+    def reset( self ) :
+        self.clear() 
+        self.refresh() 

@@ -117,7 +117,14 @@ class MayaviPlotContainer( QWidget ) : # QtGui.QWidget ):
         pass 
 
 
-    
+    def clear( self ) :
+        self.tristan_data_plotter.clear() 
+
+        
+    def reset( self ) :
+        self.tristan_data_plotter.reset() 
+
+
 
         
 # hack to disable the mayavi toolbar

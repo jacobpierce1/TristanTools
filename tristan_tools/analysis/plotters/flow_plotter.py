@@ -22,6 +22,16 @@ class FlowPlotter( MayaviPlotter ) :
         # variable storing each of the 3 addable /removable slices 
         self.mayavi_plot = None
 
+        if self.data is not None :
+            self.startup()
+
+
+
+            
+    def reset( self ) :
+        self.clear() 
+        self.__init__( self.mayavi_scene, data = self.data ) 
+
 
                 
     def startup( self ) :
@@ -56,6 +66,8 @@ class FlowPlotter( MayaviPlotter ) :
         self.needs_startup =  0
 
 
+    
+        
 
     def set_max_propagation( self, x ) :
         self.mayavi_plot.stream_tracer.maximum_propagation = x 

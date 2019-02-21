@@ -34,11 +34,11 @@ class PlotArray( QWidget ) :
 
         # self.timestep = 0 
         
-        self.reset()
+        self.init_plots()
 
 
         
-    def reset( self ) :
+    def init_plots( self ) :
             
         # store all the qwidgets
         shape = self.state_handler.shape
@@ -69,8 +69,17 @@ class PlotArray( QWidget ) :
         
     # clear all plots. possibly change dimensions of the plot array.
     def clear( self ) : 
-       pass  
+       shape = self.state_handler.shape
+       for i in range( shape[0] ) :
+           for j in range( shape[1] ) :
+               self.plots[i,j].clear() 
 
+
+    def reset( self ) : 
+       shape = self.state_handler.shape
+       for i in range( shape[0] ) :
+           for j in range( shape[1] ) :
+               self.plots[i,j].reset() 
    
 
     # update all plots 

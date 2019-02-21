@@ -54,11 +54,16 @@ class VolumeSlicePlotter( MayaviPlotter ) :
         # mlab.colorbar( orientation = 'vertical' )
         self.needs_startup =  0 
       
+
+    def clear( self ) :
+        for i in range(3) :
+            self.remove_slice(i) 
         
+        super().clear() 
+
         
-                
     def reset( self ) :
-        mlab.clf( figure = self.mayavi_scene ) 
+        self.clear() 
         self.__init__( self.mayavi_scene, data = self.data ) 
         
         

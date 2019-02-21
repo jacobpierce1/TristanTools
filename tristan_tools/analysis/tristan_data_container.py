@@ -340,10 +340,7 @@ def idx_to_str( idx ) :
 
 
 
-def get_num_times( output_path ) :
-    # print( os.listdir( output_path ) )
-    
-    # num_files = len([name for name in os.listdir( output_path )])
+def get_num_times( output_path ) :    
     num_files = len( glob.glob( output_path + 'spect.*' ) ) 
     return num_files
 

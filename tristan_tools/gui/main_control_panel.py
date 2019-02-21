@@ -120,11 +120,14 @@ class MainControlPanel( QWidget ) :
         # timesteps = self.data_loader.timesteps_loaded
         
 
+
+        
     def load_new_button_clicked( self ) :
 
         new_data_path = str(QFileDialog.getExistingDirectory(self, "Select New Data"))
+        new_data_path += '/'
 
-        print( 'new_data_path: ', new_data_path ) 
+        print( 'INFO: setting new_data_path: ', new_data_path ) 
         if not new_data_path :
             return 
 
@@ -138,3 +141,7 @@ class MainControlPanel( QWidget ) :
         self.data_loader.handle_timestep( self.time_slider_widget.timestep,
                                           self.time_slider_widget.stride,
                                           self.time_slider_widget.max_timestep )
+
+        self.plot_array.reset() 
+        self.plot_array.update( self.time_slider_widget.timestep )
+        self.update_data_path_label() 

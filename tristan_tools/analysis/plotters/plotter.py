@@ -22,6 +22,7 @@ class MayaviPlotter( object ) :
         # self.mayavi_plot = None
         # self.needs_update = 1 
 
+        self.needs_startup = 1 
                 
         self.orientation_axes = None
         
@@ -98,7 +99,13 @@ class MayaviPlotter( object ) :
     def clear( self ) :
         if self.mayavi_scene : 
             mlab.clf( figure = self.mayavi_scene ) 
+        self.needs_startup = 1
 
+
+    # implement in subclasses if necessary.
+    def reset( self ) :
+        pass
+        
         # if self.ax :
         #     plt.clf( 
 

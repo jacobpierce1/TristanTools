@@ -15,7 +15,7 @@ import gui_config
 
 
 
-DEBUG_DATA_LOADER = 0
+DEBUG_DATA_LOADER = 1
 
 
 
@@ -161,4 +161,7 @@ class DataLoader( object ) :
         with self.lock : 
             self.timesteps_loaded.clear()
 
+        if DEBUG_DATA_LOADER:
+            print( 'INFO: cleared data loader.' )
+            print( 'self.timesteps_loaded: ', self.timesteps_loaded ) 
             
