@@ -25,15 +25,17 @@ class StateHandler( object ) :
 
         # self.load_state( DEFAULT_STATE_NAME ) 
 
-        # self.shape = ( 1, 2 ) 
-        self.shape = ( 1, 3 )
+        self.shape = ( 1, 2 ) 
+        # self.shape = ( 2, 2 )
         
         self.data_load_policy = LoadPolicy.LOAD_ALL 
 
-        self.keys = np.array( [ [ [ 'dens'],
-                                  [ 'bx', 'by', 'bz' ],
-                                  [ 'PP_e_spec' ] ] ] ) 
+        # self.keys = np.array( [ [ [ 'dens'],
+        #                           [ 'bx', 'by', 'bz' ],
+        #                           [ 'PP_e_spec' ] ] ] ) 
 
+        self.plot_names = [ 'dens', 'B' ] 
+        
         self.plot_types = np.array( [ [ 'volume_slice', 'vector_cut_plane', 'hist1d' ] ] ) 
 
         # self.plot_data = [ [ 'dens' ],

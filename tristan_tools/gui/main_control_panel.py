@@ -73,11 +73,15 @@ class MainControlPanel( QWidget ) :
     # or the slider in self.time_slider_widget. in this case we update the time
     # entries of all the other plots. 
     def update_plots( self ) :
+
+        print( 'calling data_loader.handle_timestep' )
         
         self.data_loader.handle_timestep( self.time_slider_widget.timestep,
                                           self.time_slider_widget.stride,
                                           self.time_slider_widget.max_timestep ) 
 
+        print( 'calling plot array update' ) 
+        
         self.plot_array.update( self.time_slider_widget.timestep )
 
         self.update_time_label() 

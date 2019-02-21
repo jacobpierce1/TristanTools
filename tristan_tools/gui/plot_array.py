@@ -73,9 +73,7 @@ class PlotArray( QWidget ) :
         # self.timestep = timestep 
         
         shape = self.state_handler.shape 
+
         for i in range( shape[0] ) :
             for j in range( shape[1] ) :
-                print( (i,j) )
-                print( self.plots[i,j].tristan_data_plotter.keys )
-                print( self.plots[i,j].tristan_data_plotter.plot_type )
                 self.plots[i,j].update( timestep ) 

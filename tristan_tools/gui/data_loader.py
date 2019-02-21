@@ -15,13 +15,13 @@ import gui_config
 
 
 
-DEBUG_DATA_LOADER = 1
+DEBUG_DATA_LOADER = 0
+
 
 
 
 # see https://stackoverflow.com/questions/3262346/pausing-a-thread-using-threading-class
 # to see how the thread event pausing works. 
-
 
 class DataLoader( object ) :
 

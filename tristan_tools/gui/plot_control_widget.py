@@ -48,9 +48,12 @@ class PlotControlWidget( QWidget ) :
         layout.addWidget( actions_button ) 
 
         num_times = len( self.tristan_data_plotter.analyzer )
-        self.time_slider_widget = TimeSliderWidget( num_times, use_slider = 0 )
 
-        layout.addWidget( self.time_slider_widget ) 
+        # before i had started an implementation where each plot has its own
+        # time slider widget, but decided against it because of the data loading issues
+        # could be implemented but probably not worth it .
+        # self.time_slider_widget = TimeSliderWidget( num_times, use_slider = 0 )
+        # layout.addWidget( self.time_slider_widget ) 
 
         self.setLayout( layout ) 
 

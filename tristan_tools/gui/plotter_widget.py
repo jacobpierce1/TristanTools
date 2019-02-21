@@ -84,11 +84,11 @@ class PlotterWidget( QWidget ) :
         
     def update( self, timestep = None ) :
         
-        if timestep is None :
-            timestep = self.plot_controller.time_slider_widget.timestep  
+        # if timestep is None :
+        #     timestep = self.plot_controller.time_slider_widget.timestep  
 
-        else :
-            self.plot_controller.time_slider_widget.update( timestep ) 
+        # else :
+        #     self.plot_controller.time_slider_widget.update( timestep ) 
 
         self.plot_container.update( timestep ) 
 
