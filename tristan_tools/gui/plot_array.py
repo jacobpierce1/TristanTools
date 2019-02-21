@@ -49,11 +49,17 @@ class PlotArray( QWidget ) :
         shape = self.state_handler.shape
 
         for i in range( shape[0] ) :
-            for j in range( shape[1] ) : 
 
+            layout.setRowStretch( i, 1 ) 
+                        
+            for j in range( shape[1] ) :
+
+                if i == 0 : 
+                    layout.setColumnStretch( j,1 ) 
+                    
                 self.plots[i,j] = PlotterWidget( self.analyzer,
                                                  self.state_handler.plot_types[i,j],
-                                                 self.state_handler.keys[i,j] )
+                                                 self.state_handler.plot_names[i,j] )
             
                 layout.addWidget( self.plots[i,j], i, j)
                 

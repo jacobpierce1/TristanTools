@@ -22,8 +22,20 @@ from collections import OrderedDict
 
 
 
+
+# these are implemented in the directory plotters 
+PLOTTERS_DICT = { 'volume_slice' : VolumeSlicePlotter,
+                  'volume' : VolumePlotter, 
+                  'vector_field' : VectorFieldPlotter,
+                  'vector_cut_plane' : VectorCutPlanePlotter,
+                  'hist1d' : Hist1dPlotter,
+                  'flow' : FlowPlotter }
+
+
+
+
 # store the keys for each type of data 
-DATA_NAME_TO_KEYS_DICT = OrderedDict( [
+PLOT_NAME_TO_KEYS_DICT = OrderedDict( [
     ( 'B', [ 'bx', 'by', 'bz' ] ),
     ( 'E', [ 'ex', 'ey', 'ez' ] ),
     ( 'J', [ 'jx', 'jy', 'jz' ] ),
@@ -37,33 +49,28 @@ ALL_SCALARS = [ 'dens', 'densi',
                 'jx', 'jy', 'jz',
                 'v3x', 'v3y', 'v3z',
                 'v3xi', 'v3y', 'v3zi',
-                'EE', 'BB', 'JJ' ] 
+                'EE', 'BB', 'JJ', 'EB' ] 
 
 ALL_VECTORS = [ 'E', 'B', 'J', 'V3', 'V3i' ]
 
-ALL_1D_SPECTRA_KEYS = [ 'PP_e_spec', 'PP_i_spec',
-                        'px_e_spec', 'py_e_spec', 'pz_e_spec',
-                        'px_i_spec', 'py_i_spec', 'pz_i_spec'   ] 
+# ALL_1D_SPECTRA_KEYS = [ 'PP_e_spec', 'PP_i_spec',
+#                         'px_e_spec', 'py_e_spec', 'pz_e_spec',
+#                         'px_i_spec', 'py_i_spec', 'pz_i_spec'   ] 
+
+
+ALL_1D_SPECTRA_PLOT_NAMES = [ 'PP', 'px', 'py', 'pz' ] 
 
 
 ALL_HISTS = []
-ALL_HISTS.extend( ALL_1D_SPECTRA_KEYS ) 
-
-# these are implemented in the directory plotters 
-PLOTTERS_DICT = { 'volume_slice' : VolumeSlicePlotter,
-                  'volume' : VolumePlotter, 
-                  'vector_field' : VectorFieldPlotter,
-                  'vector_cut_plane' : VectorCutPlanePlotter,
-                  'hist1d' : Hist1dPlotter }
-
+ALL_HISTS.extend( ALL_1D_SPECTRA_PLOT_NAMES ) 
 
 
 
 for x in ALL_SCALARS :
-    DATA_NAME_TO_KEYS_DICT[ x ] = [ x ] 
+    PLOT_NAME_TO_KEYS_DICT[ x ] = [ x ] 
 
 for x in ALL_HISTS :
-    DATA_NAME_TO_KEYS_DICT[ x ] = [ x ]
+    PLOT_NAME_TO_KEYS_DICT[ x ] = [ x + '_e_spec', x + '_i_spec' ]
     
 
 # this is an orderedDict instead of regular dict so that the
@@ -73,7 +80,8 @@ AVAILABLE_DATA_DICT = OrderedDict( [
     ( 'volume', ALL_SCALARS ),
     ( 'vector_field', ALL_VECTORS ),
     ( 'vector_cut_plane', ALL_VECTORS ),
-    ( 'hist1d', ALL_HISTS )
+    ( 'hist1d', ALL_HISTS ),
+    ( 'flow', ALL_VECTORS )
 ] )
     
 
@@ -89,14 +97,17 @@ class TristanDataPlotter( object ) :
     # be accessed for plotting the data. you are responsible for loading
     # the appropriate data as necessary in this object.
     # save_path (optional): directory in which to save files 
-    def __init__( self, tristan_data_analyzer, plot_canvas = None, keys = None, 
-                  save_path = None, plot_type = None, data_getter = None ) :
+    def __init__( self, tristan_data_analyzer, plot_canvas = None,  save_path = None,
+                  plot_type = None, plot_name = None, data_getter = None ) :
+
+
+        self.available_data_dict = AVAILABLE_DATA_DICT
+
+        self.plot_name_to_keys_dict = PLOT_NAME_TO_KEYS_DICT 
+
 
         # analyzer for accessing data and computations 
         self.analyzer = tristan_data_analyzer  
-
-        # keys that will be used to access data 
-        self.keys = keys
 
         # # mayavi plot for updating. a new one will be created if not supplied.
         # self.mayavi_scene = mayavi_scene
@@ -109,8 +120,12 @@ class TristanDataPlotter( object ) :
         # can always be changed later.
         self.plot_type = plot_type
 
-        # # will be called by plot() if the plot needs to be cleared
-        # self.plot_needs_clear = 0 
+        self.plot_name = plot_name
+
+        # keys that will be used to access data in default data getter 
+        if plot_name is not None : 
+            self.keys = self.plot_name_to_keys_dict[ plot_name ] 
+
 
         # a new plot will be created if this is 1 and any function is called
         self.need_new_plot = 1
@@ -136,10 +151,6 @@ class TristanDataPlotter( object ) :
         # plot_canvas is either a mayavi_scene or a mpl axes. 
         self.plotter = self.plotters_dict[ self.plot_type ]( plot_canvas )
 
-
-        self.available_data_dict = AVAILABLE_DATA_DICT
-
-        self.data_name_to_keys_dict = DATA_NAME_TO_KEYS_DICT 
                 
         
         self.timestep = None
@@ -170,14 +181,16 @@ class TristanDataPlotter( object ) :
 
     
 
-    def set_plot_type( self, plot_type, keys ) :
+    def set_plot_type( self, plot_type, plot_name ) :
 
         old_plot_type = self.plotter.get_type()
         old_canvas = self.plotter.get_canvas() 
         
         # self.plot_needs_clear = 1     
         self.plot_type = plot_type
-        self.keys = keys
+        self.plot_name = plot_name 
+        self.keys = self.plot_name_to_keys_dict[ plot_name ] 
+            
         self.plotter.clear()
 
         self.plotter = self.plotters_dict[ self.plot_type ]( None ) 
@@ -190,7 +203,15 @@ class TristanDataPlotter( object ) :
         if new_plot_type == old_plot_type :
             self.plotter.set_canvas( old_canvas ) 
         
+
+
+    def set_plot_name( self, plot_name ) :
+        self.plot_name = plot_name
+        keys = self.plot_name_to_keys_dict[ plot_name ] 
+        self.keys = keys 
         
+
+            
     # change keys 
     def set_keys( self, keys ) :
         if len( keys ) != len( self.keys ) :

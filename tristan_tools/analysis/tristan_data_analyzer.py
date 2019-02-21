@@ -62,6 +62,7 @@ class TristanDataAnalyzer( TristanDataContainer ) :
         self.computation_callbacks = { 'BB' : self.compute_BB,
                                        'EE' : self.compute_EE,
                                        'JJ' : self.compute_JJ,
+                                       'EB' : self.compute_EB, 
                                        'ExB' : self.compute_ExB } 
                                        # 'momentum_spectra' : self.compute_momentum_spectra }
                                        
@@ -106,14 +107,14 @@ class TristanDataAnalyzer( TristanDataContainer ) :
         # # this allocates space for more keys 
         # self.compute_momentum_spectra( 0, init = 1 )     
             
-        # this dict is accessed by the GUI to print the available quantities
-        # in latex. ignore if using TristanDataAnalyzer for offline analysis.
-        # make sure to append to this dict any new quantities you make if
-        # you want to be able to visualize them in the GUI.
-        self.computation_key_descriptions_dict = { 'BB' : r'$|B|^2$',
-                                                   'EE' : r'$|E|^2$',
-                                                   'JJ' : r'$|J|^2$',
-                                                   'ExB' : r'$E\times B$' } 
+        # # this dict is accessed by the GUI to print the available quantities
+        # # in latex. ignore if using TristanDataAnalyzer for offline analysis.
+        # # make sure to append to this dict any new quantities you make if
+        # # you want to be able to visualize them in the GUI.
+        # self.computation_key_descriptions_dict = { 'BB' : r'$|B|^2$',
+        #                                            'EE' : r'$|E|^2$',
+        #                                            'JJ' : r'$|J|^2$',
+        #                                            'ExB' : r'$E\times B$' } 
         
 
 
@@ -180,9 +181,11 @@ class TristanDataAnalyzer( TristanDataContainer ) :
                         # for computed_key in computed_keys : 
 
                         if save :
-                            print( 'saving key: ' + str( key ) ) 
+                            # print( 'saving key: ' + str( key ) ) 
                             tmp_data = self.data[ key ][ idx ]
 
+                            # print( 'shape: ' + str( tmp_data.shape ) )
+                            
                             # print( key )
                             # print( tmp_data ) 
 
@@ -204,29 +207,47 @@ class TristanDataAnalyzer( TristanDataContainer ) :
 
     
     def compute_BB( self, idx ) :
-        return self._compute_norm_squared( 'BB', [ 'bx', 'by', 'bz' ], idx )
-
+        x = self._compute_norm_squared( [ 'bx', 'by', 'bz' ], idx )
+        self.data[ 'BB' ][idx ]  = x
     
     
     def compute_EE( self, idx ) :
-        return self._compute_norm_squared( 'EE', [ 'ex', 'ey', 'ez' ], idx )
-
+        x = self._compute_norm_squared( [ 'ex', 'ey', 'ez' ], idx )
+        self.data[ 'EE' ][idx ]  = x
     
     
     def compute_JJ( self, idx ) :
-        return self._compute_norm_squared( 'JJ', [ 'jx', 'jy', 'jz' ], idx )
+        x = self._compute_norm_squared( [ 'jx', 'jy', 'jz' ], idx )
+        self.data[ 'JJ' ][idx ]  = x
 
 
-    
+    # believe or not this is much faster than np.sum( np.square( [x,y,z] ) )
     # helper function for EE, BB, JJ
-    def _compute_norm_squared( self, data_name, keys, idx ) :
+    def _compute_norm_squared( self, keys, idx ) :
         x = np.zeros( self.data[ keys[0] ][idx].shape )
         for key in keys :
             x += self.data[ key ][ idx ] ** 2 
-
-        self.data[ data_name ][idx ]  = x
-
+        return x 
         
+
+
+    def compute_EB( self, idx ) :
+        
+        E = [ self.data[ key ][ idx ] for key in [ 'ex', 'ey', 'ez' ] ]
+        B = [ self.data[ key ][ idx ] for key in [ 'bx', 'by', 'bz' ] ]
+
+        # compute dot product along first axis (if you don't believe me,
+        # play around with the function einsum. it is awesome.)
+        tmp =  np.einsum( 'a...,a...', E, B )
+
+        if self.data[ 'BB' ][ idx ] is not None :
+            B_mag = np.sqrt( self.data[ 'BB' ][ idx ] )
+        else :
+            B_mag = np.sqrt( self.compute_norm_squared( ['bx','by','bz'], idx) )
+
+        # normalize by B, so that what we see is the electric field component parallel to B
+        self.data[ 'EB' ][ idx ] = tmp / B_mag
+
             
     def compute_ExB( self, idx ) :
 

@@ -28,7 +28,7 @@ MPL_PLOT_TYPES = [ 'hist1d' ]
 
 class PlotterWidget( QWidget ) :
 
-    def __init__( self , tristan_data_analyzer, plot_type, keys ) :
+    def __init__( self , tristan_data_analyzer, plot_type, plot_name ) :
         super().__init__()
 
         
@@ -40,9 +40,10 @@ class PlotterWidget( QWidget ) :
         self.title_label.setAlignment( Qt.AlignCenter ) 
         layout.addWidget( self.title_label ) 
 
-        self.tristan_data_plotter = TristanDataPlotter(
-            tristan_data_analyzer, plot_type = plot_type, keys = keys ) 
-
+        self.tristan_data_plotter = TristanDataPlotter( tristan_data_analyzer, plot_type = plot_type ) 
+        self.tristan_data_plotter.set_plot_name( plot_name ) 
+        
+        
         plot_container_class = _get_plot_container_class( plot_type ) 
         self.plot_container = plot_container_class( self.tristan_data_plotter )
         layout.addWidget( self.plot_container ) 
@@ -66,17 +67,19 @@ class PlotterWidget( QWidget ) :
 
             title = plot_type
 
-            keys_str = ''
-            keys = self.tristan_data_plotter.keys 
-            for i in range( len( keys ) ) :
+            # keys_str = ''
+            # keys = self.tristan_data_plotter.keys 
+            # for i in range( len( keys ) ) :
 
-                keys_str += str( keys[i] )
+            #     keys_str += str( keys[i] )
 
-                if i < len( keys ) - 1 :
-                    keys_str += ', '
+            #     if i < len( keys ) - 1 :
+            #         keys_str += ', '
                             
-            title += ': ' + keys_str 
-                    
+            # title += ': ' + keys_str 
+
+            title += ': ' + self.tristan_data_plotter.plot_name 
+            
         self.title_label.setText( title ) 
         
 

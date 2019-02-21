@@ -18,6 +18,9 @@ class Hist1dPlotter( MPLPlotter ) :
         self.ax = mpl_ax
         self.data = data 
         
+        # first entry plots electrons
+        # second plots ions 
+        self.show_species = [1,1]
         
         self.data_added = 0
         self.needs_startup = 1 
@@ -47,15 +50,35 @@ class Hist1dPlotter( MPLPlotter ) :
         self.ax.clear() 
 
         self.data = data
-        
-        hist, bins = data[0][:,:-1]
 
-        print( 'self.needs_startup :' + str( self.needs_startup  ) ) 
-    
-        self.ax.semilogy( bins, hist, ls = 'steps-mid' ) 
+        labels = [ 'electrons', 'ions' ]
 
+        for i in range(2) :
+
+            if self.show_species[i] : 
             
+                hist, bins = data[i][:,:-1]
                 
+                self.ax.semilogy( bins, hist, ls = 'steps-mid', label = labels[i]  ) 
+
+        leg = self.ax.legend( loc = 'best' )
+        leg.draggable() 
+        
+
+        
+    def set_show_species( self, show_species = None ) :
+        # self.set_show_electrons = 
+
+        if show_species is None :
+            self.show_species = [1,1]
+
+        else :
+            self.show_species = show_species 
+
+        self.set_data( self.data ) 
+            
+
+        
 def print_info( obj ) :
 
     print( type( obj ) )

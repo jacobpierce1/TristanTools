@@ -17,7 +17,8 @@ _plot_options_widgets = { 'volume_slice' : VolumeSliceOptionsWidget,
                           'volume' : VolumeOptionsWidget, 
                           'vector_field' : VectorFieldOptionsWidget,
                           'vector_cut_plane' : VectorCutPlaneOptionsWidget,
-                          'hist1d' : Hist1dOptionsWidget } 
+                          'hist1d' : Hist1dOptionsWidget,
+                          'flow' : FlowOptionsWidget } 
 
 
 # plotter widget is the parent, i.e. this object is created inside a
@@ -107,8 +108,11 @@ class PlotOptionsDialog( QDialog ) :
         
         self.plot_type_combobox = QComboBox()
 
-        for key in self.tristan_data_plotter.available_data_dict.keys() :
-            self.plot_type_combobox.addItem( key )  
+        plot_types = list( self.tristan_data_plotter.available_data_dict.keys() ) 
+        for i in range( len( plot_types ) ) :
+            self.plot_type_combobox.addItem( plot_types[i] )
+            if plot_types[i] == self.tristan_data_plotter.plot_type :
+                self.plot_type_combobox.setCurrentIndex( i ) 
 
         # activated signal is when the user selects a new index
         # but not when the index is changed via a setter 
@@ -170,21 +174,25 @@ class PlotOptionsDialog( QDialog ) :
         available_data = self.tristan_data_plotter.available_data_dict[ self.plot_type ]
         for i in range( len( available_data ) ) :
             self.data_selection_combobox.addItem( available_data[i] ) 
-                        
+
+            if available_data[i] == self.tristan_data_plotter.plot_name :
+                self.data_selection_combobox.setCurrentIndex( i ) 
+            
 
         
         
     def data_selection_changed( self ) :
 
-        self.data_name = self.data_selection_combobox.currentText()
-        keys = self.tristan_data_plotter.data_name_to_keys_dict[ self.data_name ] 
+        self.plot_name = self.data_selection_combobox.currentText()
+        
+        # keys = self.tristan_data_plotter.plot_name_to_keys_dict[ self.plot_name ] 
 
         # if the plot type has been changed, then change the plot type and set the new keys
         if self.plot_type_changed_status :
 
             old_plotter_code = self.tristan_data_plotter.get_plotter_type()
             
-            self.tristan_data_plotter.set_plot_type( self.plot_type, keys ) 
+            self.tristan_data_plotter.set_plot_type( self.plot_type, self.plot_name ) 
             
             self.plot_type_changed_status = 0
 
@@ -205,8 +213,8 @@ class PlotOptionsDialog( QDialog ) :
         
         # otherwise update the data immediately 
         else :
-            print( 'setting new keys' ) 
-            self.tristan_data_plotter.set_keys( keys )
+            print( 'setting new plot name' ) 
+            self.tristan_data_plotter.set_plot_name( self.plot_name )
             self.tristan_data_plotter.refresh() 
 
         
@@ -231,7 +239,7 @@ class PlotOptionsDialog( QDialog ) :
     def ok_button_clicked( self ) :
 
         # if self.plot_type_changed_status :
-        #     keys = self.tristan_data_plotter.data_name_to_keys_dict[ self.data_name ] 
+        #     keys = self.tristan_data_plotter.plot_name_to_keys_dict[ self.plot_name ] 
         #     self.tristan_data_plotter.set_plot_type( self.plot_type, keys )
         pass 
         # self.close() 

@@ -27,6 +27,11 @@ class MPLPlotOptionsWidget( QWidget ) :
 
         super().__init__()
 
+        self.plotter = plotter
+
+        layout = QFormLayout()
+        self.setLayout( layout ) 
+
         if set_current_values :
             self.set_current_values() 
 
@@ -268,6 +273,47 @@ class VolumeOptionsWidget( MayaviPlotOptionsWidget ) :
 
 
 
+class FlowOptionsWidget( MayaviPlotOptionsWidget ) :
+
+    def __init__( self, plotter ) :
+        super().__init__( plotter, 0 )
+
+        layout = self.layout()
+
+        
+        labels = [ 'max propagation', 'max num steps' ]
+        callbacks = [ self.set_max_propagation, self.set_max_nsteps ] 
+        entries = [] 
+
+        for i in range(2) : 
+            x = QLineEdit()
+            x.setValidator( QIntValidator() )
+            x.returnPressed.connect( callbacks[i] ) 
+            layout.addRow( labels[i], x )
+            entries.append(x) 
+
+        self.max_propagation_entry, self.max_nsteps_entry = entries 
+
+        self.set_current_values() 
+
+        
+    def set_max_propagation( self ) :
+        x = int( self.max_propagation_entry.text() ) 
+        self.plotter.set_max_propagation( x ) 
+
+
+    def set_max_nsteps( self ) :
+        x = int( self.max_nsteps_entry.text() )
+        self.plotter.set_max_nsteps( x ) 
+
+    
+    def set_current_values( self ) :
+        x = self.plotter.get_max_propagation()
+        self.max_propagation_entry.setText( str( x ) ) 
+
+        x = self.plotter.get_max_nsteps()
+        self.max_nsteps_entry.setText( str( x ) ) 
+        
 
 
 
@@ -278,14 +324,33 @@ class Hist1dOptionsWidget( MPLPlotOptionsWidget  ) :
 
     def __init__( self, plotter ) :
         super().__init__( plotter, 0 )
+
         layout = self.layout() 
 
+        self.checkboxes = []
+
+        labels = [ 'electrons', 'ions' ] 
+            
+        for i in range(2) :
+            x = QCheckBox()
+            x.clicked.connect( self.set_show_species ) 
+            self.checkboxes.append( x )
+            layout.addRow( labels[i], x ) 
+        
         self.set_current_values()
+
+        
+
+    def set_show_species( self ) :
+        show_species  = [ x.checkState() for x in self.checkboxes ] 
+        self.plotter.set_show_species( show_species ) 
 
 
     def set_current_values( self ) :
-        
-
+        # self.show_electrons_checkbox.setCheckState( int2checkstate( self.plotter.show_species[0] ) )
+        # self.show_ions_checkbox.setCheckState( int2checkstate( self.plotter.show_species[1] ) )
+        for i in range(2) :
+            self.checkboxes[i].setCheckState( int2checkstate( self.plotter.show_species[i] ) )
         super().set_current_values()
         
 

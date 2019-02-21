@@ -33,7 +33,7 @@ class VectorCutPlanePlotter( MayaviPlotter ) :
     def startup( self ) :
         # super().startup()
         
-        self.mask_points = 2 
+        self.mask_points = 1 
         
         for i in range(3) :
             if self.slices_to_add[i] :
@@ -105,7 +105,10 @@ class VectorCutPlanePlotter( MayaviPlotter ) :
         for plot in self.mayavi_plots :
             if plot :
                 return plot.glyph.mask_points.on_ratio
-        
+
+            
+    def get_scale_factor( self ) :
+        pass 
 
         
                     
