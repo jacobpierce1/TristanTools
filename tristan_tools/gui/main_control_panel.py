@@ -7,6 +7,8 @@ from PyQt5.QtGui import QIntValidator, QDoubleValidator, QFont, QPixmap
 from PyQt5 import QtCore
 
 
+from tristan_tools.analysis import TristanError
+
 
 from time_slider_widget import TimeSliderWidget
 from data_loader import DataLoader 
@@ -120,4 +122,19 @@ class MainControlPanel( QWidget ) :
 
     def load_new_button_clicked( self ) :
 
-        pass 
+        new_data_path = str(QFileDialog.getExistingDirectory(self, "Select New Data"))
+
+        print( 'new_data_path: ', new_data_path ) 
+        if not new_data_path :
+            return 
+
+        try : 
+            self.analyzer.set_data_path( new_data_path )
+
+        except TristanError :
+            return
+
+        self.data_loader.clear()
+        self.data_loader.handle_timestep( self.time_slider_widget.timestep,
+                                          self.time_slider_widget.stride,
+                                          self.time_slider_widget.max_timestep )

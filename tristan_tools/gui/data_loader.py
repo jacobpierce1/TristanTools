@@ -154,6 +154,11 @@ class DataLoader( object ) :
                 self.current_timestep_finished_event.set() 
                 
             self.queue.task_done() 
+
+
+
+    def clear( self ) :
+        with self.lock : 
+            self.timesteps_loaded.clear()
+
             
-            
-    # def load_next_index

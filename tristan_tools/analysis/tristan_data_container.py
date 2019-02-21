@@ -30,6 +30,12 @@ params_prefix = 'param'
 all_prefixes = [ particles_prefix, fields_prefix, spectra_prefix, params_prefix ] 
 
 
+
+class TristanError( Exception ) :
+    pass 
+
+
+
                 
 class TristanDataContainer( object ) :
 
@@ -55,21 +61,20 @@ class TristanDataContainer( object ) :
         
     # set the data path and load parameters  
     def set_data_path( self, data_path ) : 
-        self.clear()
+        
         # self.data_path = data_path
 
         if not os.path.exists( data_path ) :
-            print( 'ERROR: data path %s not found' % data_path ) 
-            sys.exit(0)
+            raise OSError( 'ERROR: data path %s not found' % data_path ) 
         
         # max index that the container will look to. note that you could manually set this
         # to cut off looking at higher-time data. 
         num_times = get_num_times( data_path )
 
         if num_times == 0 :
-            print( 'ERROR: data directory %s is empty' % data_path ) 
-            sys.exit(1) 
+            raise TristanError( 'ERROR: data directory %s is empty' % data_path ) 
             
+        self.clear()
         self.data.set_size( num_times ) 
             
         self.data_path = data_path
