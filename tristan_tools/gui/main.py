@@ -20,7 +20,6 @@ from state_handler import StateHandler, LoadPolicy
 import tristan_tools.analysis as analysis 
 
 import sys 
-import scipy.stats as st
 import struct 
 import threading
 import datetime

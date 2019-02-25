@@ -1,4 +1,4 @@
-
+import numpy as np
 
 DEVELOPER_MODE = 1
 
@@ -24,11 +24,16 @@ DATA_LOADER_NUM_THREADS = 6
 
 
 # change this if you subclass the analyzer and want to use
-# a different one for your analysis 
+# a different one for your analysis. see readme if this confuses you. 
 import tristan_tools.analysis as analysis
 analyzer = analysis.TristanDataAnalyzer 
 
 
+
+# if a computation takes longer than this number of seconds, then save to disk
+# set to 0 to save everything
+# set to np.inf to save nothing 
+computation_time_threshold = 0.5
 
 
 # configure the default plots here

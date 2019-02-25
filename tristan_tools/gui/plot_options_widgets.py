@@ -188,12 +188,22 @@ class VectorCutPlaneOptionsWidget( MayaviPlotOptionsWidget ) :
         descriptions = [ 'Mask points', 'Scale factor' ]
         for i in range(2) : 
             x = QLineEdit()
-            x.setValidator( QIntValidator() )
+            x.setValidator( QIntValidator(1,999) )
             x.returnPressed.connect( callbacks[i] ) 
             layout.addRow( descriptions[i], x ) 
             entries.append(x) 
             
-        self.mask_points_entry, self.scale_factor_entry = entries 
+        self.mask_points_entry, self.scale_factor_entry = entries
+
+        self.scale_mode_combobox = QComboBox()
+        self.scale_mode_combobox.activated.connect( self.set_scale_mode )
+        layout.addRow( 'Scale mode', self.scale_mode_combobox )
+        
+        modes = [ 'scale_by_vector', 'data_scaling_off' ] 
+        for i in range( len( modes ) ) :
+            self.scale_mode_combobox.addItem( modes[i] )
+            if self.plotter.scale_mode == modes[i] :
+                self.scale_mode_combobox.setCurrentIndex( i ) 
 
         self.set_current_values()
 
@@ -208,9 +218,9 @@ class VectorCutPlaneOptionsWidget( MayaviPlotOptionsWidget ) :
             self.slice_checkboxes[i].setCheckState( int2checkstate( slice_active ) )
 
         self.mask_points_entry.setText( str( self.plotter.get_mask_points() ) ) 
-
-
+        self.scale_factor_entry.setText( str( self.plotter.get_scale_factor() ) )
         
+
     def set_mask_points( self ) :
         mask_points = int( self.mask_points_entry.text() )
         self.plotter.set_mask_points( mask_points ) 
@@ -220,6 +230,11 @@ class VectorCutPlaneOptionsWidget( MayaviPlotOptionsWidget ) :
         scale_factor = int( self.scale_factor_entry.text() )
         self.plotter.set_scale_factor( scale_factor ) 
 
+        
+    def set_scale_mode( self ) :
+        scale_mode = self.scale_mode_combobox.currentText()
+        self.plotter.set_scale_mode( scale_mode ) 
+        
             
     def set_slice( self, i ) :
         state = self.slice_checkboxes[i].checkState()

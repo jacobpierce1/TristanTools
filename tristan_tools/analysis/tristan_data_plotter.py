@@ -3,7 +3,7 @@ import numpy as np
 import sys
 
 
-from .tristan_data_container import TristanDataContainer
+from .tristan_data_container import TristanDataContainer, TristanError
 from .helper_functions import check_spatial_dim 
 
 
@@ -40,7 +40,8 @@ PLOT_NAME_TO_KEYS_DICT = OrderedDict( [
     ( 'E', [ 'ex', 'ey', 'ez' ] ),
     ( 'J', [ 'jx', 'jy', 'jz' ] ),
     ( 'V3', [ 'v3x', 'v3y', 'v3z' ] ),
-    ( 'V3i', [ 'v3xi', 'v3yi', 'v3zi' ] )
+    ( 'V3i', [ 'v3xi', 'v3yi', 'v3zi' ] ),
+    ( 'E_parallel', 'E_parallel' )
 ] ) 
 
 ALL_SCALARS = [ 'dens', 'densi',
@@ -49,9 +50,9 @@ ALL_SCALARS = [ 'dens', 'densi',
                 'jx', 'jy', 'jz',
                 'v3x', 'v3y', 'v3z',
                 'v3xi', 'v3y', 'v3zi',
-                'EE', 'BB', 'JJ', 'EB' ] 
+                'EE', 'BB', 'JJ' ] 
 
-ALL_VECTORS = [ 'E', 'B', 'J', 'V3', 'V3i' ]
+ALL_VECTORS = [ 'E', 'B', 'J', 'V3', 'V3i', 'E_parallel' ]
 
 # ALL_1D_SPECTRA_KEYS = [ 'PP_e_spec', 'PP_i_spec',
 #                         'px_e_spec', 'py_e_spec', 'pz_e_spec',
@@ -177,7 +178,10 @@ class TristanDataPlotter( object ) :
     # don't put computations here, you should put them in the TristanDataAnalyzer
     # and then access here.
     def default_data_getter( self, timestep ) :
-        return [ self.analyzer.data[key][timestep] for key in self.keys ]
+        if isinstance( self.keys, str ) :
+            return self.analyzer.data[ self.keys ][timestep] 
+        else : 
+            return np.array( [ self.analyzer.data[key][timestep] for key in self.keys ] ) 
 
     
 
@@ -232,12 +236,14 @@ class TristanDataPlotter( object ) :
 
         data = self.data_getter( timestep )
 
+        # print( data ) 
+
         # check for unloaded data. 
         for i in range( len( data ) ) :
-            if data[i] is None : 
-                print( 'ERROR: attempted to plot unloaded data: %s at timestep %d'
-                       % ( self.keys[i], timestep ) )
-                sys.exit( 1 )
+            if data[i] is None :
+                raise TristanError( 'ERROR: attempted to plot unloaded data: %s at timestep %d'
+                                    % ( self.keys[i], timestep ) )
+
 
         # self[ self.plot_type ]( data ) 
         # self.need_new_plot = 0

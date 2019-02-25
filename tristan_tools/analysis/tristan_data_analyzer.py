@@ -39,7 +39,7 @@ class TristanDataAnalyzer( TristanDataContainer ) :
         self.computation_callbacks = { 'BB' : self.compute_BB,
                                        'EE' : self.compute_EE,
                                        'JJ' : self.compute_JJ,
-                                       'EB' : self.compute_EB, 
+                                       'E_parallel' : self.compute_E_parallel, 
                                        'ExB' : self.compute_ExB } 
                                        # 'momentum_spectra' : self.compute_momentum_spectra }
                                        
@@ -164,8 +164,18 @@ class TristanDataAnalyzer( TristanDataContainer ) :
                     if not recompute : 
                         keys_to_compute = _keys - existing_keys  
                         
-
+                        # load it in
                         for key in existing_keys :
+
+                            # current implementation: if the key was previous saved and we no longer recognize it,
+                            # then it will be loaded (unless of course that key was not requested. but if a call
+                            # for all keys was made, then a previously saved key that is no longer in the analyzer
+                            # will be detected).
+                            if key not in self.data.keys()  :
+                                print( 'INFO: key not in self.data: %s' % key ) 
+                                print( self.data.keys() )
+                                self.data[ key ] = None
+
                             self.data[ key ][ idx ] = np.array( f[ key ] ) 
 
                     # otherwise declare that no keys have been computed
@@ -239,24 +249,48 @@ class TristanDataAnalyzer( TristanDataContainer ) :
         
 
 
-    def compute_EB( self, idx ) :
+    # def compute_EB( self, idx ) :
         
-        E = [ self.data[ key ][ idx ] for key in [ 'ex', 'ey', 'ez' ] ]
-        B = [ self.data[ key ][ idx ] for key in [ 'bx', 'by', 'bz' ] ]
+    #     E = [ self.data[ key ][ idx ] for key in [ 'ex', 'ey', 'ez' ] ]
+    #     B = [ self.data[ key ][ idx ] for key in [ 'bx', 'by', 'bz' ] ]
+
+    #     # compute dot product along first axis (if you don't believe me,
+    #     # play around with the function einsum. it is awesome.)
+    #     tmp =  np.einsum( 'a...,a...', E, B )
+
+    #     if self.data[ 'BB' ][ idx ] is not None :
+    #         B_mag = np.sqrt( self.data[ 'BB' ][ idx ] )
+    #     else :
+    #         B_mag = np.sqrt( self._compute_norm_squared( ['bx','by','bz'], idx) )
+
+    #     # normalize by B, so that what we see is the electric field component parallel to B
+    #     self.data[ 'EB' ][ idx ] = tmp / B_mag
+
+
+        
+    def compute_E_parallel( self, idx ) :
+        
+        E = np.array( [ self.data[ key ][ idx ] for key in [ 'ex', 'ey', 'ez' ] ] ) 
+        B = np.array( [ self.data[ key ][ idx ] for key in [ 'bx', 'by', 'bz' ] ] )
 
         # compute dot product along first axis (if you don't believe me,
         # play around with the function einsum. it is awesome.)
-        tmp =  np.einsum( 'a...,a...', E, B )
+        EB =  np.einsum( 'a...,a...', E, B )
 
-        if self.data[ 'BB' ][ idx ] is not None :
-            B_mag = np.sqrt( self.data[ 'BB' ][ idx ] )
-        else :
-            B_mag = np.sqrt( self._compute_norm_squared( ['bx','by','bz'], idx) )
-
-        # normalize by B, so that what we see is the electric field component parallel to B
-        self.data[ 'EB' ][ idx ] = tmp / B_mag
-
+        if self.data[ 'BB' ][ idx ] is None :
+            self.compute_BB( idx )
             
+        BB = self.data[ 'BB' ][ idx ]   
+
+        
+        
+        # normalize by B, so that what we see is the electric field component parallel to B
+        self.data[ 'E_parallel' ][ idx ] = B * EB / BB
+
+
+        print( self.data[ 'E_parallel' ][ idx ].shape ) 
+
+        
     def compute_ExB( self, idx ) :
 
         # print( 'computing ExB' )

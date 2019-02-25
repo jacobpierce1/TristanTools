@@ -1,0 +1,37 @@
+@import "ipython.css";
+
+#notebook-container {
+    margin-bottom: 2ex;
+}
+
+div.ipy-out div {
+    border: none;
+    background-color: #eee;
+    padding-top: 0;
+    margin-top: -24px;
+    overflow-x: wrap;
+}
+
+pre.ipy-out {
+    border: none;
+    background-color: #eee;
+    padding-top: 0;
+    margin-top: -24px !important;
+    overflow-x: auto;
+    white-space: normal;
+}
+
+div.ipy-out pre {
+    white-space: pre;
+}
+
+pre.ipy-out {
+    border: none !important;
+    background-color: #eee !important;
+    padding: 12px 12px !important;
+    white-space: pre;
+}
+
+div.document {
+    font-size: 80%;
+}

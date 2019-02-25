@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<!-- saved from url=(0084)https://scipy-cookbook.readthedocs.io/items/MayaVi_ScriptingMayavi2_MainModules.html -->
+<html class="js flexbox canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths gr__scipy-cookbook_readthedocs_io" lang="en" style=""><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Scripting Mayavi 2: main modules — SciPy Cookbook  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="./mayavi2_doc_files/theme.css" type="text/css">
+  <link rel="stylesheet" href="./mayavi2_doc_files/pygments.css" type="text/css">
+  <link rel="stylesheet" href="./mayavi2_doc_files/sphinx_rtd_theme.css" type="text/css">
+  <link rel="stylesheet" href="./mayavi2_doc_files/readthedocs-doc-embed.css" type="text/css">
+  <link rel="stylesheet" href="./mayavi2_doc_files/scipy-cookbook.css" type="text/css">
+    <link rel="search" title="Search" href="https://scipy-cookbook.readthedocs.io/search.html">
+    <link rel="next" title="Numpy" href="https://scipy-cookbook.readthedocs.io/items/idx_numpy.html">
+    <link rel="prev" title="Scripting Mayavi 2: filters" href="https://scipy-cookbook.readthedocs.io/items/MayaVi_ScriptingMayavi2_Filters.html"> 
+
+  
+  <script async="" src="./mayavi2_doc_files/analytics.js"></script><script src="./mayavi2_doc_files/modernizr.min.js"></script>
+
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="https://scipy-cookbook.readthedocs.io/items/MayaVi_ScriptingMayavi2_MainModules.html">
+
+<link rel="stylesheet" href="./mayavi2_doc_files/readthedocs-doc-embed.css" type="text/css">
+
+<script type="text/javascript" src="./mayavi2_doc_files/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = 'items/MayaVi_ScriptingMayavi2_MainModules'
+READTHEDOCS_DATA['source_suffix'] = '.rst'
+</script>
+
+<script type="text/javascript" src="./mayavi2_doc_files/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+<style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 5px 0px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -khtml-border-radius: 5px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 1px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: .7em}
+.MathJax_MenuRadioCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuLabel {padding: 1px 2em 3px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #DDDDDD; margin: 4px 3px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: #606872; color: white}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+
+<body class="wy-body-for-nav" data-gr-c-s-loaded="true" style=""><div id="MathJax_Message" style="display: none;"></div>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="https://scipy-cookbook.readthedocs.io/index.html" class="icon icon-home"> SciPy Cookbook
+          
+
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://scipy-cookbook.readthedocs.io/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs">
+    <input type="hidden" name="check_keywords" value="yes">
+    <input type="hidden" name="area" value="default">
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="https://scipy-cookbook.readthedocs.io/items/idx_input_output.html">Input &amp; Output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://scipy-cookbook.readthedocs.io/items/idx_interfacing_with_other_languages.html">Interfacing With Other Languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://scipy-cookbook.readthedocs.io/items/idx_interpolation.html">Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://scipy-cookbook.readthedocs.io/items/idx_linear_algebra.html">Linear Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://scipy-cookbook.readthedocs.io/items/idx_matplotlib.html">Matplotlib</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="https://scipy-cookbook.readthedocs.io/items/idx_mayavi.html"><span class="toctree-expand"></span>Mayavi</a><ul class="">
+<li class="toctree-l2"><a class="reference internal" href="https://scipy-cookbook.readthedocs.io/items/MayaVi_mlab.html">Mayabi: mlab</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://scipy-cookbook.readthedocs.io/items/MayaVi.html">Mayavi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://scipy-cookbook.readthedocs.io/items/MayaVi_Surf.html">Mayavi surf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://scipy-cookbook.readthedocs.io/items/MayaVi_Tips.html">Mayavi tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://scipy-cookbook.readthedocs.io/items/MayaVi_tvtk.html">Mayavi tvtk</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://scipy-cookbook.readthedocs.io/items/MayaVi_examples.html">Mayavi: examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://scipy-cookbook.readthedocs.io/items/MayaVi_RunningMayavi2.html">Mayavi: running mayavi 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://scipy-cookbook.readthedocs.io/items/MayaVi_ScriptingMayavi2.html">Scripting Mayavi 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://scipy-cookbook.readthedocs.io/items/MayaVi_ScriptingMayavi2_BasicModules.html">Scripting Mayavi 2: basic modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="https://scipy-cookbook.readthedocs.io/items/MayaVi_ScriptingMayavi2_Filters.html">Scripting Mayavi 2: filters</a></li>
+<li class="toctree-l2 current"><a class="reference internal current" href="https://scipy-cookbook.readthedocs.io/items/MayaVi_ScriptingMayavi2_MainModules.html#">Scripting Mayavi 2: main modules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="https://scipy-cookbook.readthedocs.io/items/idx_numpy.html">Numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://scipy-cookbook.readthedocs.io/items/idx_optimization_and_fitting.html">Optimization and fitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://scipy-cookbook.readthedocs.io/items/idx_ordinary_differential_equations.html">Ordinary differential equations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://scipy-cookbook.readthedocs.io/items/idx_other_examples.html">Other examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://scipy-cookbook.readthedocs.io/items/idx_performance.html">Performance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://scipy-cookbook.readthedocs.io/items/idx_root_finding.html">Root finding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://scipy-cookbook.readthedocs.io/items/idx_scientific_guis.html">Scientific GUIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://scipy-cookbook.readthedocs.io/items/idx_scientific_scripts.html">Scientific Scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://scipy-cookbook.readthedocs.io/items/idx_signal_processing.html">Signal processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="https://scipy-cookbook.readthedocs.io/items/idx_outdated.html">Outdated</a></li>
+</ul>
+
+            
+          
+        </div>
+      <div id="rtd-7gpqkyw5" class="ethical-rtd ethical-dark-theme"><div class="ethical-sidebar"><div class="ethical-content"><a href="https://readthedocs.org/sustainability/click/487/zbnVdqd7UiDs/" rel="nofollow" target="_blank" class="ethical-image-link"><img src="./mayavi2_doc_files/segment-ad.png"></a><div class="ethical-text"><a href="https://readthedocs.org/sustainability/click/487/zbnVdqd7UiDs/" rel="nofollow" target="_blank">Collect data once with Segment &amp; integrate 200+ tools with the flip of a switch.</a></div></div><div class="ethical-callout"><small><em><a href="https://readthedocs.org/sustainability/advertising/">Sponsored</a><span> · </span><a href="https://docs.readthedocs.io/en/latest/ethical-advertising.html">Ads served ethically</a></em></small></div></div><img src="./mayavi2_doc_files/saved_resource" style="display: none;"></div></div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="https://scipy-cookbook.readthedocs.io/index.html">SciPy Cookbook</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="https://scipy-cookbook.readthedocs.io/index.html">Contents</a> »</li>
+      
+          <li><a href="https://scipy-cookbook.readthedocs.io/items/idx_mayavi.html">Mayavi</a> »</li>
+      
+    <li>Scripting Mayavi 2: main modules</li>
+      <li class="wy-breadcrumbs-aside">
+	
+	<a href="https://github.com/scipy/scipy-cookbook/blob/master/ipython/MayaVi_ScriptingMayavi2_MainModules.ipynb" class="fa fa-github">Github</a>
+	<a href="https://scipy-cookbook.readthedocs.io/_static/items/MayaVi_ScriptingMayavi2_MainModules.ipynb" download="MayaVi_ScriptingMayavi2_MainModules.ipynb">Download</a>
+	
+      </li>
+  </ul>
+  <hr>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="scripting-mayavi-2-main-modules">
+<h1>Scripting Mayavi 2: main modules<a class="headerlink" href="https://scipy-cookbook.readthedocs.io/items/MayaVi_ScriptingMayavi2_MainModules.html#scripting-mayavi-2-main-modules" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<colgroup><col class="field-name">
+<col class="field-body">
+</colgroup><tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Date:</th><td class="field-body">2017-07-13 (last modified), 2007-08-10 (created)</td>
+</tr>
+</tbody>
+</table>
+<script src="./mayavi2_doc_files/require.min.js"></script>
+<script src="./mayavi2_doc_files/jquery.min.js"></script>
+
+
+
+<script src="./mayavi2_doc_files/MathJax.js"></script>
+
+<script type="text/x-mathjax-config;executed=true">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true,
+            processEnvironments: true
+        },
+        // Center justify equations in code and markdown cells. Elsewhere
+        // we use CSS to left justify single line equations in code cells.
+        displayAlign: 'center',
+        "HTML-CSS": {
+            styles: {'.MathJax_Display': {"margin": 0}},
+            linebreaks: { automatic: true }
+        }
+    });
+    </script>
+
+<div class="container" id="notebook-container">
+
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Introduction">Introduction<a class="anchor-link" href="https://scipy-cookbook.readthedocs.io/items/MayaVi_ScriptingMayavi2_MainModules.html#Introduction">¶</a></h2><p>Here's the real stuff ;-)</p>
+<p>You'll be learned here how you can use the various modules in !MayaVi2.</p>
+<p>Note: Some modules can't be added for any type of data set. Some work
+only for !StructuredGrid or !StructuredPoints for example (see
+<a href="http://www.vtk.org/pdf/file-formats.pdf">http://www.vtk.org/pdf/file-formats.pdf</a> for more information about VTK
+data type). It will be specified each time is needed.</p>
+<p>Note2: In the !MayaVi2 tree view, the "Main Modules" (called "Modules")
+have been separated from the "Basic Modules" loading the !ModuleManager.
+Of coutse, you can load all your modules and filters without using the
+!ModuleManager.</p>
+<h2 id="ImagePlaneWidget/ScalarCutPlane/SliceUnstructuredGrid-module">ImagePlaneWidget/ScalarCutPlane/SliceUnstructuredGrid module<a class="anchor-link" href="https://scipy-cookbook.readthedocs.io/items/MayaVi_ScriptingMayavi2_MainModules.html#ImagePlaneWidget/ScalarCutPlane/SliceUnstructuredGrid-module">¶</a></h2><p>The simpliest (and easiest, but not the most impressive ;-) ) way to
+display 3D data is doubtless to slice it on some planes, normal to Ox,
+Oy or Oz axis, or oblique.</p>
+<p>One of the modules you can use to do this is called !ScalarCutPlane. It
+works for any data.</p>
+<p>Note: As the !ImagePlaneWidget module also display scalars data on a
+plane (but it does not "cut" data), please see
+[:Cookbook/MayaVi/Examples: Example with a 3D array as numerical source
+(numeric_source.py)] or [:Cookbook/MayaVi/Examples: Example using
+ImagePlaneWidget Module (test.py)] to get more information on how you
+can use this module.</p>
+<p>You have to set several parameters:</p>
+<p><code>*&nbsp;plane&nbsp;normal;</code>\
+<code>*&nbsp;its&nbsp;origin;</code>\
+<code>*&nbsp;widget&nbsp;enabled&nbsp;or&nbsp;not:&nbsp;if&nbsp;enabled,&nbsp;you&nbsp;can&nbsp;play&nbsp;with&nbsp;the&nbsp;mouse&nbsp;to&nbsp;modify&nbsp;normal&nbsp;orientation,&nbsp;position,&nbsp;etc.;</code>\
+<code>*&nbsp;some&nbsp;colors&nbsp;properties.</code></p>
+<p>Thus, you have to type:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">enthought.mayavi.modules.scalar_cut_plane</span> <span class="k">import</span> <span class="n">ScalarCutPlane</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>and</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">scp</span> <span class="o">=</span> <span class="n">ScalarCutPlane</span><span class="p">()</span> <span class="c1"># set scp as ScalarCutPlane() module</span>
+<span class="n">script</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="n">scp</span><span class="p">)</span> <span class="c1"># add module to the scene</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">normal</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># set normal to Ox axis</span>
+<span class="c1"># set origin to (i=10, j=25, k=25) i.e. integers for a structured grid</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="c1"># set origin to (x=1.0, y=2.5, z=2.5) i.e. reals for unstructured grids</span>
+<span class="c1"># scp.implicit_plane.origin = (1.0, 2.5, 2.5)</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">diffuse</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="c1"># set some color properties</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">ambient</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="c1"># </span>
+<span class="n">scp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="c1">#</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">module_manager</span><span class="o">.</span><span class="n">scalar_lut_manager</span><span class="o">.</span><span class="n">data_range</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="./mayavi2_doc_files/module_scp.png" alt=""></p>
+<p>Note that if you enable widget, you will be able to translate (move the
+mouse to the red frame), change the normal (move the mouse to the grey
+arrow) of the cutplanes in "real-time" :</p>
+<p><img src="./mayavi2_doc_files/module_scp_widg_en.png" alt=""></p>
+<p>You can also display the cutplanes as "warped surfaces", just adding a
+few lines, setting the scale factor and the normals to be computed
+(smoother surface) or not:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">scp</span><span class="o">.</span><span class="n">enable_warp_scalar</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">compute_normals</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">warp_scalar</span><span class="o">.</span><span class="n">filter</span><span class="o">.</span><span class="n">scale_factor</span> <span class="o">=</span> <span class="mi">20</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="./mayavi2_doc_files/module_scp_warp.png" alt=""></p>
+<p>Of course, you can add as many cutplanes as you want, oblique or not.</p>
+<p>Let's see now a little more complex example : we want opacity to be set
+to 0.2 for each cutplane, and contours (#10) for the same cutplanes
+added. Lines above have been changed as below:</p>
+<p>Note: I agree, this is not the best way to write such a code. You can
+obviously write a method to do the same suff. But this is not the
+purpose here.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### cutplane #1, normal to Ox, opacity = 0.2, representation = surface</span>
+<span class="n">scp</span> <span class="o">=</span> <span class="n">ScalarCutPlane</span><span class="p">()</span>
+<span class="n">script</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="n">scp</span><span class="p">)</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">normal</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">diffuse</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">ambient</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">module_manager</span><span class="o">.</span><span class="n">scalar_lut_manager</span><span class="o">.</span><span class="n">data_range</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="c1">### cutplane #2, normal to Oy, opacity = 0.2, representation = surface</span>
+<span class="n">scp</span> <span class="o">=</span> <span class="n">ScalarCutPlane</span><span class="p">()</span>
+<span class="n">script</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="n">scp</span><span class="p">)</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">normal</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">diffuse</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">ambient</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">module_manager</span><span class="o">.</span><span class="n">scalar_lut_manager</span><span class="o">.</span><span class="n">data_range</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="c1">### cutplane #3, normal to Oz, opacity = 0.2, representation = surface</span>
+<span class="n">scp</span> <span class="o">=</span> <span class="n">ScalarCutPlane</span><span class="p">()</span>
+<span class="n">script</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="n">scp</span><span class="p">)</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">normal</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">diffuse</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">ambient</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">module_manager</span><span class="o">.</span><span class="n">scalar_lut_manager</span><span class="o">.</span><span class="n">data_range</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="c1">### cutplane #4, normal to Ox, representation = contour</span>
+<span class="n">scp</span> <span class="o">=</span> <span class="n">ScalarCutPlane</span><span class="p">()</span>
+<span class="n">script</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="n">scp</span><span class="p">)</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">normal</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">diffuse</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">ambient</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">enable_contours</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">contour</span><span class="o">.</span><span class="n">number_of_contours</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">contour</span><span class="o">.</span><span class="n">minimum_contour</span><span class="p">,</span> <span class="n">scp</span><span class="o">.</span><span class="n">contour</span><span class="o">.</span><span class="n">maximum_contour</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">module_manager</span><span class="o">.</span><span class="n">scalar_lut_manager</span><span class="o">.</span><span class="n">data_range</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="c1">### cutplane #5, normal to Oy, representation = contour</span>
+<span class="n">scp</span> <span class="o">=</span> <span class="n">ScalarCutPlane</span><span class="p">()</span>
+<span class="n">script</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="n">scp</span><span class="p">)</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">normal</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">diffuse</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">ambient</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">enable_contours</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">contour</span><span class="o">.</span><span class="n">number_of_contours</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">contour</span><span class="o">.</span><span class="n">minimum_contour</span><span class="p">,</span> <span class="n">scp</span><span class="o">.</span><span class="n">contour</span><span class="o">.</span><span class="n">maximum_contour</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">module_manager</span><span class="o">.</span><span class="n">scalar_lut_manager</span><span class="o">.</span><span class="n">data_range</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="c1">### cutplane #6, normal to Oz, representation = contour</span>
+<span class="n">scp</span> <span class="o">=</span> <span class="n">ScalarCutPlane</span><span class="p">()</span>
+<span class="n">script</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="n">scp</span><span class="p">)</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">normal</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">diffuse</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">ambient</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">enable_contours</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">contour</span><span class="o">.</span><span class="n">number_of_contours</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">contour</span><span class="o">.</span><span class="n">minimum_contour</span><span class="p">,</span> <span class="n">scp</span><span class="o">.</span><span class="n">contour</span><span class="o">.</span><span class="n">maximum_contour</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">scp</span><span class="o">.</span><span class="n">module_manager</span><span class="o">.</span><span class="n">scalar_lut_manager</span><span class="o">.</span><span class="n">data_range</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>which looks like this:</p>
+<p><img src="./mayavi2_doc_files/module_scp2.png" alt=""></p>
+<p>Another module that slices grid is called !SliceUnstructuredGrid. As it
+is called, it should work only for unstructured grids. But, because it
+has been tested on a structured grid, even !MayaVi2 complains about it
+with a warning message, it "works" even for structured grid (happily for
+our example ;-) )</p>
+<p>In fact, its interest is not really slicing grid, but even more showing
+the structure of your mesh, i.e. your mesh cells. Thus you can see if
+there is not any problem (holes, etc.).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">enthought.mayavi.modules.slice_unstructured_grid</span> <span class="k">import</span> <span class="n">SliceUnstructuredGrid</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>and</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sug</span> <span class="o">=</span> <span class="n">SliceUnstructuredGrid</span><span class="p">()</span>
+<span class="n">script</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="n">sug</span><span class="p">)</span>
+<span class="c1"># unstructured grid so origin coordinates are reals</span>
+<span class="n">sug</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="p">(</span><span class="mf">25.</span><span class="p">,</span> <span class="mf">25.</span><span class="p">,</span> <span class="mf">25.</span><span class="p">)</span>
+<span class="n">sug</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">normal</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">sug</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">sug</span><span class="o">.</span><span class="n">extract_geometry</span><span class="o">.</span><span class="n">extract_boundary_cells</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">sug</span><span class="o">.</span><span class="n">extract_geometry</span><span class="o">.</span><span class="n">extract_inside</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">sug</span><span class="o">.</span><span class="n">extract_geometry</span><span class="o">.</span><span class="n">extract_only_boundary_cells</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">sug</span><span class="o">.</span><span class="n">geom_filter</span><span class="o">.</span><span class="n">cell_clipping</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">sug</span><span class="o">.</span><span class="n">geom_filter</span><span class="o">.</span><span class="n">extent_clipping</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">sug</span><span class="o">.</span><span class="n">geom_filter</span><span class="o">.</span><span class="n">merging</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">sug</span><span class="o">.</span><span class="n">geom_filter</span><span class="o">.</span><span class="n">point_clipping</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">sug</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">representation</span> <span class="o">=</span> <span class="s1">'wireframe'</span>
+<span class="n">sug</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">diffuse</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">sug</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">ambient</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">sug</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">sug</span><span class="o">.</span><span class="n">module_manager</span><span class="o">.</span><span class="n">scalar_lut_manager</span><span class="o">.</span><span class="n">data_range</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The scene should look like this:</p>
+<p><img src="./mayavi2_doc_files/module_sug.png" alt=""></p>
+<h2 id="GridPlane/StructuredGridOutline-module">GridPlane/StructuredGridOutline module<a class="anchor-link" href="https://scipy-cookbook.readthedocs.io/items/MayaVi_ScriptingMayavi2_MainModules.html#GridPlane/StructuredGridOutline-module">¶</a></h2><p>Using !GridPlane module cuts also your grid, but quite differently from
+!ScalarCutPlane module. You can't get normal plane only along Ox, Oy and
+Oz axis, and it works only for structured grids. But unlike
+!ScalarCutPlane module, which always cuts your mesh in a plane,
+!GridPlane cuts through your mesh: if it's a conformal mesh, the cut
+won't be a plane, but something following the curvature of your mesh.</p>
+<p>The !StructuredGridOutline module does the same as Outline module, but
+for conformal mesh.</p>
+<p>To illustrate how can we use these modules, let's consider a example
+provided in the VTKData directory, combxyz.bin &amp; combq.bin files (Plot3D
+format) from the tarball vtkdata-5.0.3.tar.gz you can download
+<a href="http://www.vtk.org/get-software.php#latest">here</a>.</p>
+<p>So, type:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">enthought.mayavi.modules.strucured_grid_outline</span> <span class="k">import</span> <span class="n">StructuredGridOutline</span>
+<span class="kn">from</span> <span class="nn">enthought.mayavi.modules.grid_plane</span> <span class="k">import</span> <span class="n">GridPlane</span>
+
+<span class="c1"># to load Plot3D files format</span>
+<span class="kn">from</span> <span class="nn">enthought.mayavi.sources.plot3d_reader</span> <span class="k">import</span> <span class="n">PLOT3DReader</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>and</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">src</span> <span class="o">=</span> <span class="n">PLOT3DReader</span><span class="p">()</span>
+<span class="n">src</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="s1">'combxyz.bin'</span><span class="p">,</span> <span class="s1">'combq.bin'</span><span class="p">)</span>
+<span class="n">script</span><span class="o">.</span><span class="n">add_source</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+
+<span class="n">sgo</span> <span class="o">=</span> <span class="n">StructuredGridOutline</span><span class="p">()</span>
+<span class="n">script</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="n">sgo</span><span class="p">)</span>
+
+<span class="n">gp</span> <span class="o">=</span> <span class="n">GridPlane</span><span class="p">()</span>
+<span class="n">script</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="n">gp</span><span class="p">)</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">grid_plane</span><span class="o">.</span><span class="n">axis</span> <span class="o">=</span> <span class="s1">'x'</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">grid_plane</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">mapper</span><span class="o">.</span><span class="n">scalar_visibility</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">representation</span> <span class="o">=</span> <span class="s1">'surface'</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">diffuse</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">ambient</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">gp</span> <span class="o">=</span> <span class="n">GridPlane</span><span class="p">()</span>
+<span class="n">script</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="n">gp</span><span class="p">)</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">grid_plane</span><span class="o">.</span><span class="n">axis</span> <span class="o">=</span> <span class="s1">'x'</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">grid_plane</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="mi">25</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">mapper</span><span class="o">.</span><span class="n">scalar_visibility</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">representation</span> <span class="o">=</span> <span class="s1">'surface'</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">diffuse</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">ambient</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">gp</span> <span class="o">=</span> <span class="n">GridPlane</span><span class="p">()</span>
+<span class="n">script</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="n">gp</span><span class="p">)</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">grid_plane</span><span class="o">.</span><span class="n">axis</span> <span class="o">=</span> <span class="s1">'x'</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">grid_plane</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="mi">55</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">mapper</span><span class="o">.</span><span class="n">scalar_visibility</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">representation</span> <span class="o">=</span> <span class="s1">'surface'</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">diffuse</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">ambient</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The scene is rendered as this:</p>
+<p><img src="./mayavi2_doc_files/module_sgo_gp.png" alt=""></p>
+<h2 id="Surface/IsoSurface-module">Surface/IsoSurface module<a class="anchor-link" href="https://scipy-cookbook.readthedocs.io/items/MayaVi_ScriptingMayavi2_MainModules.html#Surface/IsoSurface-module">¶</a></h2><p>Others modules are Surface and !IsoSurface. These modules work with any
+data.</p>
+<p>Surface module does the same as !IsoSurface but displays, automatically,
+several isosurfaces for a given number of values in a given range.</p>
+<p>In fact, you can get the same result with !IsoSurface module, but you
+will have to set each isovalue.</p>
+<p>When several isosurfaces are displayed, using Surface or !IsoSurface
+module, you should set opacity to a value below 1, in order to see all
+isosurfaces.</p>
+<p>Using Surface module is straightforward:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">enthought.mayavi.modules.surface</span> <span class="k">import</span> <span class="n">Surface</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>then</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="n">Surface</span><span class="p">()</span>
+<span class="n">s</span><span class="o">.</span><span class="n">enable_contours</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># we want contours enabled</span>
+<span class="n">s</span><span class="o">.</span><span class="n">contour</span><span class="o">.</span><span class="n">auto_contours</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># we want isovalues automatically well-defined</span>
+<span class="n">s</span><span class="o">.</span><span class="n">contour</span><span class="o">.</span><span class="n">number_of_contours</span> <span class="o">=</span> <span class="mi">10</span> <span class="c1"># self-explanatory ;-)</span>
+<span class="n">s</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">script</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="n">s</span><span class="o">.</span><span class="n">contour</span><span class="o">.</span><span class="n">minimum_contour</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">s</span><span class="o">.</span><span class="n">contour</span><span class="o">.</span><span class="n">maximum_contour</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">s</span><span class="o">.</span><span class="n">module_manager</span><span class="o">.</span><span class="n">scalar_lut_manager</span><span class="o">.</span><span class="n">data_range</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The scene should look like this:</p>
+<p><img src="./mayavi2_doc_files/module_surface.png" alt=""></p>
+<p>Using the !IsoSurface module is not more difficult. As an example, say
+that we want the same result as the Surface module displays.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">enthought.mayavi.modules.iso_surface</span> <span class="k">import</span> <span class="n">IsoSurface</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>and</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">isosurf</span> <span class="o">=</span> <span class="n">IsoSurface</span><span class="p">()</span>
+<span class="n">script</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="n">isosurf</span><span class="p">)</span>
+<span class="n">isosurf</span><span class="o">.</span><span class="n">contour</span><span class="o">.</span><span class="n">contours</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1111</span><span class="p">,</span> <span class="mf">0.2222</span><span class="p">,</span> <span class="mf">0.3333</span><span class="p">,</span> <span class="mf">0.4444</span><span class="p">,</span> <span class="mf">0.5555</span><span class="p">,</span> <span class="mf">0.6666</span><span class="p">,</span> <span class="mf">0.7777</span><span class="p">,</span> <span class="mf">0.8888</span><span class="p">]</span>
+<span class="n">isosurf</span><span class="o">.</span><span class="n">compute_normals</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">isosurf</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">isosurf</span><span class="o">.</span><span class="n">module_manager</span><span class="o">.</span><span class="n">scalar_lut_manager</span><span class="o">.</span><span class="n">data_range</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This yelds the same scene as previous, of course, but now, you can
+control each isovalue separately.</p>
+<p><img src="./mayavi2_doc_files/module_isosurface.png" alt=""></p>
+<p>The funny part is that you can set the minimum/maximum contour for
+Surface or Contours for !IsoSurface in "real-time", moving the
+slide-bar. This is a very useful feature. And can render very nice
+"dynamic" scene ! :-)</p>
+<h2 id="Volume-module">Volume module<a class="anchor-link" href="https://scipy-cookbook.readthedocs.io/items/MayaVi_ScriptingMayavi2_MainModules.html#Volume-module">¶</a></h2><p>It is still quite experimental for me (you can set a lot of parameters),
+so this section will be very short ;-)</p>
+<p>Instead of viewing surfaces, data are displayed in the whole volume.</p>
+<p>Begin to import the required module:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">enthought.mayavi.modules.volume</span> <span class="k">import</span> <span class="n">Volume</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>and then, add it to the source as usual:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">Volume</span><span class="p">()</span>
+<span class="n">script</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="n">v</span><span class="o">.</span><span class="n">lut_manager</span><span class="o">.</span><span class="n">show_scalar_bar</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">v</span><span class="o">.</span><span class="n">lut_manager</span><span class="o">.</span><span class="n">scalar_bar</span><span class="o">.</span><span class="n">orientation</span> <span class="o">=</span> <span class="s1">'vertical'</span>
+<span class="n">v</span><span class="o">.</span><span class="n">lut_manager</span><span class="o">.</span><span class="n">scalar_bar</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">v</span><span class="o">.</span><span class="n">lut_manager</span><span class="o">.</span><span class="n">scalar_bar</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="mf">0.8</span>
+<span class="n">v</span><span class="o">.</span><span class="n">lut_manager</span><span class="o">.</span><span class="n">scalar_bar</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">)</span>
+<span class="n">v</span><span class="o">.</span><span class="n">lut_manager</span><span class="o">.</span><span class="n">scalar_bar</span><span class="o">.</span><span class="n">label_text_property</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">fg_color</span>
+<span class="n">v</span><span class="o">.</span><span class="n">lut_manager</span><span class="o">.</span><span class="n">scalar_bar</span><span class="o">.</span><span class="n">title_text_property</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">fg_color</span>
+<span class="n">v</span><span class="o">.</span><span class="n">lut_manager</span><span class="o">.</span><span class="n">number_of_labels</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">v</span><span class="o">.</span><span class="n">lut_manager</span><span class="o">.</span><span class="n">data_name</span> <span class="o">=</span> <span class="s2">""</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note that the Volume module has a "Color Transfer Function", which is
+quite different from the !LookUp Table used by the others modules.</p>
+<p>The rendered scene should look like this (thanks to Prabhu to have made
+the CTF similar to the LUT) :</p>
+<p><img src="./mayavi2_doc_files/module_volume.png" alt=""></p>
+<h2 id="Vectors/Glyph/VectorCutPlane/WarpVectorCutPlane-module">Vectors/Glyph/VectorCutPlane/WarpVectorCutPlane module<a class="anchor-link" href="https://scipy-cookbook.readthedocs.io/items/MayaVi_ScriptingMayavi2_MainModules.html#Vectors/Glyph/VectorCutPlane/WarpVectorCutPlane-module">¶</a></h2><p>Until now, we have only dealt with scalar values. You can also display
+values as vectors. You can use one of the three following modules:</p>
+<p><code>*&nbsp;Vectors&nbsp;module:&nbsp;scale&nbsp;and&nbsp;color&nbsp;are&nbsp;set&nbsp;by&nbsp;vectors&nbsp;data,&nbsp;i.e.&nbsp;a&nbsp;3D&nbsp;array&nbsp;vectors&nbsp;field;</code></p>
+<p><code>*&nbsp;Glyph&nbsp;module:&nbsp;scale&nbsp;and&nbsp;color&nbsp;are&nbsp;set&nbsp;by&nbsp;scalar&nbsp;data;</code></p>
+<p><code>*&nbsp;!VectorCutPlane&nbsp;module;&nbsp;in&nbsp;this&nbsp;case,&nbsp;vectors&nbsp;are&nbsp;not&nbsp;diplayed&nbsp;in&nbsp;the&nbsp;whole&nbsp;volume,&nbsp;but&nbsp;only&nbsp;on&nbsp;cutplanes,&nbsp;as&nbsp;!ScalarCutPlane&nbsp;module&nbsp;does&nbsp;with&nbsp;scalar&nbsp;values.</code></p>
+<p>You can set several parameters for these modules, in concern with arrows
+shape, etc.</p>
+<p>First, it depends of the number of points in your volume, but you are
+advised to decimate your data. If you don't, you should see nothing all
+but a lot of arrows everywhere, and thus loss the pertinent information.
+You can choose a randomly, or not, decimation.</p>
+<p>Second, you can choose the shape of your vectors, amongst the following
+list: 2D Glyph or Arrow, Cone, Cylinder, Sphere and Cube 3D vector
+shapes.</p>
+<p>Third, you can set some parameters for the choosen shape. For example,
+using the Arrow shape, you can set the following properties for the
+shaft and the tip:</p>
+<p><code>*&nbsp;the&nbsp;shaft&nbsp;radius;</code></p>
+<p><code>*&nbsp;the&nbsp;shaft&nbsp;resolution&nbsp;(number&nbsp;of&nbsp;polygons);</code></p>
+<p><code>*&nbsp;the&nbsp;tip&nbsp;length;</code></p>
+<p><code>*&nbsp;the&nbsp;tip&nbsp;radius;</code></p>
+<p><code>*&nbsp;the&nbsp;tip&nbsp;resolution;</code></p>
+<p>You can also set the vector position, between "tail", "centered" and
+"head", the scale mode, the color mode, the scale factor (how big your
+vectors will be displayed), etc.</p>
+<p>Let's see now how one can do this.</p>
+<p>First, import the required module.</p>
+<p>For Vectors module,</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">enthought.mayavi.modules.vectors</span> <span class="k">import</span> <span class="n">Vectors</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For Glyph module,</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">enthought.mayavi.modules.glyph</span> <span class="k">import</span> <span class="n">Glyph</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For !VectorCutPlane module,</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">enthought.mayavi.modules.vector_cut_plane</span> <span class="k">import</span> <span class="n">VectorCutPlane</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In fact, you will see that these three modules use the same objects and
+methods. Only default values differ.</p>
+<p>For instance, for Vectors module, you can type:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">Vectors</span><span class="p">()</span>
+<span class="n">script</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="n">v</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">mask_input_points</span> <span class="o">=</span> <span class="kc">True</span>             <span class="c1"># we want to decimate our data...</span>
+<span class="n">v</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">mask_points</span><span class="o">.</span><span class="n">on_ratio</span> <span class="o">=</span> <span class="mi">100</span>           <span class="c1"># ...by a ratio of 100</span>
+<span class="n">v</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">mask_points</span><span class="o">.</span><span class="n">random_mode</span> <span class="o">=</span> <span class="kc">True</span>       <span class="c1"># I want a randomly decimation</span>
+<span class="n">v</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">glyph_source</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">glyph_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># I like ArrowSource ;-)</span>
+<span class="c1"># following values are the default values: tweak your own !</span>
+<span class="n">v</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">glyph_source</span><span class="o">.</span><span class="n">shaft_radius</span> <span class="o">=</span> <span class="mf">0.03</span>
+<span class="n">v</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">glyph_source</span><span class="o">.</span><span class="n">shaft_resolution</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">v</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">glyph_source</span><span class="o">.</span><span class="n">tip_length</span> <span class="o">=</span> <span class="mf">0.35</span>
+<span class="n">v</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">glyph_source</span><span class="o">.</span><span class="n">tip_radius</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">v</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">glyph_source</span><span class="o">.</span><span class="n">tip_resolution</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">v</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">scale_factor</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">v</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">glyph_position</span> <span class="o">=</span> <span class="s1">'tail'</span>
+<span class="n">v</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">scale_mode</span> <span class="o">=</span> <span class="s1">'scale_by_vector'</span>
+<span class="n">v</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">color_mode</span> <span class="o">=</span> <span class="s1">'color_by_vector'</span>
+<span class="c1">### if you use Glyph module, here are the default values</span>
+<span class="c1"># v.glyph.glyph_position = 'center'</span>
+<span class="c1"># v.glyph.scale_mode = 'scale_by_scalar'</span>
+<span class="c1"># v.glyph.color_mode = 'color_by_scalar'</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If we consider, once again ;-), the same 3D data already shown before,
+but this time, with vectors instead of scalars data, the scene should
+look like this:</p>
+<p><img src="./mayavi2_doc_files/module_vectors.png" alt=""></p>
+<p>For the !VectorCutPlane module, you can set the same properties as above
+plus the properties of the !ScalarCutPlane module such as
+implicit_plane.normal, implicit_plane.origin,
+implicit_plane.widget.enabled, etc:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">vcp</span> <span class="o">=</span> <span class="n">VectorCutPlane</span><span class="p">()</span>
+<span class="n">script</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="n">vcp</span><span class="p">)</span>
+<span class="n">vcp</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">mask_input_points</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">vcp</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">mask_points</span><span class="o">.</span><span class="n">on_ratio</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">vcp</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">mask_points</span><span class="o">.</span><span class="n">random_mode</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">vcp</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">glyph_source</span> <span class="o">=</span> <span class="n">vcp</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">glyph_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">vcp</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">glyph_source</span><span class="o">.</span><span class="n">shaft_radius</span> <span class="o">=</span> <span class="mf">0.03</span>
+<span class="n">vcp</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">glyph_source</span><span class="o">.</span><span class="n">shaft_resolution</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">vcp</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">glyph_source</span><span class="o">.</span><span class="n">tip_length</span> <span class="o">=</span> <span class="mf">0.35</span>
+<span class="n">vcp</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">glyph_source</span><span class="o">.</span><span class="n">tip_radius</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">vcp</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">glyph_source</span><span class="o">.</span><span class="n">tip_resolution</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">vcp</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">scale_factor</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">vcp</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">glyph_position</span> <span class="o">=</span> <span class="s1">'tail'</span>
+<span class="n">vcp</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">scale_mode</span> <span class="o">=</span> <span class="s1">'scale_by_vector'</span>
+<span class="n">vcp</span><span class="o">.</span><span class="n">glyph</span><span class="o">.</span><span class="n">color_mode</span> <span class="o">=</span> <span class="s1">'color_by_vector'</span>
+<span class="n">vcp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">normal</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># set normal to Ox axis</span>
+<span class="n">vcp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span> <span class="c1"># set origin to (i=10, j=25, k=25) for a structured grid</span>
+<span class="n">vcp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">vcp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">diffuse</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="c1"># set some color properties</span>
+<span class="n">vcp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">ambient</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="c1"># </span>
+<span class="n">vcp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="c1">#</span>
+<span class="n">vcp</span><span class="o">.</span><span class="n">module_manager</span><span class="o">.</span><span class="n">vector_lut_manager</span><span class="o">.</span><span class="n">data_range</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This should render this scene:</p>
+<p><img src="./mayavi2_doc_files/module_vcp.png" alt=""></p>
+<p>You can also warp a cutplane according to the vectors field. To do this,
+you have to load another module, instead of !VectorCutPlane, called
+!WarpVectorCutPlane.</p>
+<p>Type:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">enthought.mayavi.modules.warp_vector_cut_plane</span> <span class="k">import</span> <span class="n">WarpVectorCutPlane</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>then</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">wvcp</span> <span class="o">=</span> <span class="n">WarpVectorCutPlane</span><span class="p">()</span>
+<span class="n">script</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="n">wvcp</span><span class="p">)</span>
+<span class="n">wvcp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">normal</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1"># set normal to Ox axis</span>
+<span class="n">wvcp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span> <span class="c1"># set origin to (i=10, j=25, k=25) for a structured grid</span>
+<span class="n">wvcp</span><span class="o">.</span><span class="n">implicit_plane</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">wvcp</span><span class="o">.</span><span class="n">compute_normals</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">wvcp</span><span class="o">.</span><span class="n">warp_vector</span><span class="o">.</span><span class="n">filter</span><span class="o">.</span><span class="n">scale_factor</span> <span class="o">=</span> <span class="mi">10</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You should get this (compare to the warped surface with !ScalarCutPlane
+module):</p>
+<p>![](files/../_downloads/module_warpvcp.png</p>
+<h2 id="Streamline-module">Streamline module<a class="anchor-link" href="https://scipy-cookbook.readthedocs.io/items/MayaVi_ScriptingMayavi2_MainModules.html#Streamline-module">¶</a></h2><p>Another way to display vectors fields is to use the Streamline module.</p>
+<p>We consider here others Plot3D files: postxyz.bin &amp; postq.bin that you
+can download <a href="http://www.vtk.org/files/VTKTextbook/Data.tgz">here</a>. You
+can find some screenshots using these files on the VTK home page
+<a href="http://www.vtk.org/">here</a>.</p>
+<p>You can set several parameters for this module: for instance, the type
+of the streamline (tube, ribbon or line) with its properties, and the
+"seed".</p>
+<p>We also use the !GridPlane module in this example:</p>
+<p>Begin to import the required module:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">enthought.mayavi.sources.plot3d_reader</span> <span class="k">import</span> <span class="n">PLOT3DReader</span>
+<span class="kn">from</span> <span class="nn">enthought.mayavi.modules.streamline</span> <span class="k">import</span> <span class="n">Streamline</span>
+<span class="kn">from</span> <span class="nn">enthought.mayavi.modules.grid_plane</span> <span class="k">import</span> <span class="n">GridPlane</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this example, we want streamlines displayed as tubes, with 10 sides,
+and the seed set to the line seed. We also choose to display the
+"Kinetic Energy" part of the Plot3D files.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">src</span> <span class="o">=</span> <span class="n">PLOT3DReader</span><span class="p">()</span>
+<span class="n">src</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="s1">'postxyz.bin'</span><span class="p">,</span> <span class="s1">'postq.bin'</span><span class="p">)</span>
+<span class="n">src</span><span class="o">.</span><span class="n">scalars_name</span> <span class="o">=</span> <span class="s2">"kinetic energy"</span>
+<span class="n">script</span><span class="o">.</span><span class="n">add_source</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+
+<span class="n">gp</span> <span class="o">=</span> <span class="n">GridPlane</span><span class="p">()</span>
+<span class="n">script</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="n">gp</span><span class="p">)</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">grid_plane</span><span class="o">.</span><span class="n">axis</span> <span class="o">=</span> <span class="s1">'x'</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">mapper</span><span class="o">.</span><span class="n">scalar_visibility</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">representation</span> <span class="o">=</span> <span class="s1">'surface'</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">diffuse</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">ambient</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">gp</span> <span class="o">=</span> <span class="n">GridPlane</span><span class="p">()</span>
+<span class="n">script</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="n">gp</span><span class="p">)</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">grid_plane</span><span class="o">.</span><span class="n">axis</span> <span class="o">=</span> <span class="s1">'z'</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">mapper</span><span class="o">.</span><span class="n">scalar_visibility</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">representation</span> <span class="o">=</span> <span class="s1">'wireframe'</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">diffuse</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">ambient</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">gp</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">property</span><span class="o">.</span><span class="n">opacity</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">strl</span> <span class="o">=</span> <span class="n">Streamline</span><span class="p">()</span>
+<span class="n">script</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="n">strl</span><span class="p">)</span>
+<span class="n">strl</span><span class="o">.</span><span class="n">streamline_type</span> <span class="o">=</span> <span class="s2">"tube"</span> <span class="c1"># tube, ribbon or line</span>
+<span class="n">strl</span><span class="o">.</span><span class="n">tube_filter</span><span class="o">.</span><span class="n">number_of_sides</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">strl</span><span class="o">.</span><span class="n">tube_filter</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">strl</span><span class="o">.</span><span class="n">seed</span><span class="o">.</span><span class="n">widget</span> <span class="o">=</span> <span class="n">strl</span><span class="o">.</span><span class="n">seed</span><span class="o">.</span><span class="n">widget_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># [Sphere, Line, Plane, Point]</span>
+<span class="n">strl</span><span class="o">.</span><span class="n">seed</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">align</span> <span class="o">=</span> <span class="s2">"z_axis"</span> <span class="c1"># or "x_axis", "y_axis"</span>
+<span class="n">strl</span><span class="o">.</span><span class="n">seed</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">point1</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.7</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">strl</span><span class="o">.</span><span class="n">seed</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">point2</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.7</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">4.82</span><span class="p">)</span>
+<span class="n">strl</span><span class="o">.</span><span class="n">seed</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">resolution</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">strl</span><span class="o">.</span><span class="n">seed</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This should look like:</p>
+<p><img src="./mayavi2_doc_files/module_streamline.png" alt=""></p>
+<p>Note: you can also see an example of using the Streamline module in [:Cookbook/MayaVi/Examples: Cookbook/MayaVi/Examples].</p>
+
+</div>
+</div>
+</div>
+    </div><p><em>Section author: FredericPetit, Christian Gagnon</em></p>
+<p class="rubric">Attachments</p>
+<ul class="simple">
+<li><a class="reference download internal" href="./mayavi2_doc_files/module_isosurface.png" download=""><code class="xref download docutils literal notranslate"><span class="pre">module_isosurface.png</span></code></a></li>
+<li><a class="reference download internal" href="./mayavi2_doc_files/module_scp.png" download=""><code class="xref download docutils literal notranslate"><span class="pre">module_scp.png</span></code></a></li>
+<li><a class="reference download internal" href="./mayavi2_doc_files/module_scp2.png" download=""><code class="xref download docutils literal notranslate"><span class="pre">module_scp2.png</span></code></a></li>
+<li><a class="reference download internal" href="./mayavi2_doc_files/module_scp_warp.png" download=""><code class="xref download docutils literal notranslate"><span class="pre">module_scp_warp.png</span></code></a></li>
+<li><a class="reference download internal" href="./mayavi2_doc_files/module_scp_widg_en.png" download=""><code class="xref download docutils literal notranslate"><span class="pre">module_scp_widg_en.png</span></code></a></li>
+<li><a class="reference download internal" href="./mayavi2_doc_files/module_sgo_gp.png" download=""><code class="xref download docutils literal notranslate"><span class="pre">module_sgo_gp.png</span></code></a></li>
+<li><a class="reference download internal" href="./mayavi2_doc_files/module_streamline.png" download=""><code class="xref download docutils literal notranslate"><span class="pre">module_streamline.png</span></code></a></li>
+<li><a class="reference download internal" href="./mayavi2_doc_files/module_sug.png" download=""><code class="xref download docutils literal notranslate"><span class="pre">module_sug.png</span></code></a></li>
+<li><a class="reference download internal" href="./mayavi2_doc_files/module_surface.png" download=""><code class="xref download docutils literal notranslate"><span class="pre">module_surface.png</span></code></a></li>
+<li><a class="reference download internal" href="./mayavi2_doc_files/module_vcp.png" download=""><code class="xref download docutils literal notranslate"><span class="pre">module_vcp.png</span></code></a></li>
+<li><a class="reference download internal" href="./mayavi2_doc_files/module_vectors.png" download=""><code class="xref download docutils literal notranslate"><span class="pre">module_vectors.png</span></code></a></li>
+<li><a class="reference download internal" href="./mayavi2_doc_files/module_volume.png" download=""><code class="xref download docutils literal notranslate"><span class="pre">module_volume.png</span></code></a></li>
+<li><a class="reference download internal" href="https://scipy-cookbook.readthedocs.io/_downloads/module_warpvcp.png" download=""><code class="xref download docutils literal notranslate"><span class="pre">module_warpvcp.png</span></code></a></li>
+</ul>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="https://scipy-cookbook.readthedocs.io/items/idx_numpy.html" class="btn btn-neutral float-right" title="Numpy" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="https://scipy-cookbook.readthedocs.io/items/MayaVi_ScriptingMayavi2_Filters.html" class="btn btn-neutral" title="Scripting Mayavi 2: filters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr><div><div id="rtd-er3wg0p8" class="ethical-rtd"></div></div>
+
+  <div role="contentinfo">
+    <p>
+        © Copyright 2015, Various authors
+      
+        <span class="commit">
+          Revision <code>18b940fb</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions"><!-- Inserted RTD Footer -->
+<div class="injected">
+
+  
+
+      
+      
+      
+      
+
+      
+      
+      <dl>
+        <dt>Downloads</dt>
+        
+        <dd><a href="https://readthedocs.org/projects/scipy-cookbook/downloads/htmlzip/latest/">HTML</a></dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <!-- These are kept as relative links for internal installs that are http -->
+        <dt>On Read the Docs</dt>
+        <dd>
+          <a href="https://readthedocs.org/projects/scipy-cookbook/">Project Home</a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/scipy-cookbook/builds/">Builds</a>
+        </dd>
+        <dd>
+          <a href="https://readthedocs.org/projects/scipy-cookbook/downloads/">Downloads</a>
+        </dd>
+      </dl>
+      
+
+      
+
+      
+      <dl>
+        <dt>On GitHub</dt>
+        <dd>
+          <a href="https://github.com/scipy/scipy-cookbook/blob/master/docs/items/MayaVi_ScriptingMayavi2_MainModules.rst">View</a>
+        </dd>
+        
+        <dd>
+          <a href="https://github.com/scipy/scipy-cookbook/edit/master/docs/items/MayaVi_ScriptingMayavi2_MainModules.rst">Edit</a>
+        </dd>
+        
+      </dl>
+      
+      
+
+      
+      <dl>
+        <dt>Search</dt>
+        <dd>
+          <div style="padding: 6px;">
+            <form id="flyout-search-form" class="wy-form" target="_blank" action="https://readthedocs.org/projects/scipy-cookbook/search/" method="get">
+              <input type="text" name="q" placeholder="Search docs">
+              </form>
+          </div>
+        </dd>
+      </dl>
+      
+
+
+
+      <hr>
+      
+        <small>
+          <span>Hosted by <a href="https://readthedocs.org/">Read the Docs</a></span>
+          <span> · </span>
+          <a href="https://docs.readthedocs.io/en/latest/privacy-policy.html">Privacy Policy</a>
+        </small>
+      
+
+      
+
+</div>
+</div>
+  </div>
+
+
+
+  
+
+    
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'',
+              LANGUAGE:'en',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="./mayavi2_doc_files/jquery-2.0.3.min.js"></script>
+        <script type="text/javascript" src="./mayavi2_doc_files/jquery-migrate-1.2.1.min.js"></script>
+        <script type="text/javascript" src="./mayavi2_doc_files/underscore.js"></script>
+        <script type="text/javascript" src="./mayavi2_doc_files/doctools.js"></script>
+        <script type="text/javascript" src="./mayavi2_doc_files/readthedocs-doc-embed.js"></script>
+        <script type="text/javascript" src="./mayavi2_doc_files/MathJax(1).js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="./mayavi2_doc_files/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+
+</body></html>

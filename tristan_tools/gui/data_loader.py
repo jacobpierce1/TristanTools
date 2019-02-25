@@ -36,7 +36,10 @@ class DataLoader( object ) :
         self.lock = threading.Lock() 
         
         # self.timesteps_being_loaded = set() 
-        self.timesteps_loaded = set() 
+        self.timesteps_loaded = set()
+
+        # timesteps that are currently being loaded
+        self.timesteps_being_loaded = set() 
         
         # self.thread = None
         self.tristan_data_analyzer = tristan_data_analyzer 
@@ -46,7 +49,7 @@ class DataLoader( object ) :
         # self.timesteps_being_loaded  = [] 
 
         for i in range( gui_config.DATA_LOADER_NUM_THREADS ) :
-            t = threading.Thread( target = self.load_timestep_target )
+            t = threading.Thread( target = self.worker_target )
             t.setDaemon( 1 )
             t.start() 
             
@@ -66,15 +69,41 @@ class DataLoader( object ) :
         # # construct a new queue of timesteps to be loaded. 
         # queue = Queue()
 
-        self.current_timestep = timestep 
+        self.current_timestep = timestep
+
+        # first handle the current timestep, which is required before we return anyway
+        # if it has already been loaded / computed, then this will take barely any time.
+        # this way, if all the threads have terminated, then there will be no GIL competition for
+        # resources to compute the current timestep, which is the priority. if it's already in the
+        # process of being computed, then we just wait for it to finish.
+        # with self.lock :
+        #     compute_current_timestep_in_main = self.current_timestep not in self.timesteps_being_loaded
+
+        # if compute_current_timestep_in_main :
+        #     if DEBUG_DATA_LOADER :
+        #         print( 'INFO: computing current timestep in main' ) 
+        #     self.load_timestep( self.current_timestep )
+
+        #     if DEBUG_DATA_LOADER :
+        #         print( 'INFO: finished.' )
+
+        # else :
+        #     if DEBUG_DATA_LOADER :
+        #         print( 'INFO: current timestep is already being computed. ' ) 
+
+        # compute in main thread, which gives it priority if the other threads have finished. 
+        self.load_timestep( self.current_timestep ) 
+        
+        # now for the rest of the threads, load them into the queue and they will automatically
+        # be picked up by the worker threads. we will return before they finish.
         
         with self.queue.mutex :
             self.queue.queue.clear() 
             
-        timesteps = [ timestep ] 
+        timesteps = [] 
         
         for i in range( gui_config.DATA_LOADER_FORWARD_TIMESTEPS ) :
-            forward = min( timestep + stride * i, max_timestep ) 
+            forward = min( timestep + stride * i + 1, max_timestep ) 
             backward = max( timestep - stride * i, 0 )
 
             timesteps.append( forward )
@@ -114,12 +143,12 @@ class DataLoader( object ) :
         self.current_timestep_finished_event.clear()
         
         if DEBUG_DATA_LOADER :
-            print( 'current timestep finished' ) 
+            print( 'INFO: current timestep finished, returning ' ) 
 
 
 
         
-    def load_timestep_target( self ) :
+    def worker_target( self ) :
 
         while 1 :
             # print( 'waiting for event' ) 
@@ -128,35 +157,51 @@ class DataLoader( object ) :
             # print( 'getting data from queue. ' ) 
             timestep = self.queue.get()
 
-            # only load if the data is not yet loaded.
-            with self.lock :
-                load = timestep not in self.timesteps_loaded
 
-            if load : 
+            
+            self.load_timestep( timestep ) 
 
-                if DEBUG_DATA_LOADER :
-                    print( 'loading timestep: ' + str( timestep ) ) 
-
-                self.tristan_data_analyzer.load_indices( timestep ) 
-                self.tristan_data_analyzer.compute_indices( timestep ) 
-                
-                # update the status. only one thread can update the variables at a time.  
-                with self.lock :
-                    self.timesteps_loaded.add( timestep )
-                    # self.timesteps_being_loaded.remove( timestep ) 
-
-            else :
-                if DEBUG_DATA_LOADER :
-                    print( 'already loaded: ' + str( timestep ) ) 
-                
-            # signal that handle_timestep can return, i.e. the plots are ready to be generated.
-            if self.current_timestep == timestep :
-                self.current_timestep_finished_event.set() 
-                
+            
             self.queue.task_done() 
 
 
+            
+    def load_timestep( self, timestep ) :
+        # only load if the data is not yet loaded.
+        with self.lock :
+            load = ( timestep not in self.timesteps_loaded ) and ( timestep not in self.timesteps_being_loaded ) 
 
+        if load :
+
+            # track the fact that this data is being loaded, so that no other thread attempts to load it
+            # if requested. 
+            with self.lock :
+                self.timesteps_being_loaded.add( timestep ) 
+
+
+            if DEBUG_DATA_LOADER :
+                print( 'loading timestep: ' + str( timestep ) ) 
+
+            self.tristan_data_analyzer.load_indices( timestep ) 
+            self.tristan_data_analyzer.compute_indices( timestep ) 
+
+            # update the status. only one thread can update the variables at a time.  
+            with self.lock :
+                self.timesteps_loaded.add( timestep )
+                self.timesteps_being_loaded.remove( timestep ) 
+                # self.timesteps_being_loaded.remove( timestep ) 
+
+        else :
+            if DEBUG_DATA_LOADER :
+                print( 'already loaded or being loaded: ' + str( timestep ) ) 
+
+        # signal that handle_timestep can return, i.e. the plots are ready to be generated
+        # and handle_timestep can return.
+        if self.current_timestep == timestep :
+            self.current_timestep_finished_event.set() 
+
+
+                    
     def clear( self ) :
         with self.lock : 
             self.timesteps_loaded.clear()

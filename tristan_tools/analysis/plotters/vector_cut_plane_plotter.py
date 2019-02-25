@@ -23,6 +23,11 @@ class VectorCutPlanePlotter( MayaviPlotter ) :
         # set defaults here 
         self.slices_to_add = [ 0, 0, 1 ] 
 
+        self.mask_points = 10
+        self.scale_factor = 8
+        self.scale_mode = 'scale_by_vector'
+
+        
         # startup if possible 
         if self.data is not None :
             self.startup()
@@ -32,8 +37,10 @@ class VectorCutPlanePlotter( MayaviPlotter ) :
                 
     def startup( self ) :
         # super().startup()
-        
-        self.mask_points = 1 
+
+        # this will reduce the amount of data to roughly a grid of 15x15x15 vectors. can
+        # always change later in the gui.
+        self.mask_points = int( ( self.data[0].shape[0] / 15. ) ** 3 ) 
         
         for i in range(3) :
             if self.slices_to_add[i] :
@@ -83,9 +90,40 @@ class VectorCutPlanePlotter( MayaviPlotter ) :
             # slice_index = self.data[0].shape[ axis ] / 2 ) 
             # mask_points = self.mask_points )
 
-        self.mayavi_plots[ axis ].glyph.trait_set( mask_input_points = True ) 
-        self.mayavi_plots[ axis ].glyph.mask_points.trait_set( on_ratio = self.mask_points,
-                                                               random_mode = False )
+        plot = self.mayavi_plots[ axis ]
+            
+        plot.glyph.mask_input_points = True 
+        plot.glyph.mask_points.on_ratio = self.mask_points
+        plot.glyph.mask_points.random_mode = False
+
+        # disable the annoying-ass rotation widget in the middle of the plot .
+        plot.implicit_plane.widget.diagonal_ratio = 0
+        plot.implicit_plane.widget.handle_size = 0.001
+
+        # 3d arrow and corresponding options
+        plot.glyph.glyph_source.glyph_source = plot.glyph.glyph_source.glyph_list[1]
+        plot.glyph.glyph_source.glyph_source.shaft_radius = 0.03
+        plot.glyph.glyph_source.glyph_source.shaft_resolution = 6
+        plot.glyph.glyph_source.glyph_source.tip_length = 0.35
+        plot.glyph.glyph_source.glyph_source.tip_radius = 0.1
+        plot.glyph.glyph_source.glyph_source.tip_resolution = 6
+        plot.glyph.glyph.scale_factor = self.scale_factor 
+        plot.glyph.glyph_source.glyph_position = 'tail'
+        
+        # this forces the plot to refresh, which properly establishes the above sizes
+        # (making the vtk objects invisible).
+        # self.mayavi_plots[ axis ].implicit_plane.widget._vtk_obj.SetNormalToZAxis(1)
+
+        vtk_obj = self.mayavi_plots[ axis ].implicit_plane.widget._vtk_obj
+        if axis == 0 :
+            vtk_obj.SetNormalToXAxis(1)
+        elif axis == 1 :
+            vtk_obj.SetNormalToYAxis(1)
+        elif axis == 2 :
+            vtk_obj.SetNormalToZAxis(1)
+
+
+        print( 'INFO: self.mask_points: ', self.get_mask_points() ) 
 
         
     def remove_slice( self, axis ) :
@@ -93,29 +131,41 @@ class VectorCutPlanePlotter( MayaviPlotter ) :
             self.mayavi_plots[ axis ].remove()
             self.mayavi_plots[ axis ] = None
 
+            
 
     def set_mask_points( self, mask_points ) :
         self.mask_points = mask_points 
         for plot in self.mayavi_plots :
             if plot :
-                plot.glyph.mask_points.trait_set( on_ratio = mask_points )
+                plot.glyph.mask_points.on_ratio = mask_points
         
 
+
+    # options for x: 'scale_by_vector', 'data_scaling_off'
+    def set_scale_mode( self, x ) :
+        self.scale_mode = x
+        for plot in self.mayavi_plots :
+            if plot :
+                plot.glyph.scale_mode = self.scale_mode
+            
+            
+                
+                
     def set_scale_factor( self, scale_factor ) :
-        print_info( self.mayavi_plots[0].glyph ) 
+        self.scale_factor = scale_factor 
+        for plot in self.mayavi_plots :
+            if plot :
+                plot.glyph.glyph.scale_factor = self.scale_factor 
         
                 
     # return mask points of the first active plot. note that they all have the
     # same mask points.
     def get_mask_points( self ) :
-        # return self.mayavi_plot.glyph.mask_points.on_ratio
-        for plot in self.mayavi_plots :
-            if plot :
-                return plot.glyph.mask_points.on_ratio
-
+        return self.mask_points
+    
             
     def get_scale_factor( self ) :
-        pass 
+        return self.scale_factor 
 
         
                     
@@ -126,6 +176,11 @@ class VectorCutPlanePlotter( MayaviPlotter ) :
             
         self.data = data
 
+        try:
+            print( data.shape )
+        except :
+            pass
+        
         if self.data_added and self.needs_startup :
             self.startup() 
 
