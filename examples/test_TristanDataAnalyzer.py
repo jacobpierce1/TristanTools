@@ -10,7 +10,7 @@ import os
 # output_path_3d = os.path.expanduser( output_path_3d ) 
 
 
-output_path_3d = '../test_data/user_beam_on_background_3d/output/'
+output_path_3d = '../test_data/test1/output/'
 
 
 output_path = output_path_3d
