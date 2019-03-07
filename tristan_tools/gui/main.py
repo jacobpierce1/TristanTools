@@ -68,7 +68,7 @@ class App( QWidget ) :
         
         self.init_menubar() 
 
-        
+        # self.closeButton.clicked.connect( lambda : sys.exit(0) )
         
         self.setWindowTitle( 'TristanGUI' )
         self.resize( gui_config.WINDOW_WIDTH, gui_config.WINDOW_HEIGHT )
@@ -87,6 +87,9 @@ class App( QWidget ) :
         # self.plotter_widget.update( 0 ) 
         # self.control_panel.update_plots() 
         
+
+    def closeEvent( self, event ) :
+        sys.exit(0)
         
         
         
