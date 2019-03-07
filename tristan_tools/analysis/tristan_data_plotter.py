@@ -178,11 +178,18 @@ class TristanDataPlotter( object ) :
     # don't put computations here, you should put them in the TristanDataAnalyzer
     # and then access here.
     def default_data_getter( self, timestep ) :
+
+        print( self.keys )
+
+        for key in self.keys : 
+            print( key ) 
+            print( self.analyzer.data[ key ][timestep].shape )
+        
         if isinstance( self.keys, str ) :
             return self.analyzer.data[ self.keys ][timestep] 
         else : 
-            return np.array( [ self.analyzer.data[key][timestep] for key in self.keys ] ) 
-
+            # return np.array( [ self.analyzer.data[key][timestep] for key in self.keys ] ) 
+            return [ self.analyzer.data[key][timestep] for key in self.keys ] 
     
 
     def set_plot_type( self, plot_type, plot_name ) :

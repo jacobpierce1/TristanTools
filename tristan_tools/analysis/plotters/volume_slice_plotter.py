@@ -80,9 +80,15 @@ class VolumeSlicePlotter( MayaviPlotter ) :
             print( 'ERROR: axis must be 0, 1, or 2' )
             sys.exit(1)
 
-        self.mayavi_plots[ axis ] = mlab.volume_slice( self.data, plane_orientation = tmp,
-                                                       slice_index = self.data.shape[ axis ] / 2,
-                                                       figure = self.mayavi_scene )
+        tmpdata = mlab.pipeline.scalar_field( self.data, figure = self.mayavi_scene )
+
+        self.mayavi_plots[ axis ] = mlab.pipeline.image_plane_widget( tmpdata, plane_orientation = tmp,
+                                                                      slice_index = self.data.shape[ axis ] / 2,
+                                                                      figure = self.mayavi_scene )
+        
+        # self.mayavi_plots[ axis ] = mlab.volume_slice( self.data, plane_orientation = tmp,
+        #                                                slice_index = self.data.shape[ axis ] / 2,
+        #                                                figure = self.mayavi_scene )
         
         
     def remove_slice( self, axis ) :

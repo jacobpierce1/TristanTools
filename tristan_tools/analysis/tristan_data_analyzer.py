@@ -366,6 +366,10 @@ class TristanDataAnalyzer( TristanDataContainer ) :
 
         self.data[ key ][ idx ] = data
 
+        # print( 'in analyzer' )
+        # print( key )
+        # print( len( total_momentum_sq ) ) 
+
 
     
     
