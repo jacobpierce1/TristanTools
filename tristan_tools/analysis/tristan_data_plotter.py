@@ -44,7 +44,7 @@ PLOT_NAME_TO_KEYS_DICT = OrderedDict( [
     ( 'E_parallel', 'E_parallel' )
 ] ) 
 
-ALL_SCALARS = [ 'dens', 'densi',
+ALL_SCALARS = [ 'dens', 'densi', 'dense', 'charge_density',
                 'bx', 'by', 'bz',
                 'ex', 'ey', 'ez',
                 'jx', 'jy', 'jz',
@@ -179,11 +179,11 @@ class TristanDataPlotter( object ) :
     # and then access here.
     def default_data_getter( self, timestep ) :
 
-        print( self.keys )
+        # print( self.keys )
 
-        for key in self.keys : 
-            print( key ) 
-            print( self.analyzer.data[ key ][timestep].shape )
+        # for key in self.keys : 
+        #     print( key ) 
+        #     print( self.analyzer.data[ key ][timestep].shape )
         
         if isinstance( self.keys, str ) :
             return self.analyzer.data[ self.keys ][timestep] 

@@ -82,8 +82,6 @@ class MayaviPlotContainer( QWidget ) : # QtGui.QWidget ):
         # very important: gives access to the scene for plotting via mlab. 
         self.tristan_data_plotter.plotter.set_mayavi_scene( self.visualization.scene.mayavi_scene ) 
 
-        print( 'mayavi scene: ', self.visualization.scene.mayavi_scene )
-
         self.mayavi_scene = self.visualization.scene.mayavi_scene
         
         self.visualization.tristan_data_plotter = self.tristan_data_plotter

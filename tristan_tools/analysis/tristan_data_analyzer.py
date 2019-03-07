@@ -40,7 +40,9 @@ class TristanDataAnalyzer( TristanDataContainer ) :
                                        'EE' : self.compute_EE,
                                        'JJ' : self.compute_JJ,
                                        'E_parallel' : self.compute_E_parallel, 
-                                       'ExB' : self.compute_ExB } 
+                                       'ExB' : self.compute_ExB,
+                                       'charge_density' : self.compute_charge_density,
+                                       'dense' : self.compute_dense } 
                                        # 'momentum_spectra' : self.compute_momentum_spectra }
                                        
         # add momentum spectrum computers:
@@ -371,7 +373,14 @@ class TristanDataAnalyzer( TristanDataContainer ) :
         # print( len( total_momentum_sq ) ) 
 
 
+
+    def compute_dense( self, idx ) :
+        self.data[ 'dense' ][ idx ] = self.data[ 'dens' ][ idx ] - self.data[ 'densi' ][ idx ] 
+
     
+    def compute_charge_density( self, idx ) :
+        self.data[ 'charge_density' ][ idx ] = 2 * self.data[ 'densi' ][ idx ] - self.data[ 'dens' ][ idx ]
+        
     
     def rebin_hist( self, hist, new_dim ) :
         

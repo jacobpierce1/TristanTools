@@ -15,7 +15,7 @@ import gui_config
 
 
 
-DEBUG_DATA_LOADER = 1
+DEBUG_DATA_LOADER = 0
 
 
 
