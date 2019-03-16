@@ -3,4 +3,4 @@
 *.pyc
 *.egg-info
 *.DS_Store
-*/computations/
+*/computations/*
