@@ -44,7 +44,8 @@ PLOT_NAME_TO_KEYS_DICT = OrderedDict( [
     ( 'E_parallel', 'E_parallel' )
 ] ) 
 
-ALL_SCALARS = [ 'dens', 'densi', 'dense', 'charge_density',
+ALL_SCALARS = [ 'dens', 'densi', 'dense', 'charge_dens',
+                'dense_cut', 'densi_cut',
                 'bx', 'by', 'bz',
                 'ex', 'ey', 'ez',
                 'jx', 'jy', 'jz',
@@ -59,12 +60,13 @@ ALL_VECTORS = [ 'E', 'B', 'J', 'V3', 'V3i', 'E_parallel' ]
 #                         'px_i_spec', 'py_i_spec', 'pz_i_spec'   ] 
 
 
-ALL_1D_SPECTRA_PLOT_NAMES = [ 'PP', 'px', 'py', 'pz' ] 
+ALL_1D_SPECTRA_PLOT_NAMES = [ 'PP', 'px', 'py', 'pz' ]
+ALL_1D_CUT_SPECTRA_PLOT_NAMES = [ x + '_cut' for x in ALL_1D_SPECTRA_PLOT_NAMES ] 
 
 
 ALL_HISTS = []
 ALL_HISTS.extend( ALL_1D_SPECTRA_PLOT_NAMES ) 
-
+ALL_HISTS.extend( ALL_1D_CUT_SPECTRA_PLOT_NAMES ) 
 
 
 for x in ALL_SCALARS :
@@ -309,3 +311,8 @@ class TristanDataPlotter( object ) :
     def reset( self ) :
         self.clear() 
         self.refresh() 
+
+
+
+
+

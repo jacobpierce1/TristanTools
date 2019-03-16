@@ -20,7 +20,7 @@ DATA_LOADER_FORWARD_TIMESTEPS = 10
 
 # max number of threads that will run at any given time
 # by the data loader. 
-DATA_LOADER_NUM_THREADS = 6
+DATA_LOADER_NUM_THREADS = 1
 
 
 # change this if you subclass the analyzer and want to use
