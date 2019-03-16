@@ -222,6 +222,21 @@ class TristanDataContainer( object ) :
                 except OSError :
                     print( 'ERROR: file not found: %s' % fname ) 
                     sys.exit(1)
+
+                # fix the particle positions
+                print( self.params.mx ) 
+                print( self.params.my )
+                print( self.data.proce[ idx ] )
+                print( max( self.data.proce[ idx ] )  )
+                
+                # self.data.xe[ idx ] += self.params.mx[0] * self.data.proce[ idx ]
+                # self.data.xi[ idx ] += self.params.mx[0] * self.data.proci[ idx ]
+                # self.data.ye[ idx ] += self.params.my[0] * self.data.proce[ idx ]
+                # self.data.yi[ idx ] += self.params.my[0] * self.data.proci[ idx ]
+                # self.data.ze[ idx ] += self.params.mz[0] * self.data.proce[ idx ]
+                # self.data.zi[ idx ] += self.params.mz[0] * self.data.proci[ idx ]
+
+        
                     
         # if 'time' in keys : 
         #     self.load_times( indices ) 

@@ -471,7 +471,7 @@ class TristanDataAnalyzer( TristanDataContainer ) :
         total_momentum = np.sqrt( total_momentum_sq ) 
             
         if mask is not None :
-            mask &= self.total_momentum_cut.apply( [ total_momentum ] ) 
+            # mask &= self.total_momentum_cut.apply( [ total_momentum ] ) 
             tmp = total_momentum[ mask ] 
         else :
             tmp = total_momentum
@@ -506,15 +506,30 @@ class TristanDataAnalyzer( TristanDataContainer ) :
         masks = [ self.momentum_cut.apply( x ) for x in [ emomenta, imomenta ] ]
 
         # print( masks ) 
+
+        print( 'DEBUG: in compute_momentum_cuttable_keys' )
+        print( len( masks[0] ) )
+        print( len( epositions ) )
+
         
         epositions = epositions[ masks[0] ]
         ipositions = ipositions[ masks[1] ]
+
+        print( len( epositions ) ) 
+        print( epositions  )
+        print( max( epositions[2] ) )
+        
         
         shape = self.data.dense[ idx ].shape
+        # bins = np.arange( 
+        
+        bins = [ np.arange( shape[i] ) for i in range( len( shape ) ) ]
         
         # print( shape ) 
-        self.data.dense_cut[ idx ]  = np.histogramdd( np.array( epositions ), bins = shape )[0]
-        self.data.densi_cut[ idx ]  = np.histogramdd( np.array( ipositions ), bins = shape )[0]
+        self.data.dense_cut[ idx ]  = np.histogramdd( np.array( epositions ), bins = bins )[0]
+        self.data.densi_cut[ idx ]  = np.histogramdd( np.array( ipositions ), bins = bins )[0]
+
+        
 
 
         
