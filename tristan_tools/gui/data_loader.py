@@ -15,7 +15,7 @@ import gui_config
 
 
 
-DEBUG_DATA_LOADER = 0
+DEBUG_DATA_LOADER = 1 
 
 
 
@@ -61,7 +61,7 @@ class DataLoader( object ) :
     # load all relevant data that has not been loaded yet and unload unnecessary data.
     # note that it is not possible to kill a thread or restart a thread, so if a thread is
     # working on obsolete data at the time that the request for 
-    def handle_timestep( self, timestep, stride, max_timestep ) : 
+    def handle_timestep( self, timestep, stride, max_timestep, keys = None, _reload = 0 ) : 
 
         if DEBUG_DATA_LOADER :
             print( 'INFO: handling new timestep in DataLoader.' ) 
@@ -92,7 +92,7 @@ class DataLoader( object ) :
         #         print( 'INFO: current timestep is already being computed. ' ) 
 
         # compute in main thread, which gives it priority if the other threads have finished. 
-        self.load_timestep( self.current_timestep ) 
+        self.load_timestep( self.current_timestep, keys = keys, _reload = _reload ) 
         
         # now for the rest of the threads, load them into the queue and they will automatically
         # be picked up by the worker threads. we will return before they finish.
@@ -115,9 +115,9 @@ class DataLoader( object ) :
 
         if DEBUG_DATA_LOADER : 
             print( 'timesteps: ' + str( timesteps ) ) 
-        
-        unused_indices = self.timesteps_loaded - set( timesteps )
 
+        unused_indices = self.timesteps_loaded - set( timesteps )
+                   
         if DEBUG_DATA_LOADER :
             print( 'deleting old indices: ' + str( unused_indices ) )
 
@@ -133,7 +133,7 @@ class DataLoader( object ) :
 
         # add these to the queue. processing starts immediately.
         for t in timesteps :
-            self.queue.put( t ) 
+            self.queue.put( (t, keys, _reload ) ) 
 
         if DEBUG_DATA_LOADER :
             print( 'queue:' + str( list( self.queue.queue ) ) )  
@@ -143,7 +143,7 @@ class DataLoader( object ) :
         self.current_timestep_finished_event.clear()
         
         if DEBUG_DATA_LOADER :
-            print( 'INFO: current timestep finished, returning ' ) 
+            print( 'INFO: current timestep = %d finished, returning ' % timestep ) 
 
 
 
@@ -155,21 +155,24 @@ class DataLoader( object ) :
             # self.pause_event.wait() 
 
             # print( 'getting data from queue. ' ) 
-            timestep = self.queue.get()
+            timestep, keys, _reload = self.queue.get()
 
 
             
-            self.load_timestep( timestep ) 
+            self.load_timestep( timestep, keys, _reload ) 
 
             
             self.queue.task_done() 
 
 
             
-    def load_timestep( self, timestep ) :
+    def load_timestep( self, timestep, keys = None, _reload = 0 ) :
+
         # only load if the data is not yet loaded.
         with self.lock :
-            load = ( timestep not in self.timesteps_loaded ) and ( timestep not in self.timesteps_being_loaded ) 
+            load = ( _reload 
+                     or ( ( timestep not in self.timesteps_loaded )
+                          and ( timestep not in self.timesteps_being_loaded ) ) )
 
         if load :
 
@@ -183,7 +186,9 @@ class DataLoader( object ) :
                 print( 'loading timestep: ' + str( timestep ) ) 
 
             self.tristan_data_analyzer.load_indices( timestep ) 
-            self.tristan_data_analyzer.compute_indices( timestep ) 
+            self.tristan_data_analyzer.compute_indices( timestep, keys, recompute = 1, save = 0 )
+
+            # print( len( self.tristan_data_analyzer.data.PP_e_spec_cut[ timestep ] ) )
 
             # update the status. only one thread can update the variables at a time.  
             with self.lock :
@@ -203,6 +208,7 @@ class DataLoader( object ) :
 
                     
     def clear( self ) :
+        
         with self.lock : 
             self.timesteps_loaded.clear()
 

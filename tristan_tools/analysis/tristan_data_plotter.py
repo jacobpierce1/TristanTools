@@ -180,12 +180,6 @@ class TristanDataPlotter( object ) :
     # don't put computations here, you should put them in the TristanDataAnalyzer
     # and then access here.
     def default_data_getter( self, timestep ) :
-
-        # print( self.keys )
-
-        # for key in self.keys : 
-        #     print( key ) 
-        #     print( self.analyzer.data[ key ][timestep].shape )
         
         if isinstance( self.keys, str ) :
             return self.analyzer.data[ self.keys ][timestep] 
@@ -259,9 +253,9 @@ class TristanDataPlotter( object ) :
 
         # print( self.mayavi_scene ) 
         
-        if timestep != self.timestep : 
-            self.plotter.set_data( data ) 
-            self.plotter.update() 
+        # if timestep != self.timestep : 
+        self.plotter.set_data( data ) 
+        self.plotter.update() 
             
         self.timestep = timestep 
 

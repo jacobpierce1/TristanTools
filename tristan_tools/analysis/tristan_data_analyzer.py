@@ -16,7 +16,7 @@ from sortedcontainers import SortedSet
 
 
 from .tristan_data_container import TristanDataContainer
-
+from .tristan_cut import TristanCut 
 
 # from .helper_classes import AttrDict, RecursiveAttrDict
 
@@ -98,9 +98,9 @@ class TristanDataAnalyzer( TristanDataContainer ) :
         
 
         # particle-derived quantities that a position or momentum cut can be applied to
-        self.position_cut = Cut( None, 3 )
-        self.momentum_cut = Cut( None, 3 )
-        self.total_momentum_cut = Cut( None, 1 )
+        self.position_cut = TristanCut( None, 3 )
+        self.momentum_cut = TristanCut( None, 3 )
+        self.total_momentum_cut = TristanCut( None, 1 )
 
         
         # self.position_cuttable_keys = set( POSITION_CUTTABLE_KEYS ) 
@@ -232,20 +232,20 @@ class TristanDataAnalyzer( TristanDataContainer ) :
                             # will be detected).
                             if key not in self.data.keys()  :
                                 print( 'INFO: key not in self.data: %s' % key ) 
-                                print( self.data.keys() )
+                                # print( self.data.keys() )
                                 self.data[ key ] = None
 
                             self.data[ key ][ idx ] = np.array( f[ key ] )
 
                         # # check if cut quantities need to be recomputed 
                         # # if 'position_cut' in existing_keys :
-                        # position_cut = Cut.decode( np.array( f[ 'position_cut' ] ) )
+                        # position_cut = TristanCut.decode( np.array( f[ 'position_cut' ] ) )
                         # if self.position_cut != position_cut :
                         #     keys_to_compute += self.position_cuttable_keys
 
                         # # if 'momentum_cut' in existing_keys :
-                        # momentum_cut = Cut.decode( np.array( f[ 'momentum_cut' ] ) )
-                        # total_momentum_cut = Cut.decode( np.array( f[ 'total_momentum_cut' ] ) )
+                        # momentum_cut = TristanCut.decode( np.array( f[ 'momentum_cut' ] ) )
+                        # total_momentum_cut = TristanCut.decode( np.array( f[ 'total_momentum_cut' ] ) )
                         # if ( ( momentum_cut != self.momentum_cut )
                         #      or ( total_momentum_cut != self.total_momentum_cut ) )  :
                         #     keys_to_compute += self.momentum_cuttable_keys
@@ -293,10 +293,22 @@ class TristanDataAnalyzer( TristanDataContainer ) :
                             
             # if recomputing and not saving: just go ahead and compute everything. 
             else :
-                for key in _keys :             
-                    self.computation_callbacks[ key ]( idx )  
+                callbacks_needed = SortedSet( [ self.computation_to_callback[ key ] for key in _keys ] )
 
-                    
+                for callback_key in callbacks_needed :             
+                    self.callbacks[ callback_key ]( idx )  
+
+        # # comupte any cuts that are defined 
+        # self.compute_cut_masks( idx )
+
+
+
+        
+    # def compute_cut_masks( self ) :
+
+    #     self.position_masks = self.position_cut.apply( 
+
+        
 
     
     def compute_BB( self, idx ) :
@@ -405,28 +417,28 @@ class TristanDataAnalyzer( TristanDataContainer ) :
         new_component_names = 'xyz' 
         
         tristan_key = tristan_component_names[ i ] + particle_type 
-                  
+        momentum = self.data[ tristan_key ][ idx ]
+        
         # construct our key name 
         key = 'p' + new_component_names[i]
 
         if mask is not None :
             key += '_cut' 
-
-        key += '_' + particle_type + '_spec'
+            momentum =  momentum[ mask ]
             
-        momentum = self.data[ tristan_key ][ idx ]
+        key += '_' + particle_type + '_spec'
+                    
 
-        if mask is not None : 
-            momentum =  momentum[ mask ] 
-
-        # len( bins ) == len( hist ) + 1
+        # note that len( bins ) == len( hist ) + 1
         # https://astropy.readthedocs.io/en/latest/visualization/histogram.html#bayesian-models
         # could use the above histograms for better optimized bins instead
 
-        if mask is None :
-            tmp = momentum
-        else :
-            tmp = momentum[ mask ] 
+        # if mask is None :
+        #     tmp = momentum
+        # else :
+        #     print( len( masks ) )
+        #     print( len( momentum )  )
+        #     tmp = momentum[ mask ] 
         
         hist, bins = np.histogram( momentum, bins = 'rice', density = 1 )
         
@@ -451,8 +463,6 @@ class TristanDataAnalyzer( TristanDataContainer ) :
             key += '_cut'
             
         key += '_' + particle_type + '_spec'
-
-        
         
         for i in range(3) :
         
@@ -470,14 +480,14 @@ class TristanDataAnalyzer( TristanDataContainer ) :
 
         total_momentum = np.sqrt( total_momentum_sq ) 
             
-        if mask is not None :
-            # mask &= self.total_momentum_cut.apply( [ total_momentum ] ) 
-            tmp = total_momentum[ mask ] 
-        else :
-            tmp = total_momentum
-        # now compute total momentum distribution.
+        # if mask is not None :
+        #     # mask &= self.total_momentum_cut.apply( [ total_momentum ] ) 
+        #     tmp = total_momentum[ mask ] 
+        # else :
+        #     tmp = total_momentum
+        # # now compute total momentum distribution.
         
-        hist, bins = np.histogram(  tmp, bins = 'rice' )
+        hist, bins = np.histogram(  total_momentum, bins = 'rice' )
 
         data = np.zeros( ( 2, len( bins ) ) )
         data[0,:-1] = hist
@@ -489,9 +499,6 @@ class TristanDataAnalyzer( TristanDataContainer ) :
 
         self.data[ key ][ idx ] = data
 
-        # print( 'in analyzer' )
-        # print( key )
-        # print( len( total_momentum_sq ) ) 
 
 
 
@@ -503,29 +510,17 @@ class TristanDataAnalyzer( TristanDataContainer ) :
         emomenta = np.array( [ self.data[ s ][ idx ] for s in [ 'ue', 've', 'we' ] ] )
         imomenta = np.array( [ self.data[ s ][ idx ] for s in [ 'ui', 'vi', 'wi' ] ] ) 
 
-        masks = [ self.momentum_cut.apply( x ) for x in [ emomenta, imomenta ] ]
-
-        # print( masks ) 
-
-        print( 'DEBUG: in compute_momentum_cuttable_keys' )
-        print( len( masks[0] ) )
-        print( len( epositions ) )
-
+        masks = [ self.momentum_cut.apply( x )
+                  # & self.total_momentum_cut.apply( x )
+                  for x in [ emomenta, imomenta ] ]
         
         epositions = epositions[ masks[0] ]
         ipositions = ipositions[ masks[1] ]
-
-        print( len( epositions ) ) 
-        print( epositions  )
-        print( max( epositions[2] ) )
-        
         
         shape = self.data.dense[ idx ].shape
-        # bins = np.arange( 
         
-        bins = [ np.arange( shape[i] ) for i in range( len( shape ) ) ]
+        bins = [ np.arange( x ) for x in shape ]
         
-        # print( shape ) 
         self.data.dense_cut[ idx ]  = np.histogramdd( np.array( epositions ), bins = bins )[0]
         self.data.densi_cut[ idx ]  = np.histogramdd( np.array( ipositions ), bins = bins )[0]
 
@@ -536,10 +531,25 @@ class TristanDataAnalyzer( TristanDataContainer ) :
     def compute_position_cuttable_keys( self, idx ) :
         epositions = np.array( [ self.data[ s ][ idx ] for s in [ 'xe', 'ye', 'ze' ] ] )
         ipositions = np.array( [ self.data[ s ][ idx ] for s in [ 'xi', 'yi', 'zi' ] ] )
-        # emomenta = [ self.data[ s ][ idx ] for s in [ 'ue', 've', 'we' ] ]
+        # emomenta = np.array( [ self.data[ s ][ idx ] for s in [ 'ue', 've', 'we' ] ] )
+        # imomenta = np.array( [ self.data[ s ][ idx ] for s in [ 'ui', 'vi', 'wi' ] ] )
+
+            
+            # emomenta = [ self.data[ s ][ idx ] for s in [ 'ue', 've', 'we' ] ]
         # imomenta = [ self.data[ s ][ idx ] for s in [ 'ui', 'vi', 'wi' ] ]
         # masks gets modified in the total momentum computation.
         masks = [ self.position_cut.apply( x ) for x in [ epositions, ipositions ] ] 
+
+        # print( 'INFO: in compute_position_cuttable_keys' )
+        # print( self.position_cut ) 
+        # print( masks )
+
+        print( 'compute_position_cuttable_keys: ' + str( epositions ) )
+        print( 'compute_position_cuttable_keys: ' + str( self.position_cut ) )
+        print( 'compute_position_cuttable_keys: ' + str( masks ) )
+        print( 'compute_position_cuttable_keys: ' + str( [ np.sum(x) for x in masks] ) )
+        
+        # print( 'compute_position_cuttable_keys: ' + str( self.position_cut.cuts ) )
         
         self.compute_spectra( idx, masks = masks ) 
 
@@ -603,81 +613,6 @@ class TristanDataAnalyzer( TristanDataContainer ) :
 
     
 
-
-# used for arbitrary position and momentum cuts 
-class Cut() :
-
-
-    # possibilities for cut :
-    # None
-    # [ [None, right], [left,right], [None,None] ]
-    # etc
-    
-    def __init__( self, cuts = None, dim = 3 ) :
-
-        if cuts is None :
-           cuts = [ [ None, None ] for i in range( dim ) ]
-
-        for i in range( len (cuts ) ) :
-            self.check_cut( cuts[i] ) 
-           
-        self.cuts = cuts
-        self.mask = None
-
-        
-    def check_cut( self, cut ) :
-
-        if cut is None :
-            return
-
-        if len( cut) != 2 :
-            raise KeyError( 'ERROR: attempted to set a cut with length != 2' )
-
-        if ( cut[0] is not None ) and ( cut[1] is not None ) and ( cut[0] > cut[1] ) : 
-            print( 'WARNING: the specified cut will always fail: ' + str( cut ) )
-        
-        
-    def __getitem__( self, idx ) :
-        return self.cut[ idx ]
-
-    def __setitem__( self, idx, item ) :
-        self.check_cut( item ) 
-        self.cut[idx] = item 
-
-    def encode( self ) :
-        arr = np.array( self.cuts ) 
-
-        for i in range( len( arr ) ) :
-            if arr[i][0] == None :
-                self.arr[i][0] = -np.inf
-            if arr[i][1] == None :
-                self.arr[i][1] = np.inf
-
-
-    @classmethod
-    def decode( cls, arr ) :
-        for i in range( len( arr ) ) :
-            if arr[i][0] == -np.inf :
-                self.arr[i][0] = None
-            if arr[i][1] == -np.inf :
-                self.arr[i][1] = None
-
-        return cls( arr ) 
-        
-        
-    def apply( self, _array ) : 
-        mask = np.arange( len( _array[0] ) )
-        for i in range( len( self.cuts ) ) :
-            if self.cuts[i][0] is not None :
-                mask &= ( _array >= self.cuts[i][0] )
-            if self.cuts[i][1] is not None :
-                mask &= ( _array >= self.cuts[i][0] )
-
-        return mask
-
-
-
-                          
 
     
     # def rebin_hist( self, hist, new_dim ) :

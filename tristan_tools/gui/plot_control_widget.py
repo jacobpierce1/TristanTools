@@ -122,7 +122,7 @@ class PlotOptionsDialog( QDialog ) :
         self.data_selection_combobox.activated.connect( self.data_selection_changed ) 
         self.reset_data_selection_combobox()
 
-        print( tristan_data_plotter.analyzer.data.keys() )
+        # print( tristan_data_plotter.analyzer.data.keys() )
 
         # ok_button = QPushButton( 'OK' )         
         # ok_button.clicked.connect( self.ok_button_clicked )
@@ -169,7 +169,7 @@ class PlotOptionsDialog( QDialog ) :
 
         
     def reset_data_selection_combobox( self ) :
-        print( 'resetting data selection' ) 
+        # print( 'resetting data selection' ) 
         self.data_selection_combobox.clear()
         available_data = self.tristan_data_plotter.available_data_dict[ self.plot_type ]
         for i in range( len( available_data ) ) :
@@ -213,7 +213,7 @@ class PlotOptionsDialog( QDialog ) :
         
         # otherwise update the data immediately 
         else :
-            print( 'setting new plot name' ) 
+            # print( 'setting new plot name' ) 
             self.tristan_data_plotter.set_plot_name( self.plot_name )
             self.tristan_data_plotter.refresh() 
 
@@ -225,7 +225,7 @@ class PlotOptionsDialog( QDialog ) :
         
         
     def plot_type_changed( self ) :
-        print( 'called plot type changed' ) 
+        # print( 'called plot type changed' ) 
         self.plot_type = self.plot_type_combobox.currentText()
         self.plot_type_changed_status = 1 
         self.reset_data_selection_combobox()

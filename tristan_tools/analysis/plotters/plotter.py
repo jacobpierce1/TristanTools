@@ -16,8 +16,9 @@ MPL_PLOTTER_CODE = 1
 
 class MayaviPlotter( object ) :
 
-    def __init__( self, mayavi_scene ) : 
+    def __init__( self, mayavi_scene, scale = 1 ) : 
 
+        self.scale = scale 
         self.mayavi_scene = mayavi_scene
         # self.mayavi_plot = None
         # self.needs_update = 1 
@@ -25,7 +26,8 @@ class MayaviPlotter( object ) :
         self.needs_startup = 1 
                 
         self.orientation_axes = None
-        
+
+        self.axes_bounds = None
         
         self.orientation_axes_state = 0
         self.outline_state = 0
@@ -52,7 +54,8 @@ class MayaviPlotter( object ) :
             if self.orientation_axes_state :
                 return 
             
-            self.orientation_axes = mlab.orientation_axes( figure = self.mayavi_scene ) 
+            self.orientation_axes = mlab.orientation_axes( figure = self.mayavi_scene )
+            
             self.orientation_axes_state = 1 
             
         # remove 
@@ -63,9 +66,12 @@ class MayaviPlotter( object ) :
                 return
             
             self.orientation_axes.remove() 
-            self.orientation_axes_state = 0 
+            self.orientation_axes_state = 0
+            
             
 
+    def set_axes_bounds( self, axes_bounds ) :
+        self.axes_bounds = axes_bounds 
 
             
     def set_outline( self, state ) :
@@ -75,8 +81,14 @@ class MayaviPlotter( object ) :
             # already exists x
             if self.outline_state :
                 return 
+
+            mlab.axes( nb_labels = 4, line_width = 4,
+                       figure = self.mayavi_scene )    
+            # if self.axes_bounds is not None :
+            #     self.create_axes( self, axes_bounds )
             
-            self.outline = mlab.outline( figure = self.mayavi_scene ) 
+            self.outline = mlab.outline( figure = self.mayavi_scene )
+        
             self.outline_state = 1 
             
         # remove 
@@ -87,10 +99,24 @@ class MayaviPlotter( object ) :
                 return
             
             self.outline.remove() 
-            self.outline_state = 0 
+            self.outline_state = 0
 
-
+            if self.axes :
+                self.axes.remove()
             
+
+    # bounds = [ [xmin, xmax], [ymin, ymax], [zmin, zmax] ]
+    # ranges = [ xmin, xmax, ymin, ymax, zmin, zmax ]
+    def create_axes( self, bounds, state ) :
+        ranges = [ x for x in y
+                   for y in bounds ]
+        
+        self.axes = mlab.axes( nb_labels = 4, line_width = 4,
+                               figure = self.mayavi_scene )    
+        
+
+
+                        
     def set_mayavi_scene( self, mayavi_scene ) :
         self.mayavi_scene = mayavi_scene 
 
@@ -136,8 +162,9 @@ class MayaviPlotter( object ) :
         
 class MPLPlotter( object ) :
 
-    def __init__( self, mpl_axes ) :
+    def __init__( self, mpl_axes, scale = 1 ) :
 
+        self.scale = scale 
         self.ax = mpl_axes
 
 

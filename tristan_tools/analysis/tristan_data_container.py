@@ -194,7 +194,9 @@ class TristanDataContainer( object ) :
         for prefix in prefixes : 
             _keys = set( keys ).intersection( self._keys_at_prefix[ prefix ] ) 
             
-            for idx in indices : 
+            for idx in indices :
+
+                # print( 'INFO: loading timestep: ' + str( idx ) )
 
                 self.indices_with_data.add( idx )
                 
@@ -223,11 +225,26 @@ class TristanDataContainer( object ) :
                     print( 'ERROR: file not found: %s' % fname ) 
                     sys.exit(1)
 
-                # fix the particle positions
-                print( self.params.mx ) 
-                print( self.params.my )
-                print( self.data.proce[ idx ] )
-                print( max( self.data.proce[ idx ] )  )
+                    
+        # fix the particle positions
+
+        # print( 'DEBUG PARTICLE POSITIONS' )
+        # print( self.params.my )
+        # print( self.params.my0 )
+        # print( 'min x: ' + str( min( self.data.xi[ idx ] ) ) )
+        # print( 'max x: ' + str( max( self.data.xi[ idx ] ) ) )
+        # print( 'min y: ' + str( min( self.data.yi[ idx ] ) ) )
+        # print( 'max y: ' + str( max( self.data.yi[ idx ] ) ) )
+        # print( 'min z: ' + str( min( self.data.zi[ idx ] ) ) )
+        # print( 'max z: ' + str( max( self.data.zi[ idx ] ) ) )
+        # sys.exit(0)
+               
+        # for idx in indices :
+        #     print( 'INFO: fixing particle locations for timestep: ' + str( idx ) ) 
+                # print( self.params.mx ) 
+                # print( self.params.my )
+                # print( self.data.proce[ idx ] )
+                # print( max( self.data.proce[ idx ] )  )
                 
                 # self.data.xe[ idx ] += self.params.mx[0] * self.data.proce[ idx ]
                 # self.data.xi[ idx ] += self.params.mx[0] * self.data.proci[ idx ]
@@ -236,7 +253,7 @@ class TristanDataContainer( object ) :
                 # self.data.ze[ idx ] += self.params.mz[0] * self.data.proce[ idx ]
                 # self.data.zi[ idx ] += self.params.mz[0] * self.data.proci[ idx ]
 
-        
+
                     
         # if 'time' in keys : 
         #     self.load_times( indices ) 

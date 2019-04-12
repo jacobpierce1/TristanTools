@@ -46,10 +46,11 @@ class Hist1dPlotter( MPLPlotter ) :
 
     
     def set_data( self, data ) :
-
+        
         self.ax.clear() 
 
         self.data = data
+
 
         labels = [ 'electrons', 'ions' ]
 

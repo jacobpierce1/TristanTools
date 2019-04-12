@@ -110,10 +110,12 @@ class VectorCutPlanePlotter( MayaviPlotter ) :
         plot.glyph.glyph.scale_factor = self.scale_factor 
         plot.glyph.glyph_source.glyph_position = 'tail'
         
+
         # this forces the plot to refresh, which properly establishes the above sizes
         # (making the vtk objects invisible).
         # self.mayavi_plots[ axis ].implicit_plane.widget._vtk_obj.SetNormalToZAxis(1)
-
+        # i spent a long time and this was the only way I was able to do it 
+        
         vtk_obj = self.mayavi_plots[ axis ].implicit_plane.widget._vtk_obj
         if axis == 0 :
             vtk_obj.SetNormalToXAxis(1)
@@ -122,8 +124,6 @@ class VectorCutPlanePlotter( MayaviPlotter ) :
         elif axis == 2 :
             vtk_obj.SetNormalToZAxis(1)
 
-
-        print( 'INFO: self.mask_points: ', self.get_mask_points() ) 
 
         
     def remove_slice( self, axis ) :

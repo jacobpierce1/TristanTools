@@ -33,7 +33,7 @@ class VolumePlotter( MayaviPlotter ) :
                                                  # vmin = 0.8, vmax = 1.0,
                                                  # color = (0.5,0.5,0.5))
 
-        print_info( self.mayavi_plot._otf ) 
+        # print_info( self.mayavi_plot._otf ) 
         
         mlab.colorbar( self.mayavi_plot, orientation = 'vertical' )
 
@@ -48,7 +48,8 @@ class VolumePlotter( MayaviPlotter ) :
         # self.set_mask_points( 5 ) 
 
         # print_info( self.mayavi_plot ) 
-        
+
+        # self.axes_bounds = self.data.shape * self.scale
         self.set_orientation_axes( 1 )
         # self.set_outline( 1 )
         self.needs_startup =  0
