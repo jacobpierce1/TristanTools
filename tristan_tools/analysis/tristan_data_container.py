@@ -54,7 +54,7 @@ class TristanDataContainer( object ) :
             self.set_data_path( data_path ) 
 
         # track all the indices that have data loaded 
-        self.indices_with_data = set()
+        self.loaded_indices = set()
         # self._keys_at_prefix = {} 
 
         
@@ -143,7 +143,7 @@ class TristanDataContainer( object ) :
         # it will actually delete the list and replace it with None.
         self.data[ 'time' ] = None  
 
-        idx = 0
+        idx = 1
         for prefix in all_prefixes :
         
             fname = '%s/%s.%s' % ( self.data_path, prefix, idx_to_str( idx ) )
@@ -198,7 +198,7 @@ class TristanDataContainer( object ) :
 
                 # print( 'INFO: loading timestep: ' + str( idx ) )
 
-                self.indices_with_data.add( idx )
+                # self.indices_with_data.add( idx )
                 
                 fname = '%s/%s.%s' % ( self.data_path, prefix, idx_to_str( idx ) )
 
@@ -223,41 +223,9 @@ class TristanDataContainer( object ) :
                                 
                 except OSError :
                     print( 'ERROR: file not found: %s' % fname ) 
-                    sys.exit(1)
+                    return 
 
-                    
-        # fix the particle positions
-
-        # print( 'DEBUG PARTICLE POSITIONS' )
-        # print( self.params.my )
-        # print( self.params.my0 )
-        # print( 'min x: ' + str( min( self.data.xi[ idx ] ) ) )
-        # print( 'max x: ' + str( max( self.data.xi[ idx ] ) ) )
-        # print( 'min y: ' + str( min( self.data.yi[ idx ] ) ) )
-        # print( 'max y: ' + str( max( self.data.yi[ idx ] ) ) )
-        # print( 'min z: ' + str( min( self.data.zi[ idx ] ) ) )
-        # print( 'max z: ' + str( max( self.data.zi[ idx ] ) ) )
-        # sys.exit(0)
-               
-        # for idx in indices :
-        #     print( 'INFO: fixing particle locations for timestep: ' + str( idx ) ) 
-                # print( self.params.mx ) 
-                # print( self.params.my )
-                # print( self.data.proce[ idx ] )
-                # print( max( self.data.proce[ idx ] )  )
-                
-                # self.data.xe[ idx ] += self.params.mx[0] * self.data.proce[ idx ]
-                # self.data.xi[ idx ] += self.params.mx[0] * self.data.proci[ idx ]
-                # self.data.ye[ idx ] += self.params.my[0] * self.data.proce[ idx ]
-                # self.data.yi[ idx ] += self.params.my[0] * self.data.proci[ idx ]
-                # self.data.ze[ idx ] += self.params.mz[0] * self.data.proce[ idx ]
-                # self.data.zi[ idx ] += self.params.mz[0] * self.data.proci[ idx ]
-
-
-                    
-        # if 'time' in keys : 
-        #     self.load_times( indices ) 
-
+            self.loaded_indices.add( idx )
 
         
 
@@ -275,12 +243,18 @@ class TristanDataContainer( object ) :
         for idx in indices : 
             for key in keys :
                 self.data[ idx ][ key ] = None
+                
+        print( type( indices ) )
+        print(indices )
+                
+        self.loaded_indices -= set( indices )
 
+                
 
                 
     # load time-independent data 
     def load_params( self ) :
-        fname = '%s/%s.%s' % ( self.data_path, params_prefix, '000' )
+        fname = '%s/%s.%s' % ( self.data_path, params_prefix, '001' )
         # print( fname ) 
         try:
             with h5py.File( fname ) as f:
@@ -373,7 +347,7 @@ def idx_to_str( idx ) :
 
 
 def get_num_times( output_path ) :    
-    num_files = len( glob.glob( output_path + 'spect.*' ) ) 
+    num_files = len( glob.glob( output_path + 'flds.tot.*' ) ) 
     return num_files
 
                                    

@@ -8,7 +8,7 @@ import tristan_tools.analysis as analysis
 
 
 
-output_path_3d = '../test_data/user_beam_on_background_3d/output/'
+output_path_3d = '../test_data/test1/output/'
 
 
 

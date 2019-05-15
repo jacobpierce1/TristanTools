@@ -31,7 +31,7 @@ class MainControlPanel( QWidget ) :
         num_timesteps = len( self.analyzer ) 
         self.plot_array = plot_array
         
-        self.data_loader = DataLoader( self.analyzer, self.plot_array ) 
+        self.data_loader = DataLoader( self.analyzer ) 
 
         layout = QVBoxLayout() 
 
@@ -118,7 +118,7 @@ class MainControlPanel( QWidget ) :
 
         # print( 'calling plot array update' ) 
         
-        # self.plot_array.update( self.time_slider_widget.timestep )
+        self.plot_array.update( self.time_slider_widget.timestep )
 
         self.update_params_table()
 
@@ -204,10 +204,10 @@ class MainControlPanel( QWidget ) :
         if timestep in self.analyzer.loaded_indices :
 
             idx = self.param_name_to_idx_dict[ 'num_electrons' ]
-            table.cellWidget( 0, idx ).setText( '%.4e' % len( self.analyzer.data.xe[ timestep ] ) )
+            table.cellWidget( 0, idx ).setText( str( len( self.analyzer.data.xe[ timestep ] ) ) )
                     
             idx = self.param_name_to_idx_dict[ 'num_ions' ]
-            table.cellWidget( 0, idx ).setText( '%.4e' % len( self.analyzer.data.xi[ timestep ] ) )
+            table.cellWidget( 0, idx ).setText( str( len( self.analyzer.data.xi[ timestep ] ) ) )
 
             idx = self.param_name_to_idx_dict[ 'time' ]
             table.cellWidget( 0, idx ).setText( str( self.analyzer.data.time[ timestep ] ) )

@@ -16,7 +16,7 @@ NUM_PLOT_COLS = 2
 # so 2 * DATA_LOADER_BUFFER_SIZE + 1  is the total amount of data
 # that is loaded at any given time. for small datasets, you may as well
 # make this number large.
-DATA_LOADER_FORWARD_TIMESTEPS = 0
+DATA_LOADER_FORWARD_TIMESTEPS = 1
 
 # max number of threads that will run at any given time
 # by the data loader. 

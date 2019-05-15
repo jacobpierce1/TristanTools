@@ -1,5 +1,5 @@
 import numpy as np
-# from mayavi import mlab  
+# # from mayavi import mlab  
 import sys
 
 
@@ -244,9 +244,13 @@ class TristanDataPlotter( object ) :
         # check for unloaded data. 
         for i in range( len( data ) ) :
             if data[i] is None :
-                raise TristanError( 'ERROR: attempted to plot unloaded data: %s at timestep %d'
-                                    % ( self.keys[i], timestep ) )
+                # raise TristanError( 'WARNING: attempted to plot unloaded data: %s at timestep %d'
+                #                     % ( self.keys[i], timestep ) )
 
+                print( 'WARNING: attempted to plot unloaded data: %s at timestep %d'
+                       % ( self.keys[i], timestep ) )
+
+                return 
 
         # self[ self.plot_type ]( data ) 
         # self.need_new_plot = 0

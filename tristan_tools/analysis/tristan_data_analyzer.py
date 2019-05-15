@@ -114,7 +114,7 @@ class TristanDataAnalyzer( TristanDataContainer ) :
 
         # call __init__ from TristanDataContainer. only call it after the computation keys
         # have been created so that the load_keys function will work correctly 
-        super().__init__( data_path )
+        super( TristanDataAnalyzer, self ).__init__( data_path )
 
         if computations_path is None :
             computations_path = self.data_path + '../computations/'
@@ -158,13 +158,13 @@ class TristanDataAnalyzer( TristanDataContainer ) :
 
         
     def load_cuts( self ) :
-        ...
+        pass # ...
         
 
     def load_keys( self, load_data_keys = 1 ) :
 
         if load_data_keys : 
-            super().load_keys()
+            super( TristanDataAnalyzer, self ).load_keys()
         
         for key in self.computation_keys : 
             self.data[ key ] = None
@@ -209,6 +209,9 @@ class TristanDataAnalyzer( TristanDataContainer ) :
                                 
                                        
         for idx in indices :
+
+            if idx not in self.loaded_indices :
+                continue
             
             # we need access to the file if we are either saving or loading from memory.
             if ( not recompute ) or save : 

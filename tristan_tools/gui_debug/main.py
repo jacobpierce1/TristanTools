@@ -59,29 +59,29 @@ class App( QWidget ) :
     def __init__(self ):
         super().__init__()
 
-        self.state_handler = StateHandler()
+        #self.state_handler = StateHandler()
 
         # attempt to initialize an analyzer from the current directory.
         # if not possible, it will maintain the value None 
         self.analyzer = None 
-        self.init_analyzer()
+        # self.init_analyzer()
         
-        self.init_menubar() 
+        # self.init_menubar() 
 
         # self.closeButton.clicked.connect( lambda : sys.exit(0) )
         
         self.setWindowTitle( 'TristanGUI' )
-        self.resize( gui_config.WINDOW_WIDTH, gui_config.WINDOW_HEIGHT )
+        # self.resize( gui_config.WINDOW_WIDTH, gui_config.WINDOW_HEIGHT )
         
-        layout = QVBoxLayout()
-        self.setLayout( layout ) 
+        # layout = QVBoxLayout()
+        # self.setLayout( layout ) 
         
-        self.plot_array = PlotArray( self.analyzer, self.state_handler )
-        layout.addWidget( self.plot_array ) 
+        # self.plot_array = PlotArray( self.analyzer, self.state_handler )
+        # layout.addWidget( self.plot_array ) 
         # layout.addWidget( self.plotter_widget.canvas )
         
-        self.control_panel = MainControlPanel( self.plot_array )
-        layout.addWidget( self.control_panel ) 
+        # self.control_panel = MainControlPanel( self.plot_array )
+        # layout.addWidget( self.control_panel ) 
 
         print( 'reached' ) 
         

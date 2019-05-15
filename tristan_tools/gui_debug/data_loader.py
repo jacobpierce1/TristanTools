@@ -25,7 +25,7 @@ DEBUG_DATA_LOADER = 1
 
 class DataLoader( object ) :
 
-    def __init__( self, tristan_data_analyzer, plot_array ) :
+    def __init__( self, tristan_data_analyzer ) :
 
         self.queue = Queue() 
         # self.pause_event = threading.Event()
@@ -42,8 +42,7 @@ class DataLoader( object ) :
         self.timesteps_being_loaded = set() 
         
         # self.thread = None
-        self.tristan_data_analyzer = tristan_data_analyzer
-        self.plot_array = plot_array
+        self.tristan_data_analyzer = tristan_data_analyzer 
 
         # store all active threads and the timestep that each thread is computing.
         self.threads = []
@@ -93,9 +92,7 @@ class DataLoader( object ) :
         #         print( 'INFO: current timestep is already being computed. ' ) 
 
         # compute in main thread, which gives it priority if the other threads have finished. 
-        self.load_timestep( self.current_timestep, keys = keys, _reload = _reload )
-
-        self.plot_array.update( self.current_timestep )
+        self.load_timestep( self.current_timestep, keys = keys, _reload = _reload ) 
         
         # now for the rest of the threads, load them into the queue and they will automatically
         # be picked up by the worker threads. we will return before they finish.
