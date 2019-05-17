@@ -244,8 +244,8 @@ class TristanDataContainer( object ) :
             for key in keys :
                 self.data[ idx ][ key ] = None
                 
-        print( type( indices ) )
-        print(indices )
+        # print( type( indices ) )
+        # print(indices )
                 
         self.loaded_indices -= set( indices )
 
