@@ -6,6 +6,8 @@ os.environ['QT_API'] = 'pyqt'
 from mayavi import mlab 
 import numpy as np
 import matplotlib.pyplot as plt
+matplotlib.use('TkAgg') # <-- THIS MAKES IT FAST!
+
 import colorcet
 import matplotlib.animation as animation
 from collections import Counter 
@@ -18,7 +20,7 @@ signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
-
+import gc 
 
 
 
@@ -333,6 +335,7 @@ def make_jet_movie_new( analyzer, timesteps,
             quiver_keys[i,j] = axarr[i,j].quiverkey( quivers[i,j], 0.9, 0.9, m , '%.2e' % m,
                                                      labelpos = 'E', coordinates = 'axes' )
             
+            
             # print( quivers[i,j] ) 
             
             # print( type( quivers[0,0] ) )
@@ -354,12 +357,16 @@ def make_jet_movie_new( analyzer, timesteps,
                 
                 data = [ analyzer.data[ key ][n][ dens_slices[i] ]
                          for key in quiver_data_names[i][j] ]
-            
+
+                gc.collect()
+                
                 # quivers[i,j].remove()
                 quiver_keys[i,j].remove()
                 
                 # downsample to 10 points in each direction
-                strides = [ int( data[0].shape[i] ) / downsample for i in range(2) ]
+                strides = [ int( data[0].shape[i] / downsample ) for i in range(2) ]
+
+                print( strides ) 
 
                 m = np.sqrt( np.amax( data[0] ** 2 + data[1] ** 2 ) )
                                 
@@ -371,8 +378,9 @@ def make_jet_movie_new( analyzer, timesteps,
                 quiver_keys[i,j] = axarr[i,j].quiverkey( quivers[i,j], 0.9, 0.9, m , '%.2e' % m,
                                                          labelpos = 'E', coordinates = 'axes' )
 
-                plt.savefig( savedir + '%03d.png' % n, dpi = 400 ) 
-                    
+        plt.savefig( savedir + '%03d.png' % n, dpi = 400 ) 
+
+                
     ffmpeg_combine( savedir, './plots/jet_projections.mp4' )
     
 
