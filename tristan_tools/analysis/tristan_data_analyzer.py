@@ -5,15 +5,24 @@
 # quantities, such as field magnitudes, etc. 
 # included is much functionality necessary for real
 
-
+import gc 
 import numpy as np
 import sys
 import os
 import h5py
 from collections import OrderedDict
+from scipy import sparse
+
 
 from sortedcontainers import SortedSet 
 
+try :
+    from numba import jit
+    USING_NUMBA = 1
+    print( 'INFO: using numba' ) 
+except :
+    print( 'INFO: unable to import numba.' )
+    USING_NUMBA = 0 
 
 from .tristan_data_container import TristanDataContainer
 from .tristan_cut import TristanCut 
@@ -43,6 +52,11 @@ for particle_type in 'ei' :
     ALL_SPECTRA.append( 'PP_' + particle_type + '_spec' )
     ALL_CUT_SPECTRA.append( 'PP_cut_' + particle_type + '_spec' ) 
 
+ALL_SPECTRA.extend( [ 'gammae_spec', 'gammai_spec' ] ) 
+
+# hack 
+OTHER_COMPUTATION_KEYS = [ 'gammae_max', 'gammae_mean',
+                           'gammai_max', 'gammai_mean' ]
 
 
 
@@ -78,6 +92,7 @@ class TristanDataAnalyzer( TristanDataContainer ) :
                            'momentum_cuttable_keys' : self.compute_momentum_cuttable_keys }
 
         
+        
         # store what keys (stored in self.data) are computed by each callback: 
         self.callback_to_computations = OrderedDict( [ ( 'BB', [ 'BB' ] ),
                                                        ( 'EE', [ 'EE' ] ),
@@ -87,8 +102,11 @@ class TristanDataAnalyzer( TristanDataContainer ) :
                                                        ( 'charge_dens', [ 'charge_dens' ] ),
                                                        ( 'dense', [ 'dense' ] ),
                                                        ( 'spectra', ALL_SPECTRA ),
-                                                       ( 'momentum_cuttable_keys', [ 'dense_cut', 'densi_cut' ] ),
-                                                       ( 'position_cuttable_keys', ALL_CUT_SPECTRA ) ] )
+                                                       ( 'momentum_cuttable_keys',
+                                                         [ 'dense_cut',
+                                                           'densi_cut' ] ),
+                                                       ( 'position_cuttable_keys',
+                                                         ALL_CUT_SPECTRA ) ] )
                                                      
 
         self.computation_to_callback = {}
@@ -168,7 +186,10 @@ class TristanDataAnalyzer( TristanDataContainer ) :
         
         for key in self.computation_keys : 
             self.data[ key ] = None
-
+            
+        for key in OTHER_COMPUTATION_KEYS :
+            self.data[ key ] = None
+            
         # # this allocates space for more keys 
         # self.compute_momentum_spectra( 0, init = 1 )     
             
@@ -183,6 +204,9 @@ class TristanDataAnalyzer( TristanDataContainer ) :
 
 
 
+    def open_computations_file( self, timestep ) :
+        return h5py.File( self.get_computations_file( timestep ) )
+        
 
     def get_computations_file( self, idx ) :
         return ( self.computations_path + 'computations.%d' % idx )
@@ -409,8 +433,8 @@ class TristanDataAnalyzer( TristanDataContainer ) :
             for i in range(3) :
                 self.compute_momentum_component_spectrum( idx, particle_types[j], i, masks[j] ) 
 
-            self.compute_total_momentum_spectrum( idx, particle_types[j], masks[j] ) 
-
+            # self.compute_total_momentum_spectrum( idx, particle_types[j], masks[j] ) 
+            self.compute_gamma_spectrum( idx, particle_types[j], masks[j] ) 
 
         
     def compute_momentum_component_spectrum( self, idx, particle_type, i, mask = None ) :
@@ -504,6 +528,195 @@ class TristanDataAnalyzer( TristanDataContainer ) :
 
 
 
+    # note: this actually computes a histogram of beta * gamma. 
+    def compute_gamma_spectrum( self, timestep, particle_type, mask = None,
+                                save = 1, load = 1 ) :
+        
+        if particle_type == 'e' :
+            data_key = 'gammae'
+        elif particle_type == 'i' :
+            data_key = 'gammai'
+        else :
+            print( 'ERROR: invalid particle type.' )
+            sys.exit( 1 ) 
+
+        
+        computation_key = 'gamma' + particle_type + '_spec'
+
+        with self.open_computations_file( timestep ) as f :
+            
+            if computation_key in f.keys() :
+                if load : 
+                    self.data[ computation_key ][ timestep ] = f[ computation_key ][:]
+                    return
+
+                else :
+                    del f[ computation_key ] 
+
+                    
+        with self.open_data_file( timestep, 'prtl.tot' ) as f : 
+
+            gammas = f[ data_key ] 
+            total_particles = len( gammas ) 
+            
+            batch_size = int( 1e8 )
+                              
+            # first compute the max and min for this data 
+
+            min_gamma = np.inf
+            max_gamma = 1.0
+
+            
+            for i in range( 0, total_particles, batch_size ) :
+                
+                end = min( i + batch_size, total_particles )
+
+                tmp = gammas[ i : end ] 
+
+                min_gamma = min( min_gamma, np.amin( tmp ) )
+                max_gamma = max( max_gamma, np.amax( tmp ) ) 
+
+                gc.collect()
+
+                
+            # now compute the histograms
+            # use sturges bins 
+            nbins = min( 1000, int( total_particles ** ( 1 / 3 ) ) ) 
+
+            if min_gamma < 1 :
+                min_gamma = 1.
+                
+            if max_gamma < 1 :
+                max_gamma = 1.
+            
+            min_beta_gamma = min_gamma * ( 1 - 1 / min_gamma ** 2 ) ** 0.5
+            max_beta_gamma = max_gamma * ( 1 - 1 / max_gamma ** 2 ) ** 0.5
+
+            print( 'min_beta_gamma = ' + str( min_beta_gamma ) ) 
+            
+            bins = np.linspace( min_beta_gamma, max_beta_gamma + 1, nbins )
+            hist = np.zeros( bins.size - 1 ) 
+            
+            for i in range( 0, total_particles, batch_size ) :
+                end = min( i + batch_size, total_particles )
+
+                tmp = gammas[ i : end ] 
+                tmp[ tmp < 1 ] = 1 
+                tmp *= ( 1 - 1 / tmp ** 2 ) ** 0.5
+
+                cur_hist, cur_bins = np.histogram( tmp, bins = bins )
+                hist += cur_hist
+
+                gc.collect()
+                                
+            hist /= np.sum( hist ) * ( bins[1] - bins[0] ) 
+                
+        data = np.zeros( ( 2, len( hist ) ) )
+        data[0,:] = hist
+        data[1,:] = bins[:-1]
+
+        print( 'min hist = ' + str( min( bins ) ) ) 
+        
+        self.data[ computation_key ][ timestep ] = data
+
+        
+        if save :
+            with self.open_computations_file( timestep ) as f :
+
+                if computation_key not in f.keys() : 
+                    f.create_dataset( computation_key, data = data,
+                                      compression = 'lzf', shuffle = 1 )
+
+                else :
+                    f[ computation_key ][ ... ] = data 
+
+
+
+
+
+                    
+    def compute_binned_particle_statistic( self, timestep, data_key, op,
+                                           load = 1, save = 1 ) :
+        
+        if data_key in [ 'gammae', 'ue', 've', 'we' ] :
+            coords_keys = [ 'xe', 'ye', 'ze' ]
+
+        elif data_key in [ 'gammai', 'ui', 'vi', 'wi' ] :
+            coords_keys = [ 'xi', 'yi', 'zi' ]
+
+        else :
+            print( 'ERROR: invalid key' )
+            sys.exit( 0 )
+
+        if op not in [ 'max', 'mean' ] :
+            print( 'ERROR: invalid operation' )
+            sys.exit( 1 )
+
+        computation_key = data_key + '_' + op
+
+            
+        # load data if possible 
+        with self.open_computations_file( timestep ) as f :
+            
+            if computation_key in f.keys() :
+
+                if load : 
+                    self.data[ computation_key ][ timestep ] = f[ computation_key ][:]
+                    return
+
+                else :
+                    del f[ computation_key ] 
+
+        batch_size = int( 1e8 ) 
+
+        shape = ( self.params.mx0,
+                  self.params.my0,
+                  self.params.mz0 ) 
+
+        binned_statistic = np.zeros( shape ) 
+
+        # print( data_key )
+        # print( coords_keys ) 
+        
+        with self.open_data_file( timestep, 'prtl.tot' ) as f :
+            total_particles = len( f[ data_key ] )
+
+            for i in range( 0, total_particles, batch_size ) :
+                # print( i ) 
+
+                end = min( i + batch_size, total_particles )
+
+                data = f[ data_key ][ i : end ]
+                coords = np.vstack( [ f[ key ][ i : end ] for key in coords_keys ] ).T
+
+                if op == 'max' :
+                    binned_statistic = np.maximum( binned_statistic,
+                                                   compute_binned_statistic( data, coords,
+                                                                             shape, op ) )
+                elif op == 'mean' : 
+                    binned_statistic += ( ( (end - i)/total_particles)
+                                          * compute_binned_statistic( data, coords, shape, op ) )
+
+
+        gc.collect() 
+
+        # print( binned_statistic.shape ) 
+        
+        self.data[ computation_key ][ timestep ] = binned_statistic
+
+        
+        if save :
+            with self.open_computations_file( timestep ) as f :
+
+                if computation_key not in f.keys() : 
+                    f.create_dataset( computation_key, data = binned_statistic,
+                                      compression = 'lzf', shuffle = 1 )
+
+                else :
+                    f[ computation_key ][ ... ] = binned_statistic 
+                    
+                    
+
 
         
     def compute_momentum_cuttable_keys( self, idx ) :
@@ -557,14 +770,7 @@ class TristanDataAnalyzer( TristanDataContainer ) :
         self.compute_spectra( idx, masks = masks ) 
 
         
-    # def compute_dense_cut( self, idx ) :
-    #     ...
 
-        
-    # def compute_densi_cut( self, idx ) :
-        
-    #     ...
-        
         
     def compute_dense( self, idx ) :
         self.data[ 'dense' ][ idx ] = self.data[ 'dens' ][ idx ] - self.data[ 'densi' ][ idx ] 
@@ -572,6 +778,52 @@ class TristanDataAnalyzer( TristanDataContainer ) :
     
     def compute_charge_dens( self, idx ) :
         self.data[ 'charge_dens' ][ idx ] = 2 * self.data[ 'densi' ][ idx ] - self.data[ 'dens' ][ idx ]
+
+
+
+
+
+        
+
+def compute_binned_statistic( data, coords, shape, op ) :
+
+    if op not in [ 'max', 'mean' ] :
+        print( 'ERROR: invalid operation' )
+        sys.exit( 1 ) 
+        
+    bin_indices = np.ravel_multi_index(coords.astype(int).T, shape)
+    
+    # print( bin_indices.shape )
+    # print( data.shape ) 
+    
+    aux = sparse.csr_matrix((data, bin_indices, np.arange(data.size+1)),
+                            (data.size, np.prod(shape))).tocsc()
+
+    cut = aux.indptr.searchsorted(data.size)
+
+    max_data_pp = np.empty(shape)
+
+    if op == 'max' :
+        max_data_pp.ravel()[:cut] = np.maximum.reduceat(aux.data, aux.indptr[:cut])
+
+    elif op == 'mean' : 
+        # max_data_pp.ravel()[:cut] = np.mean.reduceat(aux.data, aux.indptr[:cut])
+        # broken
+        sys.exit( 1 ) 
+        
+    CLIPAT = 0
+
+    max_data_pp.ravel()[aux.indptr[:-1]==aux.indptr[1:]] = CLIPAT
+    max_data_pp[max_data_pp < CLIPAT] = CLIPAT
+
+    return max_data_pp
+
+
+if USING_NUMBA :
+    # compute_binned_statistic = jit( compute_binned_statistic, nopython = 1 ) 
+    ... 
+
+        
         
     
     # def compute_masks( self, idx, position_cut = None ) :

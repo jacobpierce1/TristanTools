@@ -4,10 +4,18 @@
 import numpy as np
 
 
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import * 
-# from PyQt5 import QtCore
-from PyQt5.QtCore import Qt 
+try :
+    from PyQt5.QtWidgets import *
+    from PyQt5.QtGui import *
+    # from PyQt5 import QtGui
+    from PyQt5 import QtCore
+
+except ImportError :
+    from PyQt4.QtGui import *
+    # from PyQt4.QtGui import QIntValidator, QDoubleValidator, QFont, QPixmap
+    # from PyQt5 import QtGui
+    from PyQt4 import QtCore
+
 
 from tristan_tools.analysis import TristanError, TristanCut
 

@@ -5,8 +5,12 @@ os.environ['QT_API'] = 'pyqt'
 
 from mayavi import mlab 
 import numpy as np
-import matplotlib.pyplot as plt
+
+import matplotlib 
 matplotlib.use('TkAgg') # <-- THIS MAKES IT FAST!
+import matplotlib.pyplot as plt
+
+
 
 import colorcet
 import matplotlib.animation as animation
@@ -33,11 +37,11 @@ def ffmpeg_combine( plotdir, movie_name ):
 
 analyzer = analysis.TristanDataAnalyzer( './output' )
 
-timestep = 10
+# timestep = 10
 
-analyzer.load_indices( timestep )
-B = [ analyzer.data[ key ][ timestep ] for key in [ 'bx', 'by', 'bz' ] ]
-dens = analyzer.data.dens[ timestep ]
+# analyzer.load_indices( timestep )
+# B = [ analyzer.data[ key ][ timestep ] for key in [ 'bx', 'by', 'bz' ] ]
+# dens = analyzer.data.dens[ timestep ]
 
 
 
@@ -172,7 +176,7 @@ def make_jet_movie( analyzer, timesteps,
                                               data[1][::strides[0], ::strides[1] ],
                                               angles = 'xy',
                                               scale_units = 'x',
-                                              scale = m / scale,
+                                              # scale = m / scale,
                                               pivot = 'mid',
                                               headwidth = 5,
                                               headaxislength = 5,
@@ -235,7 +239,7 @@ def make_jet_movie( analyzer, timesteps,
 
                 # quivers[i,j] = axarr[i,j].quiver( xx, yy, * data  )
 
-                quivers[i,j].scale = m / scale
+                # quivers[i,j].scale = m / scale
 
                 quivers[i,j].set_UVC( data[0][::strides[0], ::strides[1] ],
                                       data[1][::strides[0], ::strides[1] ] )
@@ -320,7 +324,7 @@ def make_jet_movie_new( analyzer, timesteps,
             
             m = np.sqrt( np.amax( data[0] ** 2 + data[1] ** 2 ) )
 
-            quivers[i,j] = axarr[i,j].quiver( x, y,
+            quivers[i,j] = axarr[i,j].quiver( y, x,
                                               data[0][::strides[0], ::strides[1] ],
                                               data[1][::strides[0], ::strides[1] ],
                                               angles = 'xy',
@@ -386,20 +390,20 @@ def make_jet_movie_new( analyzer, timesteps,
 
 
 
-# analyzer.load_indices( 0, keys = [ 'dens' ] )
-# slice_index = int( analyzer.data.dens[0].shape[0] / 2 )
-# data_getter = lambda n : dens_data_getter( n, analyzer, slice_index )
+analyzer.load_indices( 0, keys = [ 'dens' ] )
+slice_index = int( analyzer.data.dens[0].shape[0] / 2 )
+data_getter = lambda n : dens_data_getter( n, analyzer, slice_index )
 
 cmap = colorcet.m_linear_worb_100_25_c53
 interpolation = 'bilinear' 
 
 fps = 5
 
-ani = make_jet_movie_new( analyzer, range( len( analyzer ) ),
+ani = make_jet_movie_new( analyzer, [0, 10, 19],
                           # ( 9, 6 ), '', '$x$ (cells)', '$y$ (cells)',
                           # slice_index, 0, 
                           cmap, interpolation,
-                          show = 1, savedir = './plots/projections/', fps = 30 )
+                          show = 1, savedir = './plots/projections/', fps = fps )
 
 
 
@@ -463,7 +467,7 @@ def plot_particle_energization( analyzer, ax, inde_tags = None,
         gammas[ :, i ] = analyzer.data.gammae[i][ indices ] 
         
         analyzer.unload_indices( [i] )
-
+        gc.collect() 
 
     # append to the plot 
     x = np.arange( len( analyzer ) )
@@ -486,12 +490,17 @@ def plot_gamma_spectra( analyzer, ax, times ) :
     for time in times :
         analyzer.load_indices( time, keys = [ 'gammae', 'time' ]  )
 
-        hist, bins = np.histogram( analyzer.data.gammae[ time ], bins = 'fd', density = 1 ) 
+        print( analyzer.data.gammae[ time ] ) 
+
+        # nparticles = 
+        hist, bins = np.histogram( analyzer.data.gammae[ time ],
+                                   bins = 10000, density = 1 ) 
 
         simtime = analyzer.data.time[ time ][0]
-        ax.plot( bins[:-1], hist, ls = 'steps-mid', label = '%3f' % simtime  )
+        ax.loglog( bins[:-1], hist, ls = 'steps-mid', label = '%3f' % simtime  )
 
-        analyzer.unload_indices( time ) 
+        analyzer.unload_indices( time )
+        gc.collect() 
         
     ax.legend( loc = 'best', title = 'time' ) 
     # ax.legend( bbox_to_anchor=(1.2, 1), loc='upper right')
@@ -499,11 +508,11 @@ def plot_gamma_spectra( analyzer, ax, times ) :
 
 
 
-fig, ax = plt.subplots( figsize = ( 7, 7 ) ) 
-times = np.arange( 0, len(analyzer), len( analyzer ) // 5, dtype = int )
-plot_gamma_spectra( analyzer, ax, times )
-plt.savefig( './plots/gamma_spectra.png', dpi = 400 )
-plt.show() 
+# fig, ax = plt.subplots( figsize = ( 7, 7 ) ) 
+# times = np.arange( 0, len(analyzer), len( analyzer ) // 5, dtype = int )
+# plot_gamma_spectra( analyzer, ax, times )
+# plt.savefig( './plots/gamma_spectra.png', dpi = 400 )
+# plt.show() 
 
 
 
@@ -542,37 +551,41 @@ plt.show()
 
 
 
-figure = mlab.figure( size = ( 1000, 1000 ) )
+# figure = mlab.figure( size = ( 1000, 1000 ) )
 
-plot_name = 'dens_contour' 
-plotdir = './plots/' + plot_name + '/'
-os.makedirs( plotdir, exist_ok = 1 ) 
+# plot_name = 'dens_contour' 
+# plotdir = './plots/' + plot_name + '/'
+# os.makedirs( plotdir, exist_ok = 1 ) 
 
-m = np.amax( dens ) 
-plot = analysis.contour3d_wrap( dens, contours = [ m/8, m/2, 7*m/8 ], opacity = 0.5  )
-mlab.view( azimuth = 90, elevation = 90, roll = 90 )
+# analyzer.load_indices( 0, keys = [ 'dens' ] )
+# dens = analyzer.data.dens[ 0 ]
 
+# m = np.amax( dens ) 
+# plot = analysis.contour3d_wrap( dens, contours = [ m/8, m/2, 7*m/8 ], opacity = 0.5  )
+# mlab.view( azimuth = 90, elevation = 90, roll = 90 )
+
+# # mlab.show() 
+
+# @mlab.animate( delay=500, ui=0 )
+# def anim() :
+#     timestep = 0 
+#     while timestep < len( analyzer ) :
+#         if timestep > 0 :
+#             analyzer.unload_indices( timestep - 1 )
+#             gc.collect() 
+#         analyzer.load_indices( timestep, keys = [ 'dens' ] )
+#         plot.mlab_source.trait_set( scalars = analyzer.data.dens[ timestep ] )
+#         timestep += 1
+#         mlab.savefig( plotdir + '%03d.png' % timestep ) 
+#         yield 
+
+
+# a = anim()
+
+# mlab.outline()
+# mlab.colorbar( orientation = 'vertical' ) 
 # mlab.show() 
 
-@mlab.animate( delay=500, ui=0 )
-def anim() :
-    timestep = 0 
-    while timestep < len( analyzer ) :
-        if timestep > 0 :
-            analyzer.unload_indices( timestep - 1 )
-        analyzer.load_indices( timestep, keys = [ 'dens' ] )
-        plot.mlab_source.trait_set( scalars = analyzer.data.dens[ timestep ] )
-        timestep += 1
-        mlab.savefig( plotdir + '%03d.png' % timestep ) 
-        yield 
 
-
-a = anim()
-
-mlab.outline()
-mlab.colorbar( orientation = 'vertical' ) 
-mlab.show() 
-
-
-movie_name = './plots/' + plot_name + '.mp4'
-ffmpeg_combine( plotdir, movie_name ) 
+# movie_name = './plots/' + plot_name + '.mp4'
+# ffmpeg_combine( plotdir, movie_name ) 

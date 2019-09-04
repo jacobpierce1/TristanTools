@@ -1,7 +1,15 @@
 
-from PyQt5 import QtCore, QtGui
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt
+try :
+    from PyQt5.QtWidgets import *
+    from PyQt5.QtGui import *
+    # from PyQt5 import QtGui
+    from PyQt5 import QtCore
+
+except ImportError :
+    from PyQt4.QtGui import *
+    # from PyQt4.QtGui import QIntValidator, QDoubleValidator, QFont, QPixmap
+    # from PyQt5 import QtGui
+    from PyQt4 import QtCore
 
 
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
@@ -12,8 +20,6 @@ import matplotlib.pyplot as plt
 
 
 
-# rm 
-from PyQt5 import QtWidgets
 import random 
 
 

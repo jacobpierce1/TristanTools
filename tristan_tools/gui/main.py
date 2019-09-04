@@ -1,8 +1,14 @@
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import QIntValidator, QDoubleValidator, QFont, QPixmap
-# from PyQt5 import QtGui
-from PyQt5 import QtCore
+try :
+    from PyQt5.QtWidgets import *
+    from PyQt5.QtGui import *
+    # from PyQt5 import QtGui
+    from PyQt5 import QtCore
 
+except ImportError :
+    from PyQt4.QtGui import *
+    # from PyQt4.QtGui import QIntValidator, QDoubleValidator, QFont, QPixmap
+    # from PyQt5 import QtGui
+    from PyQt4 import QtCore
 
 # First, and before importing any Enthought packages, set the ETS_TOOLKIT
 # environment variable to qt4, to tell Traits that we will use Qt.
@@ -28,21 +34,6 @@ import numpy as np
 import scipy
 import time
 
-
-# from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QPushButton, QAction
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import QIntValidator, QDoubleValidator, QFont, QPixmap, QIcon
-# from PyQt5 import QtGui
-from PyQt5 import QtCore
-
-# from pyface.qt import QtGui, QtCore
-
-
-# from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
-# from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT as NavigationToolbar
-# from matplotlib.figure import Figure
-
-# import matplotlib.pyplot as plt
 
 import signal
 signal.signal(signal.SIGINT, signal.SIG_DFL)

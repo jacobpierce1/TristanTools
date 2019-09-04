@@ -1,10 +1,19 @@
 # this is the slider linked to a text field which occurs in several places
 # in the gui
 
-from PyQt5.QtWidgets import *
-from PyQt5 import QtCore
-from PyQt5.QtGui import QIntValidator 
+try :
+    from PyQt5.QtWidgets import *
+    from PyQt5.QtGui import *
+    # from PyQt5 import QtGui
+    from PyQt5 import QtCore
 
+except ImportError :
+    from PyQt4.QtGui import *
+    # from PyQt4.QtGui import QIntValidator, QDoubleValidator, QFont, QPixmap
+    # from PyQt5 import QtGui
+    from PyQt4 import QtCore
+
+    
 import unicode_shortcuts 
 
 TEXTFIELD_WIDTH_CHARS =  6   # 30 pixels per char

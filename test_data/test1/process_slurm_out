@@ -1,0 +1,161 @@
+20
+0
+INFO: loading keys
+INFO: found keys in the following files:
+		spect : {'specprest', 'specp', 'xsl', 'spece', 'gmin', 'gamma', 'gmax', 'specerest'}
+		prtl.tot : {'ve', 'xi', 'yi', 'chi', 'gammae', 'indi', 'proce', 'ze', 'inde', 'xe', 'wi', 'vi', 'gammai', 'che', 'we', 'ui', 'ye', 'proci', 'ue', 'zi'}
+		flds.tot : {'v3y', 'ey', 'dens', 'bx', 'bz', 'v3xi', 'jx', 'jy', 'v3z', 'densi', 'by', 'ex', 'v3zi', 'ez', 'jz', 'v3yi', 'v3x'}
+		param : {'cooling', 'qi', 'bphi', 'c_omp', 'teststarti', 'mz0', 'gamma0', 'my0', 'sizex', 'istep', 'pltstart', 'my', 'dlaplec', 'mx0', 'testendion', 'torqint', 'dummy', 'delgam', 'stride', 'xinject2', 'caseinit', 'time', 'teststartl', 'ntimes', 'testendlec', 'dlapion', 'c', 'acool', 'ppc0', 'mi', 'walloc', 'interval', 'me', 'btheta', 'sigma', 'sizey', 'istep1', 'mx'}
+INFO: found computations directory: ./output/../computations/
+1
+INFO: loading keys
+INFO: found keys in the following files:
+		spect : {'gmin', 'specprest', 'spece', 'xsl', 'gmax', 'gamma', 'specerest', 'specp'}
+		prtl.tot : {'gammae', 'ue', 'proci', 'xe', 'wi', 've', 'proce', 'ui', 'gammai', 'zi', 'xi', 'inde', 'ze', 'chi', 'yi', 'we', 'vi', 'che', 'ye', 'indi'}
+		flds.tot : {'v3z', 'v3x', 'v3xi', 'dens', 'ey', 'densi', 'jy', 'v3zi', 'jx', 'jz', 'bz', 'v3y', 'ez', 'by', 'ex', 'v3yi', 'bx'}
+		param : {'acool', 'mz0', 'testendion', 'ppc0', 'ntimes', 'my0', 'mx0', 'sigma', 'istep1', 'torqint', 'gamma0', 'dlaplec', 'istep', 'time', 'c_omp', 'dlapion', 'sizex', 'dummy', 'qi', 'caseinit', 'walloc', 'my', 'c', 'bphi', 'mi', 'me', 'btheta', 'sizey', 'stride', 'delgam', 'testendlec', 'teststartl', 'pltstart', 'cooling', 'teststarti', 'mx', 'interval', 'xinject2'}
+INFO: found computations directory: ./output/../computations/
+2
+INFO: loading keys
+INFO: found keys in the following files:
+		spect : {'specerest', 'specprest', 'specp', 'gamma', 'gmax', 'xsl', 'spece', 'gmin'}
+		prtl.tot : {'ve', 'proci', 'inde', 'indi', 'proce', 'xi', 'chi', 'wi', 'gammae', 'xe', 'vi', 'ze', 'zi', 'gammai', 'ye', 'yi', 'we', 'che', 'ue', 'ui'}
+		flds.tot : {'jz', 'v3xi', 'v3yi', 'dens', 'bx', 'ez', 'bz', 'densi', 'v3zi', 'v3z', 'v3y', 'by', 'ey', 'jx', 'v3x', 'ex', 'jy'}
+		param : {'cooling', 'delgam', 'ntimes', 'testendion', 'caseinit', 'xinject2', 'me', 'stride', 'c', 'my', 'torqint', 'qi', 'btheta', 'my0', 'pltstart', 'sizex', 'istep', 'dlapion', 'interval', 'bphi', 'mi', 'time', 'sigma', 'mz0', 'dummy', 'dlaplec', 'gamma0', 'mx', 'c_omp', 'mx0', 'istep1', 'sizey', 'testendlec', 'teststarti', 'teststartl', 'walloc', 'ppc0', 'acool'}
+INFO: found computations directory: ./output/../computations/
+3
+INFO: loading keys
+INFO: found keys in the following files:
+		spect : {'specprest', 'gamma', 'gmin', 'gmax', 'specp', 'specerest', 'xsl', 'spece'}
+		prtl.tot : {'che', 've', 'ue', 'vi', 'gammae', 'indi', 'xi', 'inde', 'yi', 'zi', 'ze', 'ui', 'gammai', 'ye', 'xe', 'we', 'chi', 'wi', 'proce', 'proci'}
+		flds.tot : {'bz', 'v3zi', 'jy', 'v3x', 'ez', 'v3y', 'bx', 'jx', 'v3yi', 'v3z', 'dens', 'ey', 'jz', 'by', 'v3xi', 'densi', 'ex'}
+		param : {'walloc', 'teststarti', 'teststartl', 'ntimes', 'my0', 'delgam', 'c_omp', 'torqint', 'mx', 'interval', 'istep', 'dummy', 'cooling', 'testendion', 'dlapion', 'stride', 'xinject2', 'pltstart', 'sizex', 'btheta', 'mi', 'gamma0', 'acool', 'sizey', 'my', 'bphi', 'caseinit', 'mx0', 'mz0', 'testendlec', 'time', 'dlaplec', 'c', 'sigma', 'ppc0', 'qi', 'me', 'istep1'}
+INFO: found computations directory: ./output/../computations/
+4
+INFO: loading keys
+INFO: found keys in the following files:
+		spect : {'xsl', 'specerest', 'spece', 'specprest', 'gmax', 'gmin', 'specp', 'gamma'}
+		prtl.tot : {'xe', 'gammai', 'ue', 'gammae', 'chi', 'wi', 'yi', 'ui', 'zi', 'indi', 'we', 'che', 'proci', 'xi', 'ze', 'ye', 've', 'vi', 'inde', 'proce'}
+		flds.tot : {'densi', 'jz', 'ey', 'jx', 'v3xi', 'jy', 'by', 'v3x', 'v3y', 'v3yi', 'v3z', 'ez', 'v3zi', 'bz', 'dens', 'ex', 'bx'}
+		param : {'dlapion', 'ppc0', 'testendlec', 'me', 'dummy', 'ntimes', 'sigma', 'c', 'mx0', 'btheta', 'pltstart', 'interval', 'c_omp', 'mi', 'delgam', 'torqint', 'time', 'dlaplec', 'mx', 'gamma0', 'acool', 'walloc', 'stride', 'xinject2', 'my0', 'caseinit', 'teststarti', 'my', 'sizex', 'istep1', 'bphi', 'cooling', 'qi', 'testendion', 'teststartl', 'mz0', 'sizey', 'istep'}
+INFO: found computations directory: ./output/../computations/
+5
+INFO: loading keys
+INFO: found keys in the following files:
+		spect : {'gmax', 'xsl', 'specprest', 'gamma', 'specerest', 'spece', 'specp', 'gmin'}
+		prtl.tot : {'wi', 'we', 'indi', 'proce', 'xi', 'ue', 'ye', 'chi', 'ui', 'inde', 'gammae', 'gammai', 'vi', 'proci', 'xe', 'zi', 've', 'che', 'ze', 'yi'}
+		flds.tot : {'bz', 'ez', 'jz', 'v3xi', 'v3yi', 'v3zi', 'jx', 'densi', 'ey', 'jy', 'ex', 'bx', 'dens', 'v3x', 'by', 'v3y', 'v3z'}
+		param : {'btheta', 'pltstart', 'time', 'caseinit', 'cooling', 'torqint', 'me', 'teststartl', 'teststarti', 'sizex', 'mz0', 'acool', 'stride', 'walloc', 'istep1', 'my0', 'qi', 'xinject2', 'ntimes', 'c', 'bphi', 'dlapion', 'sizey', 'gamma0', 'c_omp', 'mx', 'mx0', 'interval', 'my', 'dlaplec', 'sigma', 'testendlec', 'ppc0', 'testendion', 'dummy', 'istep', 'mi', 'delgam'}
+INFO: found computations directory: ./output/../computations/
+6
+INFO: loading keys
+INFO: found keys in the following files:
+		spect : {'spece', 'gamma', 'specp', 'xsl', 'gmax', 'gmin', 'specprest', 'specerest'}
+		prtl.tot : {'we', 'indi', 'chi', 'inde', 'wi', 'ui', 'ye', 've', 'proci', 'zi', 'ue', 'vi', 'ze', 'yi', 'proce', 'che', 'gammae', 'xi', 'gammai', 'xe'}
+		flds.tot : {'v3y', 'ez', 'jz', 'ey', 'bz', 'by', 'dens', 'v3yi', 'v3z', 'v3xi', 'bx', 'jx', 'v3x', 'v3zi', 'ex', 'densi', 'jy'}
+		param : {'sizey', 'interval', 'me', 'walloc', 'bphi', 'ppc0', 'stride', 'teststartl', 'mx0', 'caseinit', 'istep1', 'c', 'mi', 'teststarti', 'my0', 'my', 'dlapion', 'dlaplec', 'dummy', 'torqint', 'sigma', 'istep', 'ntimes', 'btheta', 'qi', 'testendlec', 'cooling', 'c_omp', 'delgam', 'pltstart', 'sizex', 'time', 'mz0', 'acool', 'testendion', 'gamma0', 'xinject2', 'mx'}
+INFO: found computations directory: ./output/../computations/
+7
+INFO: loading keys
+INFO: found keys in the following files:
+		spect : {'gmin', 'gamma', 'specprest', 'specp', 'gmax', 'xsl', 'spece', 'specerest'}
+		prtl.tot : {'yi', 'ze', 'proci', 'wi', 'che', 'zi', 'gammai', 'gammae', 'indi', 'ui', 'vi', 'inde', 'proce', 'we', 'xe', 'ye', 've', 'chi', 'xi', 'ue'}
+		flds.tot : {'ex', 'densi', 'v3x', 'v3xi', 'jz', 'ey', 'v3zi', 'bx', 'jx', 'v3yi', 'ez', 'v3y', 'jy', 'dens', 'by', 'v3z', 'bz'}
+		param : {'testendion', 'caseinit', 'istep', 'istep1', 'sigma', 'my', 'btheta', 'delgam', 'xinject2', 'mx0', 'qi', 'stride', 'teststarti', 'mz0', 'mx', 'pltstart', 'sizex', 'gamma0', 'walloc', 'teststartl', 'cooling', 'me', 'dlapion', 'ntimes', 'torqint', 'c', 'interval', 'dummy', 'c_omp', 'my0', 'mi', 'sizey', 'acool', 'dlaplec', 'testendlec', 'ppc0', 'time', 'bphi'}
+INFO: found computations directory: ./output/../computations/
+8
+INFO: loading keys
+INFO: found keys in the following files:
+		spect : {'spece', 'gamma', 'specprest', 'specerest', 'gmax', 'specp', 'gmin', 'xsl'}
+		prtl.tot : {'ue', 'indi', 'chi', 'ze', 'yi', 'ui', 'gammai', 'vi', 've', 'xi', 'ye', 'che', 'wi', 'gammae', 'zi', 'proce', 'we', 'proci', 'xe', 'inde'}
+		flds.tot : {'v3yi', 'v3zi', 'jx', 'densi', 'v3y', 'v3x', 'jy', 'v3xi', 'ex', 'jz', 'dens', 'bz', 'ez', 'bx', 'v3z', 'by', 'ey'}
+		param : {'sizey', 'walloc', 'my', 'bphi', 'c', 'mx0', 'torqint', 'xinject2', 'btheta', 'me', 'interval', 'caseinit', 'mx', 'qi', 'delgam', 'sigma', 'dummy', 'my0', 'sizex', 'stride', 'istep', 'cooling', 'testendlec', 'c_omp', 'ntimes', 'teststartl', 'mi', 'testendion', 'dlapion', 'acool', 'mz0', 'istep1', 'gamma0', 'dlaplec', 'ppc0', 'time', 'pltstart', 'teststarti'}
+INFO: found computations directory: ./output/../computations/
+9
+INFO: loading keys
+INFO: found keys in the following files:
+		spect : {'spece', 'gmin', 'gmax', 'gamma', 'specprest', 'xsl', 'specerest', 'specp'}
+		prtl.tot : {'wi', 'yi', 'ui', 'zi', 'we', 'xe', 'xi', 'ze', 'chi', 'indi', 'ue', 'gammai', 'inde', 'ye', 'proci', 'vi', 've', 'che', 'gammae', 'proce'}
+		flds.tot : {'ez', 'densi', 'bx', 'v3zi', 'ex', 'jy', 'jz', 'v3x', 'v3xi', 'v3z', 'jx', 'dens', 'v3y', 'by', 'bz', 'ey', 'v3yi'}
+		param : {'mx', 'me', 'mz0', 'walloc', 'stride', 'interval', 'xinject2', 'bphi', 'my0', 'pltstart', 'sizey', 'testendlec', 'cooling', 'testendion', 'time', 'mx0', 'teststartl', 'delgam', 'sigma', 'dlaplec', 'teststarti', 'gamma0', 'dummy', 'c', 'sizex', 'mi', 'ppc0', 'qi', 'btheta', 'torqint', 'ntimes', 'istep', 'c_omp', 'dlapion', 'istep1', 'acool', 'my', 'caseinit'}
+INFO: found computations directory: ./output/../computations/
+10
+INFO: loading keys
+INFO: found keys in the following files:
+		spect : {'gamma', 'specerest', 'xsl', 'gmin', 'gmax', 'spece', 'specp', 'specprest'}
+		prtl.tot : {'ze', 'xi', 'gammae', 'chi', 'vi', 'indi', 'zi', 'inde', 'ye', 'xe', 'ui', 'yi', 'proci', 'we', 'che', 've', 'proce', 'ue', 'gammai', 'wi'}
+		flds.tot : {'v3xi', 'densi', 'ex', 'ez', 'v3x', 'jx', 'jz', 'v3z', 'ey', 'bz', 'dens', 'by', 'v3zi', 'v3yi', 'jy', 'v3y', 'bx'}
+		param : {'teststartl', 'teststarti', 'bphi', 'torqint', 'mx', 'istep1', 'caseinit', 'stride', 'ntimes', 'pltstart', 'time', 'c', 'xinject2', 'sigma', 'mx0', 'testendlec', 'me', 'dummy', 'qi', 'btheta', 'istep', 'delgam', 'walloc', 'gamma0', 'my0', 'ppc0', 'sizex', 'c_omp', 'sizey', 'my', 'dlapion', 'cooling', 'mz0', 'acool', 'testendion', 'dlaplec', 'mi', 'interval'}
+INFO: found computations directory: ./output/../computations/
+11
+INFO: loading keys
+INFO: found keys in the following files:
+		spect : {'specprest', 'spece', 'gamma', 'specp', 'specerest', 'gmin', 'gmax', 'xsl'}
+		prtl.tot : {'chi', 'proce', 'wi', 'ye', 'vi', 'yi', 'zi', 'inde', 'gammai', 'xi', 'xe', 'ue', 've', 'che', 'gammae', 'we', 'ui', 'proci', 'indi', 'ze'}
+		flds.tot : {'jy', 'by', 'v3zi', 'v3z', 'densi', 'v3y', 'bx', 'v3yi', 'jz', 'ez', 'bz', 'v3x', 'v3xi', 'dens', 'ey', 'ex', 'jx'}
+		param : {'mx0', 'qi', 'interval', 'mi', 'istep', 'stride', 'sigma', 'c', 'torqint', 'teststartl', 'delgam', 'btheta', 'my', 'acool', 'xinject2', 'testendlec', 'dlaplec', 'mx', 'teststarti', 'mz0', 'dlapion', 'pltstart', 'walloc', 'my0', 'time', 'cooling', 'bphi', 'caseinit', 'dummy', 'istep1', 'gamma0', 'ntimes', 'testendion', 'ppc0', 'me', 'c_omp', 'sizey', 'sizex'}
+INFO: found computations directory: ./output/../computations/
+12
+INFO: loading keys
+INFO: found keys in the following files:
+		spect : {'specp', 'gmin', 'spece', 'gmax', 'specerest', 'specprest', 'xsl', 'gamma'}
+		prtl.tot : {'zi', 'ue', 'we', 've', 'xe', 'yi', 'chi', 'gammae', 'indi', 'vi', 'proce', 'ze', 'ye', 'gammai', 'inde', 'che', 'wi', 'proci', 'ui', 'xi'}
+		flds.tot : {'ex', 'ey', 'bx', 'v3x', 'v3yi', 'densi', 'v3xi', 'v3zi', 'jx', 'v3z', 'jz', 'v3y', 'jy', 'by', 'dens', 'ez', 'bz'}
+		param : {'ppc0', 'sizey', 'dummy', 'istep1', 'mz0', 'torqint', 'c', 'sigma', 'my0', 'bphi', 'acool', 'cooling', 'my', 'mx', 'caseinit', 'sizex', 'mi', 'walloc', 'teststarti', 'dlaplec', 'time', 'teststartl', 'delgam', 'ntimes', 'btheta', 'pltstart', 'stride', 'gamma0', 'qi', 'me', 'c_omp', 'dlapion', 'interval', 'istep', 'testendlec', 'testendion', 'mx0', 'xinject2'}
+INFO: found computations directory: ./output/../computations/
+13
+INFO: loading keys
+INFO: found keys in the following files:
+		spect : {'specerest', 'spece', 'specp', 'gmin', 'gamma', 'xsl', 'specprest', 'gmax'}
+		prtl.tot : {'chi', 'gammai', 'we', 'ze', 'ue', 'zi', 'proci', 'indi', 'ui', 'che', 'proce', 've', 'xi', 'xe', 'ye', 'vi', 'inde', 'wi', 'gammae', 'yi'}
+		flds.tot : {'bx', 'ez', 'jx', 'by', 'v3y', 'jz', 'bz', 'v3x', 'ex', 'v3z', 'dens', 'densi', 'jy', 'ey', 'v3xi', 'v3zi', 'v3yi'}
+		param : {'testendion', 'btheta', 'dlaplec', 'pltstart', 'mx0', 'sizex', 'time', 'teststartl', 'ppc0', 'interval', 'acool', 'me', 'istep1', 'mz0', 'sigma', 'xinject2', 'mx', 'dummy', 'torqint', 'sizey', 'istep', 'testendlec', 'gamma0', 'cooling', 'caseinit', 'my', 'c_omp', 'dlapion', 'stride', 'ntimes', 'bphi', 'delgam', 'walloc', 'teststarti', 'c', 'qi', 'mi', 'my0'}
+INFO: found computations directory: ./output/../computations/
+14
+INFO: loading keys
+INFO: found keys in the following files:
+		spect : {'gmin', 'xsl', 'specerest', 'specp', 'specprest', 'spece', 'gmax', 'gamma'}
+		prtl.tot : {'proce', 'xe', 'che', 'ui', 'ye', 've', 'gammai', 'chi', 'xi', 'zi', 'ze', 'ue', 'proci', 'indi', 'inde', 'we', 'wi', 'gammae', 'vi', 'yi'}
+		flds.tot : {'v3y', 'densi', 'jy', 'jx', 'v3yi', 'by', 'v3x', 'bz', 'ez', 'dens', 'jz', 'v3z', 'v3zi', 'ey', 'ex', 'bx', 'v3xi'}
+		param : {'walloc', 'mx0', 'c', 'mx', 'mz0', 'my', 'qi', 'dlapion', 'stride', 'interval', 'torqint', 'dummy', 'istep1', 'testendion', 'dlaplec', 'delgam', 'gamma0', 'sigma', 'time', 'cooling', 'teststarti', 'btheta', 'sizey', 'my0', 'testendlec', 'teststartl', 'pltstart', 'c_omp', 'caseinit', 'xinject2', 'me', 'mi', 'ppc0', 'bphi', 'ntimes', 'istep', 'acool', 'sizex'}
+INFO: found computations directory: ./output/../computations/
+15
+INFO: loading keys
+INFO: found keys in the following files:
+		spect : {'gamma', 'spece', 'specerest', 'specp', 'gmin', 'gmax', 'specprest', 'xsl'}
+		prtl.tot : {'zi', 'ue', 'wi', 'inde', 'proce', 'gammae', 'ui', 'xi', 'che', 'ze', 'vi', 'chi', 've', 'proci', 'we', 'yi', 'ye', 'xe', 'indi', 'gammai'}
+		flds.tot : {'jy', 'v3zi', 'dens', 'v3z', 'densi', 'bz', 'ez', 'v3yi', 'jz', 'by', 'bx', 'ey', 'jx', 'ex', 'v3xi', 'v3x', 'v3y'}
+		param : {'gamma0', 'my', 'caseinit', 'mx0', 'dlaplec', 'time', 'sizex', 'testendlec', 'dlapion', 'mi', 'delgam', 'acool', 'teststartl', 'mz0', 'teststarti', 'ppc0', 'stride', 'cooling', 'me', 'c', 'btheta', 'my0', 'torqint', 'bphi', 'ntimes', 'c_omp', 'pltstart', 'mx', 'xinject2', 'walloc', 'dummy', 'istep', 'qi', 'testendion', 'sigma', 'istep1', 'interval', 'sizey'}
+INFO: found computations directory: ./output/../computations/
+16
+INFO: loading keys
+INFO: found keys in the following files:
+		spect : {'specp', 'xsl', 'specprest', 'specerest', 'gamma', 'gmax', 'spece', 'gmin'}
+		prtl.tot : {'proci', 'gammae', 'xe', 've', 'ui', 'we', 'ze', 'chi', 'wi', 'inde', 'vi', 'che', 'yi', 'ue', 'indi', 'xi', 'zi', 'proce', 'gammai', 'ye'}
+		flds.tot : {'ez', 'bx', 'bz', 'jx', 'v3xi', 'v3y', 'ex', 'v3yi', 'dens', 'densi', 'jy', 'jz', 'v3zi', 'ey', 'v3x', 'by', 'v3z'}
+		param : {'me', 'teststarti', 'btheta', 'sizey', 'delgam', 'c', 'ppc0', 'sizex', 'stride', 'xinject2', 'walloc', 'testendlec', 'my0', 'dlaplec', 'mx', 'mz0', 'acool', 'c_omp', 'istep1', 'my', 'dummy', 'testendion', 'time', 'interval', 'pltstart', 'mx0', 'ntimes', 'dlapion', 'mi', 'gamma0', 'sigma', 'bphi', 'istep', 'caseinit', 'torqint', 'teststartl', 'cooling', 'qi'}
+INFO: found computations directory: ./output/../computations/
+17
+INFO: loading keys
+INFO: found keys in the following files:
+		spect : {'specp', 'specprest', 'gmin', 'gmax', 'spece', 'gamma', 'xsl', 'specerest'}
+		prtl.tot : {'wi', 'proce', 'we', 'inde', 'gammae', 'xi', 'gammai', 've', 'ze', 'ui', 'che', 'chi', 'vi', 'ye', 'ue', 'zi', 'xe', 'indi', 'yi', 'proci'}
+		flds.tot : {'ey', 'jx', 'v3y', 'jz', 'bx', 'dens', 'v3yi', 'densi', 'bz', 'v3xi', 'v3z', 'ez', 'jy', 'ex', 'by', 'v3x', 'v3zi'}
+		param : {'my0', 'ntimes', 'teststartl', 'caseinit', 'gamma0', 'btheta', 'testendion', 'dlaplec', 'me', 'testendlec', 'pltstart', 'mx', 'mx0', 'delgam', 'dummy', 'istep1', 'dlapion', 'cooling', 'teststarti', 'torqint', 'bphi', 'walloc', 'interval', 'acool', 'my', 'ppc0', 'c_omp', 'mi', 'sigma', 'time', 'mz0', 'qi', 'sizey', 'sizex', 'c', 'stride', 'xinject2', 'istep'}
+INFO: found computations directory: ./output/../computations/
+18
+INFO: loading keys
+INFO: found keys in the following files:
+		spect : {'gmax', 'spece', 'gmin', 'specerest', 'xsl', 'specprest', 'gamma', 'specp'}
+		prtl.tot : {'vi', 'indi', 'ye', 'ze', 'we', 'xe', 'proci', 'proce', 'che', 'yi', 'chi', 'ue', 'xi', 'inde', 've', 'wi', 'gammai', 'gammae', 'ui', 'zi'}
+		flds.tot : {'jz', 'densi', 'ex', 'jx', 'v3xi', 'v3z', 'jy', 'dens', 'bz', 'ez', 'by', 'v3x', 'bx', 'v3yi', 'v3y', 'v3zi', 'ey'}
+		param : {'c_omp', 'teststarti', 'xinject2', 'my0', 'mx0', 'btheta', 'cooling', 'my', 'sizex', 'mz0', 'mi', 'testendion', 'torqint', 'ntimes', 'teststartl', 'interval', 'acool', 'me', 'istep1', 'pltstart', 'ppc0', 'sigma', 'dummy', 'dlaplec', 'testendlec', 'c', 'caseinit', 'delgam', 'sizey', 'istep', 'mx', 'stride', 'gamma0', 'bphi', 'time', 'qi', 'dlapion', 'walloc'}
+INFO: found computations directory: ./output/../computations/
+19
+INFO: loading keys
+INFO: found keys in the following files:
+		spect : {'gmax', 'specprest', 'xsl', 'specp', 'spece', 'gmin', 'specerest', 'gamma'}
+		prtl.tot : {'wi', 'inde', 'proci', 'xe', 'chi', 'vi', 'ze', 'ue', 've', 'indi', 'gammai', 'ye', 'we', 'proce', 'zi', 'gammae', 'che', 'ui', 'yi', 'xi'}
+		flds.tot : {'by', 'v3xi', 'v3yi', 'densi', 'dens', 'v3x', 'jx', 'jz', 'v3zi', 'bx', 'ey', 'bz', 'jy', 'ex', 'v3z', 'ez', 'v3y'}
+		param : {'istep', 'istep1', 'stride', 'acool', 'my', 'dlaplec', 'sigma', 'btheta', 'mx', 'dlapion', 'me', 'walloc', 'my0', 'ppc0', 'c', 'dummy', 'interval', 'pltstart', 'testendlec', 'mx0', 'sizey', 'teststartl', 'bphi', 'sizex', 'teststarti', 'qi', 'caseinit', 'torqint', 'testendion', 'delgam', 'mi', 'cooling', 'time', 'xinject2', 'c_omp', 'mz0', 'ntimes', 'gamma0'}
+INFO: found computations directory: ./output/../computations/

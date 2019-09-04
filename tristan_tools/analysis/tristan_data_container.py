@@ -11,6 +11,9 @@ import glob
 import sys
 import h5py
 import collections 
+import gc
+
+
 
 from pprint import pprint 
 
@@ -169,10 +172,20 @@ class TristanDataContainer( object ) :
             print( '\t\t' + key + str( ' : ' ) + str( val ) )
 
             
+    def open_data_file( self, timestep, file_prefix ) : 
 
+        if file_prefix not in all_prefixes :
+            print( 'ERROR: invalid prefix. options are: ' + str( all_prefixes ) )
+            sys.exit( 1 ) 
+
+        fname = '%s/%s.%s' % ( self.data_path, file_prefix, idx_to_str( timestep ) )
+            
+        return h5py.File( fname, 'r' )
+        
         
     # note that reload is already a built in python funciton
-    def load_indices( self, indices = None, prefixes = None, keys = None, _reload = 0 ) :
+    def load_indices( self, indices = None, prefixes = None,
+                      keys = None, _reload = 0, stride = 1 ) :
         
         if indices is None :
             indices = np.arange( len( self.data ) ) 
@@ -186,12 +199,13 @@ class TristanDataContainer( object ) :
 
         if not hasattr( prefixes, '__len__' ) :
             indices = [ prefixes ] 
-            
+        
         # default: loop through all keys
         if keys is None :
             keys = self.data.keys() 
 
-        for prefix in prefixes : 
+        for prefix in prefixes :
+
             _keys = set( keys ).intersection( self._keys_at_prefix[ prefix ] ) 
             
             for idx in indices :
@@ -218,7 +232,7 @@ class TristanDataContainer( object ) :
                         for key in _keys :        
                             if reload_statuses[ key ] :
                                 # print( 'set data: %s %d' % (key, idx ) )
-                                self.data[ key ][ idx ] = f[ key ][:].T 
+                                self.data[ key ][ idx ] = f[ key ][::stride].T 
                                 # print( key + ': ' + str( self.data[ key ][ idx ].shape ) ) 
                                 
                 except OSError :
@@ -248,7 +262,7 @@ class TristanDataContainer( object ) :
         # print(indices )
                 
         self.loaded_indices -= set( indices )
-
+        gc.collect()
                 
 
                 

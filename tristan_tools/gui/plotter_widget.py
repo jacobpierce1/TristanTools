@@ -7,7 +7,8 @@ from mpl_plot_container import MPLPlotContainer
 from plot_control_widget import PlotControlWidget
 
 
-from tristan_tools.analysis import TristanDataPlotter
+# from tristan_tools.analysis import TristanDataPlotter
+from tristan_tools.plotting import TristanDataPlotter
 
 import numpy as np
 import matplotlib.pyplot as plt

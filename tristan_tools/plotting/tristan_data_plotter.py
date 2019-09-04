@@ -3,8 +3,8 @@ import numpy as np
 import sys
 
 
-from .tristan_data_container import TristanDataContainer, TristanError
-from .helper_functions import check_spatial_dim 
+from tristan_tools.analysis import TristanDataContainer, TristanError
+# from .helper_functions import check_spatial_dim 
 
 
 # from .plotters import Plotter, VolumeSlicePlotter 
